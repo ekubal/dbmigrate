@@ -1,6 +1,6 @@
 package dbmigrate.model.db;
 
-public class Column {
+public class Column implements IColumn {
 	private String name;
 	private Boolean nullable = null;
 	private TypeEnum type;

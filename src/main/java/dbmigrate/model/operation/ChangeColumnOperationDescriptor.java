@@ -29,4 +29,8 @@ public class ChangeColumnOperationDescriptor implements IOperationDescriptor {
 	public void setNewColumnName(String newColumnName) {
 		this.newColumnName = newColumnName;
 	}
+
+	public boolean execute() {
+		throw new UnsupportedOperationException("Not supported yet.");
+	}
 }

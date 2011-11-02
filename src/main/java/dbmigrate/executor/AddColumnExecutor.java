@@ -1,10 +1,12 @@
 package dbmigrate.executor;
 
-public class AddColumnExecutor extends GeneralExecutor implements IExecutor<AddColumnOperationDescriptor> {
-	public boolean execute(AddColumnOperationDescriptor operation) {
-		StringBuffer buf = new StringBuffer();
-		buf.append("ALTER TABLE ").append(operation.get)
-		
+import dbmigrate.model.operation.AddColumnOperationDescriptor;
+
+public class AddColumnExecutor extends GeneralExecutor<AddColumnOperationDescriptor> {
+	@Override
+	public void execute(AddColumnOperationDescriptor operation) {
+		StringBuilder buf = new StringBuilder();
+		buf.append("ALTER TABLE ").append(operation.getTableName());
 	}
 
 }

@@ -21,4 +21,8 @@ public class AddColumnOperationDescriptor implements IOperationDescriptor {
 	public void setTableName(String tableName) {
 		this.tableName = tableName;
 	}
+
+	public boolean execute() {
+		throw new UnsupportedOperationException("Not supported yet.");
+	}
 }

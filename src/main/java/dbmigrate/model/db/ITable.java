@@ -1,5 +1,7 @@
 package dbmigrate.model.db;
 
+import java.util.List;
+
 public interface ITable {
 
 	public String getName();
