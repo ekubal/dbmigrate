@@ -1,5 +1,7 @@
 package dbmigrate.operation;
 
+import dbmigrate.model.db.ITable;
+
 public abstract class TableOperationDescriptor implements IOperationDescriptor {
 
 	private ITable table;

@@ -1,5 +1,8 @@
 package dbmigrate.operation;
 
+import dbmigrate.model.db.IColumn;
+import dbmigrate.model.db.ITable;
+
 public class UpdateColumnOperationDescriptor extends ColumnOperationDescriptor
 		implements IOperationDescriptor {
 
