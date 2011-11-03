@@ -16,7 +16,6 @@ public class DbConnector {
 				  } catch (SQLException se) {
 				    System.out.println("Couldn't connect.");
 				    se.printStackTrace();
-				    System.exit(1);
 				  }
 		  }
 		  return connection;
