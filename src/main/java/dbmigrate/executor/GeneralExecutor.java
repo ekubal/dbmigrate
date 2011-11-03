@@ -1,18 +1,19 @@
 package dbmigrate.executor;
 
-import dbmigrate.model.db.DbConnector;
+import java.sql.Connection;
+
 import dbmigrate.model.operation.IOperationDescriptor;
 
 public class GeneralExecutor<T extends IOperationDescriptor> implements IExecutor<T> {
 
-	private DbConnector connector;
+	private Connection connection;
 
-	public DbConnector getConnector() {
-		return connector;
+	public Connection getConnection() {
+		return connection;
 	}
 
-	public void setConnector(DbConnector connector) {
-		this.connector = connector;
+	public void setConnection(Connection connection) {
+		this.connection = connection;
 	}
 
 	protected boolean execute(String s) {
