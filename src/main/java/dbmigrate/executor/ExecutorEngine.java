@@ -23,8 +23,6 @@ public class ExecutorEngine {
 	}
 
 	public void executeMigration(){
-		//TODO Transactionality
-		
 		for(IOperationDescriptor operation : migrationConfiguration.getOperations()){
 			if(operation instanceof AddColumnOperationDescriptor){
 				new AddColumnExecutor(connection).execute((AddColumnOperationDescriptor) operation);
