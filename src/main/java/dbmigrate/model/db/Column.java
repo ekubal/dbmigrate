@@ -13,7 +13,7 @@ public class Column implements IColumn {
 		
 		buf.append(getName()).append(' ');
 		if (getLength() > -1) {
-			buf.append('(').append(getName()).append(") ");
+			buf.append('(').append(getLength()).append(") ");
 		}
 		
 		buf.append(getType().toString()).append(' ');
@@ -36,7 +36,7 @@ public class Column implements IColumn {
 			}
 		}
 				
-		
+		desc = buf.toString();
 		return desc;
 	}
 	

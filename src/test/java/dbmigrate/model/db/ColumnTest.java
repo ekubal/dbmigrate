@@ -18,7 +18,7 @@ public class ColumnTest extends TestCase {
 	}
 
 	public void testGetAndSetName() {
-		Column instance = new Column();
+		IColumn instance = new Column();
 		instance.setName("foo");
 		assertEquals("foo", instance.getName());
 		instance.setName("bar");
@@ -26,7 +26,7 @@ public class ColumnTest extends TestCase {
 	}
 	
 	public void testGetAndSetLength() {
-		Column instance = new Column();
+		IColumn instance = new Column();
 		instance.setLength(15);
 		assertEquals(15, instance.getLength());
 		instance.setLength(7);

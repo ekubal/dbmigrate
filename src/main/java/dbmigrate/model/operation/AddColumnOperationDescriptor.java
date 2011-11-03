@@ -1,18 +1,18 @@
 package dbmigrate.model.operation;
 
-import dbmigrate.model.db.Column;
+import dbmigrate.model.db.IColumn;
 
 public class AddColumnOperationDescriptor implements IOperationDescriptor {
-	private Column column;
+	private IColumn column;
 	private String tableName;
-	public AddColumnOperationDescriptor(String tableName, Column column) {
+	public AddColumnOperationDescriptor(String tableName, IColumn column) {
 		this.column = column;
 		this.tableName = tableName;
 	}
-	public Column getColumn() {
+	public IColumn getColumn() {
 		return column;
 	}
-	public void setColumn(Column column) {
+	public void setColumn(IColumn column) {
 		this.column = column;
 	}
 	public String getTableName() {
