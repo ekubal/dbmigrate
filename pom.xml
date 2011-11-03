@@ -18,8 +18,7 @@
     	<groupId>it.cnr.isti.domoware</groupId>
     	<artifactId>org.postgresql.jdbc4</artifactId>
     	<version>8.3-603</version>
-    	<type>bundle</type>
-    	<scope>provided</scope>
+    	<scope>test</scope>
     </dependency>
   </dependencies>
 </project>
