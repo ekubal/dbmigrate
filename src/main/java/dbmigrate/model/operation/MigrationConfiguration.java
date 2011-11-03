@@ -1,4 +1,4 @@
-package dbmigrate.operation;
+package dbmigrate.model.operation;
 
 import java.util.ArrayList;
 import java.util.List;

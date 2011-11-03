@@ -1,4 +1,7 @@
-package dbmigrate.operation;
+package dbmigrate.model.operation;
+
+import dbmigrate.model.db.IColumn;
+import dbmigrate.model.db.ITable;
 
 import dbmigrate.model.db.IColumn;
 import dbmigrate.model.db.ITable;

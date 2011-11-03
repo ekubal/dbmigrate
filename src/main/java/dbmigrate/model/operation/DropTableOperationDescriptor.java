@@ -1,9 +1,18 @@
 package dbmigrate.model.operation;
 
-public class DropTableOperationDescriptor implements IOperationDescriptor {
+import dbmigrate.model.db.ITable;
 
-	public boolean execute() {
-		throw new UnsupportedOperationException("Not supported yet.");
+import dbmigrate.model.db.ITable;
+
+public class DropTableOperationDescriptor extends TableOperationDescriptor
+		implements IOperationDescriptor {
+
+	public DropTableOperationDescriptor() {
+		super();
 	}
-}
 
+	public DropTableOperationDescriptor(ITable table) {
+		super(table);
+	}
+
+}
