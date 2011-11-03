@@ -5,6 +5,9 @@ import dbmigrate.model.db.Column;
 public class DropColumnOperationDescriptor implements IOperationDescriptor {
 	private String columnName;
 	private String tableName;
+	
+	private int emptyField;
+	
 	public DropColumnOperationDescriptor(String tableName, String columnName) {
 		this.columnName = columnName;
 		this.tableName = tableName;
