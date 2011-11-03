@@ -15,6 +15,11 @@
       <scope>test</scope>
     </dependency>
     <dependency>
+      <groupId>xstream</groupId>
+      <artifactId>xstream</artifactId>
+      <version>1.2.2</version>
+    </dependency>
+    <dependency>
     	<groupId>it.cnr.isti.domoware</groupId>
     	<artifactId>org.postgresql.jdbc4</artifactId>
     	<version>8.3-603</version>
