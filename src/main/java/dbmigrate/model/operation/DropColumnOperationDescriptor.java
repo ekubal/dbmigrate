@@ -1,32 +1,17 @@
 package dbmigrate.model.operation;
 
-import dbmigrate.model.db.Column;
+import dbmigrate.model.db.IColumn;
+import dbmigrate.model.db.ITable;
 
-public class DropColumnOperationDescriptor implements IOperationDescriptor {
-	private String columnName;
-	private String tableName;
-	
-	private int emptyField;
-	
-	public DropColumnOperationDescriptor(String tableName, String columnName) {
-		this.columnName = columnName;
-		this.tableName = tableName;
-	}
-	public String getColumnName() {
-		return columnName;
-	}
-	public void setColumnName(String columnName) {
-		this.columnName = columnName;
-	}
-	public String getTableName() {
-		return tableName;
-	}
-	public void setTableName(String tableName) {
-		this.tableName = tableName;
+public class DropColumnOperationDescriptor extends ColumnOperationDescriptor
+		implements IOperationDescriptor {
+
+	public DropColumnOperationDescriptor() {
+		super();
 	}
 
-	public boolean execute() {
-		throw new UnsupportedOperationException("Not supported yet.");
+	public DropColumnOperationDescriptor(ITable table, IColumn column) {
+		super(table, column);
 	}
-	
+
 }

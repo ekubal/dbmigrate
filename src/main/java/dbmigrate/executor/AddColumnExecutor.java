@@ -1,6 +1,5 @@
 package dbmigrate.executor;
 
-import dbmigrate.model.operation.AddColumnOperationDescriptor;
 
 public class AddColumnExecutor extends GeneralExecutor<AddColumnOperationDescriptor> {
 	@Override
