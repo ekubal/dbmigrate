@@ -5,11 +5,11 @@ import dbmigrate.model.db.Column;
 public class ChangeColumnOperationDescriptor implements IOperationDescriptor {
 	private Column column;
 	private String tableName;
-	private String newColumnName;
-	public ChangeColumnOperationDescriptor(String tableName, Column column, String newColumnName) {
+	private String oldColumnName;
+	public ChangeColumnOperationDescriptor(String tableName, Column column, String oldColumnName) {
 		this.column = column;
 		this.tableName = tableName;
-		this.newColumnName = newColumnName;
+		this.oldColumnName = oldColumnName;
 	}
 	public Column getColumn() {
 		return column;
@@ -23,13 +23,13 @@ public class ChangeColumnOperationDescriptor implements IOperationDescriptor {
 	public void setTableName(String tableName) {
 		this.tableName = tableName;
 	}
-	public String getNewColumnName() {
-		return newColumnName;
+	public String getOldColumnName() {
+		return oldColumnName;
 	}
-	public void setNewColumnName(String newColumnName) {
-		this.newColumnName = newColumnName;
+	public void setOldColumnName(String oldColumnName) {
+		this.oldColumnName = oldColumnName;
 	}
-
+	
 	public boolean execute() {
 		throw new UnsupportedOperationException("Not supported yet.");
 	}
