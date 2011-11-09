@@ -1,29 +1,27 @@
 package dbmigrate.executor;
 
- import java.sql.Connection;
+import java.sql.Connection;
 
- import dbmigrate.model.operation.IOperationDescriptor;
+import dbmigrate.model.operation.IOperationDescriptor;
 
- public class GeneralExecutor<T extends IOperationDescriptor>
- implements IExecutor<T> {
+public class GeneralExecutor<T extends IOperationDescriptor> implements IExecutor<T> {
 
-        private Connection connection;
+	private Connection connection;
 
-        public Connection getConnection() {
-                return connection;
-        }
+	public Connection getConnection() {
+		return connection;
+	}
 
-        public void setConnection(Connection connection) {
-                this.connection = connection;
-        }
+	public void setConnection(Connection connection) {
+		this.connection = connection;
+	}
 
-        protected boolean execute(String s) {
-                System.out.println(s);
-                return true;
-        }
+	protected boolean execute(String s) {
+		System.out.println(s);
+		return true;
+	}
 
-        public void execute(T operation) {
-                throw new UnsupportedOperationException("Not supported yet.");
-        }
-
- }
+	public void execute(T operation) {
+		throw new UnsupportedOperationException("Not supported yet.");
+	}
+}

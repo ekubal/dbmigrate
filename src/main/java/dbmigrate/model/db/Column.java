@@ -12,11 +12,10 @@ public class Column implements IColumn {
 		StringBuffer buf = new StringBuffer();
 		
 		buf.append(getName()).append(' ');
-		if (getLength() > -1) {
-			buf.append('(').append(getName()).append(") ");
-		}
-		
 		buf.append(getType().toString()).append(' ');
+		if (getLength() > -1) {
+			buf.append('(').append(getLength()).append(") ");
+		}
 		
 		if (getSigned() != null)  {
 			if (getSigned()) {
@@ -36,7 +35,7 @@ public class Column implements IColumn {
 			}
 		}
 				
-		
+		desc = buf.toString();
 		return desc;
 	}
 	
