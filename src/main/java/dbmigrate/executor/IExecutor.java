@@ -10,4 +10,5 @@ public interface IExecutor<T extends IOperationDescriptor> {
 	
 	public Connection getConnection();
 	
+	public void setConnection(Connection connection);
 }

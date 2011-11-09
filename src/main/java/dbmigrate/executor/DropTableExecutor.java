@@ -4,7 +4,11 @@ import java.sql.Connection;
 
 import dbmigrate.model.operation.DropTableOperationDescriptor;
 
-public class DropTableExecutor implements IExecutor<DropTableOperationDescriptor> {
+public class DropTableExecutor extends GeneralExecutor<DropTableOperationDescriptor> {
+	public DropTableExecutor(Connection connection) {
+		this.setConnection(connection);
+	}
+	
 	public void execute(DropTableOperationDescriptor operation) {
 		
 	}
