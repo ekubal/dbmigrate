@@ -6,6 +6,7 @@ public class Column implements IColumn {
 	private TypeEnum type;
 	private Boolean signed = null;
 	private int length = -1;
+	private String defaultValue;
 	
 	public String getSqlDescription() {
 		String desc = "";
@@ -35,7 +36,7 @@ public class Column implements IColumn {
 			}
 		}
 				
-		desc = buf.toString();
+		desc = buf.toString().trim();
 		return desc;
 	}
 	
@@ -72,6 +73,14 @@ public class Column implements IColumn {
 	}
 	public void setLength(int length) {
 		this.length = length;
+	}
+
+	public String getDefault() {
+		return defaultValue;
+	}
+
+	public void setDefault(String defaultValue) {
+		this.defaultValue = defaultValue;
 	}
 	
 	

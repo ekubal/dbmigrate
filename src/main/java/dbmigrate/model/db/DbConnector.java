@@ -7,6 +7,10 @@ import java.sql.SQLException;
 import org.postgresql.Driver;
 
 public class DbConnector {
+
+	public final static String DB_TYPE = "postgresql";
+	
+	
 	public Connection getConnection(String databaseType, String host,String dbName, String user, String password){
 		Driver driver = new Driver();
 		try {
@@ -15,7 +19,7 @@ public class DbConnector {
 			e.printStackTrace();
 		}
 		Connection connection = null;
-		if(databaseType.equals("postgresql")){
+		if(databaseType.equals(DB_TYPE)){
 			try {
 				connection = DriverManager.getConnection("jdbc:postgresql://"+host+"/"+dbName,
 					user, password);

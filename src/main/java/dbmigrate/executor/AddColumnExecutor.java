@@ -15,7 +15,6 @@ public class AddColumnExecutor extends GeneralExecutor<AddColumnOperationDescrip
 	public String createSql(AddColumnOperationDescriptor operation) {
 		StringBuffer buf = new StringBuffer();
 		buf.append("ALTER TABLE \"").append(operation.getTableName()).append("\" ").append("ADD ").append(operation.getColumn().getSqlDescription());
-
 		return buf.toString();
 	}
 	

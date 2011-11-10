@@ -1,5 +1,6 @@
 package dbmigrate.executor;
 
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
 
@@ -8,6 +9,10 @@ import dbmigrate.model.operation.CreateTableOperationDescriptor;
 
 public class CreateTableExecutor extends GeneralExecutor<CreateTableOperationDescriptor> {
 
+	public CreateTableExecutor(Connection connection) {
+		this.setConnection(connection);
+	}
+	
 	public String createSql(CreateTableOperationDescriptor operation) {
 		String sql = "CREATE TABLE \"" + operation.getTable().getName() + "\" (";
 		for (IColumn c : operation.getTable().getColumns()) {
