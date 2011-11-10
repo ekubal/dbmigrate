@@ -1,0 +1,51 @@
+<migration version="2011111005">
+	<do>
+		<merge-columns id="migr5_1">
+			<table-name>users</table-name>
+			<source-columns>
+				<string>first_name</string>
+				<string>last_name</string>
+			</source-columns>
+			<destination-column>
+				<merge-expression>'{first_name} {last_name}'</merge-expression>
+				<create-column>
+					<name>full_name</name>
+					<type>varchar</type>
+					<length>80</length>
+					<notnull>false</notnull>
+				</create-column>
+			</destination-column>
+		</merge-columns>
+	</do>
+
+	<undo>
+		<split-column for="migr5_1">
+			<table-name>users</table-name>
+			<source-column>
+				<name>full_name</name>
+				<split-expression type='char'>' '</split-expression>
+			</source-column>
+			<destinations>
+				<destination-column>
+					<create-column>
+						<name>first_name</name>
+						<type>varchar</type>
+						<length>40</length>
+						<notnull>false</notnull>
+					</create-column>
+					<splitted-index>0</splitted-index>
+				</destination-column>
+				<destination-column>
+					<create-column>
+						<name>last_name</name>
+						<type>varchar</type>
+						<length>40</length>
+						<notnull>false</notnull>
+					</create-column>
+					<splitted-index>1</splitted-index>
+				</destination-column>
+			</destinations>
+		</split-column>
+
+	</undo>
+</migration>

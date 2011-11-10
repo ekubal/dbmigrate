@@ -1,0 +1,31 @@
+<migration version="2011111004">
+	<do>
+		<create-column id="mig42_1">
+			<table>users</table>
+			<name>first_name</name>
+			<type>varchar</type>
+			<length>40</length>
+			<notnull>false</notnull>
+		</create-column>
+
+		<create-column id="migr4_2">
+			<table>users</table>
+			<name>last_name</name>
+			<type>varchar</type>
+			<length>40</length>
+			<notnull>false</notnull>
+		</create-column>
+	</do>
+
+	<undo>
+		<remove-column for="migr4_2">
+			<table>users</table>
+			<name>last_name</name>
+		</remove-column>
+
+		<remove-column for="migr4_1">
+			<table>users</table>
+			<name>first_name</name>
+		</remove-column>
+	</undo>
+</migration>
