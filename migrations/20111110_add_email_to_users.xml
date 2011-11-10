@@ -1,1 +1,31 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<migration version="2011111001">
+	<do>
+		<create-column id="migr2_1">
+			<table>users</table>
+			<name>email</name>
+			<type>varchar</type>
+			<length>40</length>
+			<notnull>true</notnull>
+		</create-column>
+
+		<create-column id="migr2_2">
+			<table>users</table>
+			<name>points</name>
+			<type>integer</type>
+			<notnull>true</notnull>
+			<default>10</default>
+		</create-column>
+	</do>
+
+	<undo>
+		<remove-column for="migr2_2">
+			<table>users</table>
+			<name>points</name>
+		</remove-column>
+
+		<remove-column for="migr2_1">
+			<table>users</table>
+			<name>email</name>
+		</remove-column>
+	</undo>
+</migration>
