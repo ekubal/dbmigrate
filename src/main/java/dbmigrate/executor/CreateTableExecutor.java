@@ -9,7 +9,7 @@ import dbmigrate.model.operation.CreateTableOperationDescriptor;
 public class CreateTableExecutor extends GeneralExecutor<CreateTableOperationDescriptor> {
 
 	public String createSql(CreateTableOperationDescriptor operation) {
-		String sql = "CREATE TABLE " + operation.getTable().getName() + " (";
+		String sql = "CREATE TABLE \"" + operation.getTable().getName() + "\" (";
 		for (IColumn c : operation.getTable().getColumns()) {
 			sql += c.getSqlDescription() + ",";
 		}

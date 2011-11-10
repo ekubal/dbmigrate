@@ -14,17 +14,12 @@ public class ModifyColumnExecutor extends GeneralExecutor<ModifyColumnOperationD
 
 	public String createSql(ModifyColumnOperationDescriptor operation) {
 		StringBuffer buf = new StringBuffer();
-		buf.append("ALTER TABLE ").append(operation.getTableName()).append(' ').append("MODIFY ").append(operation.getColumn().getSqlDescription());
+		buf.append("ALTER TABLE \"").append(operation.getTableName()).append("\" ").append("MODIFY ").append(operation.getColumn().getSqlDescription());
 		return buf.toString();
 	}
 	
-	public void execute(ModifyColumnOperationDescriptor operation) {
-	        try {
-	                Statement stmt = getConnection().createStatement();
-	                stmt.executeUpdate(createSql(operation));
-	        } catch (SQLException e) {
-	                // TODO Throw project-specific exception.
-	                e.printStackTrace();
-	        }
+	public void execute(ModifyColumnOperationDescriptor operation) throws SQLException {
+        Statement stmt = getConnection().createStatement();
+        stmt.executeUpdate(createSql(operation));
 	}
 }
