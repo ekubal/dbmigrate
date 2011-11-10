@@ -11,4 +11,7 @@ public enum TypeEnum {
 	DATE,
 	TIME,
 	DATETIME,
+	BOOLEAN,
+	SHORTINT,
+	BINARY
 }
