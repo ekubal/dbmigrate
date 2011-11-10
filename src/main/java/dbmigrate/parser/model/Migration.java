@@ -4,9 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
+import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
 
 @XStreamAlias("migration")
 public class Migration {
+
+	@XStreamAsAttribute
+	private String version;
 
 	@XStreamAlias("do")
 	private List<IOperation> doList = new ArrayList<IOperation>();
@@ -28,6 +32,14 @@ public class Migration {
 	
 	public void setUndoList(List<IOperation> undoList) {
 		this.undoList = undoList;
+	}
+	
+	public String getVersion() {
+		return version;
+	}
+
+	public void setVersion(String version) {
+		this.version = version;
 	}
 	
 }

@@ -1,6 +1,6 @@
 package dbmigrate.parser;
 
-import java.io.FileNotFoundException;
+import java.io.File;
 import java.io.FileReader;
 
 import com.thoughtworks.xstream.XStream;
@@ -27,8 +27,15 @@ public class MigrationParser {
 		XSTREAM.processAnnotations(RemoveTable.class);
 	}
 	
-	public static Migration loadMigration(String filePath) throws FileNotFoundException {
-		return (Migration) XSTREAM.fromXML(new FileReader(filePath));
+	private MigrationParser(){
+	}
+	
+	public static Migration loadMigration(File file) {
+		return (Migration) XSTREAM.fromXML(file);
+	}
+	
+	public static Migration loadMigration(FileReader fileReader) {
+		return (Migration) XSTREAM.fromXML(fileReader);
 	}
 	
 }
