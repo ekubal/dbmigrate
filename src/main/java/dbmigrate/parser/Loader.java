@@ -2,6 +2,7 @@ package dbmigrate.parser;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 
 import dbmigrate.model.db.Column;
 import dbmigrate.model.db.IColumn;
@@ -56,18 +57,20 @@ public class Loader {
 				Table t=new Table();
 				t.setName(ct.getName());
 				ArrayList<IColumn> columns = new ArrayList<IColumn>();
-				for(dbmigrate.parser.model.Column c : ct.getColumns())
-				{
-					Column cc = new Column();
-					cc.setLength((int)(long)c.getLength());
-					cc.setName(c.getName());
-					cc.setNullable(c.getNotnull());
-					cc.setType(getType(c.getType()));
-					cc.setLength((int)(long)c.getLength());
-					cc.setNullable(!c.getNotnull());
-					cc.setSigned(c.getSigned());
-					cc.setDefault(c.getDefaultValue());
-				}
+				List<dbmigrate.parser.model.Column> col = ct.getColumns();
+				if(col != null)
+					for(dbmigrate.parser.model.Column c : col)
+					{
+						Column cc = new Column();
+						cc.setLength((int)(long)c.getLength());
+						cc.setName(c.getName());
+						cc.setNullable(c.getNotnull());
+						cc.setType(getType(c.getType()));
+						cc.setLength((int)(long)c.getLength());
+						cc.setNullable(!c.getNotnull());
+						cc.setSigned(c.getSigned());
+						cc.setDefault(c.getDefaultValue());
+					}
 				t.setColumns(columns);
 				d = new CreateTableOperationDescriptor(t);
 			}
@@ -88,6 +91,8 @@ public class Loader {
 
 				d = new CreateColumnOperationDescriptor(t,cc);
 			}
+			else
+				throw new Exception("Nieznana operacja: " + op.getClass().getName());
 			mc.addOperation(d);
 		}
 		return mc;
@@ -113,6 +118,6 @@ public class Loader {
 			return TypeEnum.DOUBLE;
 		else if(type.equals("binary"))
 			return TypeEnum.BINARY;
-		else throw new Exception(type);
+		else throw new Exception("Nieznany typ danych: " + type);
 	}
 }
