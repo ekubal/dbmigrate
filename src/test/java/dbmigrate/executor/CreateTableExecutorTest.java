@@ -37,9 +37,9 @@ public class CreateTableExecutorTest extends TestCase {
 		
 		CreateTableOperationDescriptor operation = new CreateTableOperationDescriptor(table);
 		
-		CreateTableExecutor executor = new CreateTableExecutor();
+		CreateTableExecutor executor = new CreateTableExecutor(null);
 		System.out.println(executor.createSql(operation));
-		assertEquals("CREATE TABLE ala (ola_varchar_255 VARCHAR (255) NOT NULL ,ola_int INT NULL );", executor.createSql(operation));
+		assertEquals("CREATE TABLE ala (ola_varchar_255 VARCHAR (255) NOT NULL,ola_int INT NULL);", executor.createSql(operation));
 		
 	}
 	

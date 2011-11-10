@@ -33,7 +33,7 @@ public class ExecutorEngine {
 		}
 	}
 
-	public void executeMigration(){
+	public void executeMigration() throws SQLException{
 		for(IOperationDescriptor operation : migrationConfiguration.getOperations()){		
 			if(operation instanceof AddColumnOperationDescriptor){
 				new AddColumnExecutor(connection).execute((AddColumnOperationDescriptor) operation);
@@ -43,8 +43,8 @@ public class ExecutorEngine {
 				new DropTableExecutor(connection).execute((DropTableOperationDescriptor) operation);
 			} else if(operation instanceof DropColumnOperationDescriptor){
 				new DropColumnExecutor(connection).execute((DropColumnOperationDescriptor) operation);
-		//	} else if(operation instanceof CreateTableOperationDescriptor){
-		//		new CreateTableExecutor(connection).execute((CreateTableOperationDescriptor) operation);
+			} else if(operation instanceof CreateTableOperationDescriptor){
+				new CreateTableExecutor(connection).execute((CreateTableOperationDescriptor) operation);
 			} else if(operation instanceof ChangeColumnOperationDescriptor){
 				new ChangeColumnExecutor(connection).execute((ChangeColumnOperationDescriptor) operation);
 			}

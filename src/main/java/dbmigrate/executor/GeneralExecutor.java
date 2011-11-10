@@ -1,6 +1,7 @@
 package dbmigrate.executor;
 
 import java.sql.Connection;
+import java.sql.SQLException;
 
 import dbmigrate.model.operation.IOperationDescriptor;
 
@@ -21,7 +22,7 @@ public class GeneralExecutor<T extends IOperationDescriptor> implements IExecuto
 		return true;
 	}
 
-	public void execute(T operation) {
+	public void execute(T operation) throws SQLException {
 		throw new UnsupportedOperationException("Not supported yet.");
 	}
 }
