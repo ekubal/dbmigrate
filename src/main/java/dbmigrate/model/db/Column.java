@@ -35,7 +35,7 @@ public class Column implements IColumn {
 			}
 		}
 				
-		desc = buf.toString();
+		desc = buf.toString().trim();
 		return desc;
 	}
 	

@@ -32,4 +32,46 @@ public class ColumnTest extends TestCase {
 		instance.setLength(7);
 		assertEquals(7, instance.getLength());
 	}
+	
+	public void testGetAndSetNullable(){
+		IColumn instance = new Column();
+		instance.setNullable(true);
+		assertTrue(instance.getNullable());
+	}
+	
+	public void testClumnDescriptionVarchar(){
+		IColumn instance = new Column();
+		instance.setLength(17);
+		instance.setName("nazwa_kolumny");
+		instance.setNullable(false);
+		instance.setType(TypeEnum.VARCHAR);
+		assertEquals("nazwa_kolumny VARCHAR (17) NOT NULL", instance.getSqlDescription());
+	}
+	
+	public void testClumnDescriptionDate(){
+		IColumn instance = new Column();
+		instance.setLength(17);
+		instance.setName("nazwa_kolumny");
+		instance.setNullable(false);
+		instance.setType(TypeEnum.DATE);
+		assertEquals("nazwa_kolumny DATE NOT NULL", instance.getSqlDescription());
+	}
+	
+	public void testClumnDescriptionDouble(){
+		IColumn instance = new Column();
+		instance.setLength(17);
+		instance.setName("nazwa_kolumny");
+		instance.setNullable(true);
+		instance.setType(TypeEnum.DOUBLE);
+		assertEquals("nazwa_kolumny DOUBLE NULL", instance.getSqlDescription());
+	}
+	
+	public void testClumnDescriptionInt(){
+		IColumn instance = new Column();
+		instance.setLength(17);
+		instance.setName("nazwa_kolumny");
+		instance.setNullable(false);
+		instance.setType(TypeEnum.INT);
+		assertEquals("nazwa_kolumny INT NOT NULL", instance.getSqlDescription());
+	}
 }
