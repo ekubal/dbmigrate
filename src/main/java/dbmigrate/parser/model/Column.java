@@ -15,6 +15,8 @@ public class Column {
 	
 	private Boolean notnull;
 	
+	private Boolean signed;
+	
 	@XStreamAlias("default")
 	private String defaultValue;
 
@@ -56,6 +58,14 @@ public class Column {
 
 	public void setDefaultValue(String defaultValue) {
 		this.defaultValue = defaultValue;
+	}
+
+	public Boolean getSigned() {
+		return signed;
+	}
+
+	public void setSigned(Boolean signed) {
+		this.signed = signed;
 	}
 
 }
