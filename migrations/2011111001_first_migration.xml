@@ -21,7 +21,7 @@
 	</do>
 
 	<undo>
-		<remove-table id="first1">
+		<remove-table for="first1">
 			<name>users</name>
 		</remove-table>
 	</undo>
