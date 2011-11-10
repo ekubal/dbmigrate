@@ -1,3 +1,6 @@
 target/**
 nbproject/**
+<<<<<<< HEAD
 /target
+=======
+>>>>>>> refs/remotes/origin/master

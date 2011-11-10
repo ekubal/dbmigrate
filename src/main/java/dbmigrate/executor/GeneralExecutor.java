@@ -4,7 +4,8 @@ import java.sql.Connection;
 
 import dbmigrate.model.operation.IOperationDescriptor;
 
-public class GeneralExecutor<T extends IOperationDescriptor> implements IExecutor<T>{ 
+public class GeneralExecutor<T extends IOperationDescriptor> implements IExecutor<T> {
+
 	private Connection connection;
 
 	public Connection getConnection() {

@@ -3,23 +3,23 @@ package dbmigrate.executor;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import dbmigrate.model.operation.AddColumnOperationDescriptor;
+import dbmigrate.model.operation.DropColumnOperationDescriptor;
 import java.sql.Connection;
 
-public class AddColumnExecutor extends GeneralExecutor<AddColumnOperationDescriptor> {
 
-	public AddColumnExecutor(Connection connection) {
+public class DropColumnExecutor extends GeneralExecutor<DropColumnOperationDescriptor> {
+
+	public DropColumnExecutor(Connection connection) {
 		this.setConnection(connection);
 	}
 
-	public String createSql(AddColumnOperationDescriptor operation) {
+	public String createSql(DropColumnOperationDescriptor operation) {
 		StringBuffer buf = new StringBuffer();
-		buf.append("ALTER TABLE ").append(operation.getTableName()).append(' ').append("ADD ").append(operation.getColumn().getSqlDescription());
-
+		buf.append("ALTER TABLE ").append(operation.getTable().getName()).append(' ').append("DROP ").append(operation.getColumn());
 		return buf.toString();
 	}
 	
-	public void execute(AddColumnOperationDescriptor operation) {
+	public void execute(DropColumnOperationDescriptor operation) {
 	        try {
 	                Statement stmt = getConnection().createStatement();
 	                stmt.executeUpdate(createSql(operation));
