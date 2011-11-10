@@ -1,0 +1,28 @@
+<migration version="2011111001">
+	<do>
+		<create-table id="first1">
+			<name>users</name>
+			<columns>
+				<column name="id">
+					<type>integer</type>
+					<length>4</length>
+					<notnull>true</notnull>
+				</column>
+				<column name="username">
+					<type>text</type>
+					<notnull>true</notnull>
+				</column>
+				<column name="password">
+					<type>text</type>
+					<notnull>true</notnull>
+				</column>
+			</columns>
+		</create-table>
+	</do>
+
+	<undo>
+		<remove-table id="first1">
+			<name>users</name>
+		</remove-table>
+	</undo>
+</migration>
