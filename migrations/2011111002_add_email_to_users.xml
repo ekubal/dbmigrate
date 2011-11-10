@@ -1,4 +1,4 @@
-<migration version="2011111001">
+<migration version="2011111002">
 	<do>
 		<create-column id="migr2_1">
 			<table>users</table>
