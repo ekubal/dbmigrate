@@ -1,9 +1,10 @@
 package dbmigrate.executor;
+
+import dbmigrate.model.operation.DropTableOperationDescriptor;
+
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
-
-import dbmigrate.model.operation.DropTableOperationDescriptor;
 
 public class DropTableExecutor extends GeneralExecutor<DropTableOperationDescriptor> {
 	public DropTableExecutor(Connection connection) {
@@ -11,7 +12,7 @@ public class DropTableExecutor extends GeneralExecutor<DropTableOperationDescrip
 	}
 	
 	public String createSql(DropTableOperationDescriptor operation) {
-		return "DROP TABLE " + operation.getTable().getName() + ";";
+		return "DROP TABLE \"" + operation.getTable().getName() + "\";";
 	}
 	
 	@Override
