@@ -4,7 +4,7 @@
 			<name>users</name>
 			<columns>
 				<column name="id">
-					<type>integer</type>
+					<type>int</type>
 					<length>4</length>
 					<notnull>true</notnull>
 				</column>
