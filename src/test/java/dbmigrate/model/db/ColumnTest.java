@@ -18,7 +18,7 @@ public class ColumnTest extends TestCase {
 	}
 
 	public void testGetAndSetName() {
-		IColumn instance = new Column();
+		Column instance = new Column();
 		instance.setName("foo");
 		assertEquals("foo", instance.getName());
 		instance.setName("bar");

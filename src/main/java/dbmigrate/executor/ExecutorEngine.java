@@ -1,6 +1,7 @@
 package dbmigrate.executor;
 
 import java.sql.Connection;
+import java.sql.SQLException;
 
 import dbmigrate.model.operation.AddColumnOperationDescriptor;
 import dbmigrate.model.operation.ChangeColumnOperationDescriptor;
@@ -15,11 +16,21 @@ public class ExecutorEngine {
 
 	private Connection connection;
 	private MigrationConfiguration migrationConfiguration;
+	private boolean autoCommitEnable = true;
 
 	public ExecutorEngine(Connection connection,
-			MigrationConfiguration migrationConfiguration) {
+			MigrationConfiguration migrationConfiguration, boolean atomicity) {
 		this.connection = connection;
 		this.migrationConfiguration = migrationConfiguration;
+		
+		if(atomicity){
+			try {
+				connection.setAutoCommit(false);
+				autoCommitEnable = false;
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}			
+		}
 	}
 
 	public void executeMigration(){
@@ -40,6 +51,14 @@ public class ExecutorEngine {
 			
 		}
 		
+		if(!autoCommitEnable){
+			try {
+				connection.commit();
+				autoCommitEnable = true;
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
 
 	}
 }

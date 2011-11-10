@@ -7,7 +7,6 @@ import java.sql.SQLException;
 import org.postgresql.Driver;
 
 public class DbConnector {
-
 	public Connection getConnection(String databaseType, String host,String dbName, String user, String password){
 		Driver driver = new Driver();
 		try {
