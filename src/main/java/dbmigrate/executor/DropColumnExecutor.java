@@ -15,7 +15,7 @@ public class DropColumnExecutor extends GeneralExecutor<DropColumnOperationDescr
 
 	public String createSql(DropColumnOperationDescriptor operation) {
 		StringBuffer buf = new StringBuffer();
-		buf.append("ALTER TABLE ").append(operation.getTable().getName()).append(' ').append("DROP ").append(operation.getColumn());
+		buf.append("ALTER TABLE ").append(operation.getTable().getName()).append(' ').append("DROP ").append(operation.getColumn().getName());
 		return buf.toString();
 	}
 	
