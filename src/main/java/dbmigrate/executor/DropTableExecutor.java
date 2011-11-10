@@ -12,7 +12,7 @@ public class DropTableExecutor extends GeneralExecutor<DropTableOperationDescrip
 	}
 	
 	public String createSql(DropTableOperationDescriptor operation) {
-		return "DROP TABLE " + operation.getTable().getName() + ";";
+		return "DROP TABLE \"" + operation.getTable().getName() + "\";";
 	}
 	
 	@Override
