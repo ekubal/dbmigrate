@@ -17,7 +17,7 @@ public class ChangeColumnExecutor extends GeneralExecutor<ChangeColumnOperationD
 		StringBuffer buf = new StringBuffer();
 		buf.append("ALTER TABLE ").append(operation.getTableName()).append(' ').append("CHANGE ").append(operation.getOldColumnName()).append(" ");
 		buf.append(operation.getColumn().getSqlDescription());
-		
+		buf.append(";");
 		return buf.toString();
 	}
 	

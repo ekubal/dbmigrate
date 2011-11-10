@@ -39,7 +39,7 @@ public class CreateTableExecutorTest extends TestCase {
 		
 		CreateTableExecutor executor = new CreateTableExecutor();
 		System.out.println(executor.createSql(operation));
-		assertEquals("CREATE TABLE ala (ola_varchar_255 VARCHAR (255) NOT NULL ,ola_int INT NULL );", executor.createSql(operation));
+		assertEquals("CREATE TABLE ala (ola_varchar_255 VARCHAR (255) NOT NULL,ola_int INT NULL);", executor.createSql(operation));
 		
 	}
 	
