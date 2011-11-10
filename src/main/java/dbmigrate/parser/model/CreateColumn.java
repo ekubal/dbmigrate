@@ -22,6 +22,8 @@ public class CreateColumn implements IOperation {
 	@XStreamAlias("default")
 	private String defaultValue;
 
+	private Boolean signed;
+
 	public String getId() {
 		return id;
 	}
@@ -76,5 +78,13 @@ public class CreateColumn implements IOperation {
 
 	public void setDefaultValue(String defaultValue) {
 		this.defaultValue = defaultValue;
+	}
+	
+	public Boolean getSigned() {
+		return signed;
+	}
+
+	public void setSigned(Boolean signed) {
+		this.signed = signed;
 	}
 }
