@@ -11,7 +11,7 @@
 		<create-column id="migr2_2">
 			<table>users</table>
 			<name>points</name>
-			<type>integer</type>
+			<type>int</type>
 			<notnull>true</notnull>
 			<default>10</default>
 		</create-column>
