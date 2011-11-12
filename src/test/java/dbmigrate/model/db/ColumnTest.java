@@ -50,7 +50,6 @@ public class ColumnTest extends TestCase {
 	
 	public void testClumnDescriptionDate(){
 		IColumn instance = new Column();
-		instance.setLength(17);
 		instance.setName("nazwa_kolumny");
 		instance.setNullable(false);
 		instance.setType(TypeEnum.DATE);
@@ -59,7 +58,6 @@ public class ColumnTest extends TestCase {
 	
 	public void testClumnDescriptionDouble(){
 		IColumn instance = new Column();
-		instance.setLength(17);
 		instance.setName("nazwa_kolumny");
 		instance.setNullable(true);
 		instance.setType(TypeEnum.DOUBLE);
@@ -68,10 +66,10 @@ public class ColumnTest extends TestCase {
 	
 	public void testClumnDescriptionInt(){
 		IColumn instance = new Column();
-		instance.setLength(17);
+		instance.setLength(4);
 		instance.setName("nazwa_kolumny");
 		instance.setNullable(false);
 		instance.setType(TypeEnum.INT);
-		assertEquals("nazwa_kolumny INT NOT NULL", instance.getSqlDescription());
+		assertEquals("nazwa_kolumny INT (4) NOT NULL", instance.getSqlDescription());
 	}
 }

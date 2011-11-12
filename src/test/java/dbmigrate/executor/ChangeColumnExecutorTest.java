@@ -27,7 +27,7 @@ public class ChangeColumnExecutorTest extends TestCase {
 		
 		ChangeColumnExecutor executor = new ChangeColumnExecutor(null);
 		System.out.println(executor.createSql(operation));
-		assertEquals("ALTER TABLE tableName CHANGE oldColumnName ola_varchar_255 VARCHAR (255) NOT NULL;", executor.createSql(operation));
+		assertEquals("ALTER TABLE \"tableName\" CHANGE oldColumnName ola_varchar_255 VARCHAR (255) NOT NULL;", executor.createSql(operation));
 		
 	}
 }

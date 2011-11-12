@@ -33,7 +33,7 @@ public class DropColumnExecutorTest extends TestCase{
 		DropColumnOperationDescriptor operation = new DropColumnOperationDescriptor(table, column);
 		Connection connection =null;
 		DropColumnExecutor executor = new DropColumnExecutor(connection );
-		assertEquals("ALTER TABLE ala DROP ola_varchar_255",executor.createSql(operation));
+		assertEquals("ALTER TABLE \"ala\" DROP ola_varchar_255",executor.createSql(operation));
 		
 	}
 
