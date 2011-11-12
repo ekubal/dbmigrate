@@ -12,6 +12,7 @@ public abstract class ColumnOperationDescriptor {
 
 	public ColumnOperationDescriptor(ITable table, IColumn column) {
 		this.table = table;
+		this.column = column;
 	}
 
 	public void setTable(ITable table) {

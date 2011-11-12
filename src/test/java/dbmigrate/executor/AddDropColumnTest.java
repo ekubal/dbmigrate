@@ -9,24 +9,19 @@ import org.postgresql.util.PSQLException;
 
 import dbmigrate.model.db.Column;
 import dbmigrate.model.db.DbConnector;
+import dbmigrate.model.db.Table;
 import dbmigrate.model.db.TypeEnum;
 import dbmigrate.model.operation.AddColumnOperationDescriptor;
-import dbmigrate.model.operation.CreateTableOperationDescriptor;
+import dbmigrate.model.operation.DropColumnOperationDescriptor;
+import dbmigrate.model.operation.DropTableOperationDescriptor;
 
-public class AddTableTest extends TestCase {
+public class AddDropColumnTest extends TestCase {
 	private Connection dbcon = null;
 	private String sampleTable = "sampleTable";
 	
 	@Override
 	public void setUp() {
 		dbcon = new DbConnector().getConnection("postgresql", "149.156.205.250:13833", "dbmigrate", "dbmigrate", "dbmigrate");
-	}
-	
-	private String getTblName() {
-		Random rnd = new Random();
-		int randNum = rnd.nextInt(9999);
-		String colname = "sampleTable" + randNum;
-		return colname;
 	}
 	
 	private String getColName() {
@@ -37,15 +32,13 @@ public class AddTableTest extends TestCase {
 	}
 	
 	
+	
 	public void testAddIntColumn() {
 		String colname = getColName();
 		Column col = new Column();
 		col.setName(colname);
 		col.setType(TypeEnum.INT);
-	
-		CreateTableOperationDescriptor cto = new CreateTableOperationDescriptor();
-		
-		
+		//col.setSigned(false);
 		AddColumnOperationDescriptor aco = new AddColumnOperationDescriptor(sampleTable, col);
 		AddColumnExecutor ace = new AddColumnExecutor(dbcon);
 		System.out.println(ace.createSql(aco));
@@ -69,6 +62,41 @@ public class AddTableTest extends TestCase {
 		System.out.println(ace.createSql(aco));
 		try {
 			ace.execute(aco);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+			fail();
+		}
+	}
+	
+	public void testAddDropIntColumn() {
+		String colname = getColName();
+		Column col = new Column();
+		col.setName(colname);
+		col.setType(TypeEnum.INT);
+		//col.setSigned(false);
+		AddColumnOperationDescriptor aco = new AddColumnOperationDescriptor(sampleTable, col);
+		AddColumnExecutor ace = new AddColumnExecutor(dbcon);
+		System.out.println(ace.createSql(aco));
+		try {
+			ace.execute(aco);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+			fail();
+		}
+		
+		Table tbl = new Table();
+		tbl.setName(sampleTable);
+		
+		
+		
+		DropColumnOperationDescriptor dco = new DropColumnOperationDescriptor(tbl, col);
+		DropColumnExecutor dce = new DropColumnExecutor(dbcon);
+		
+		System.out.println(dce.createSql(dco));
+		try {
+			dce.execute(dco);
 		}
 		catch (Exception e) {
 			e.printStackTrace();
