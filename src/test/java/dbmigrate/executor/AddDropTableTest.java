@@ -54,7 +54,7 @@ public class AddDropTableTest extends TestCase {
 		tbl.setColumns(columns);
 		cto.setTable(tbl);
 		
-		CreateTableExecutor cte = new CreateTableExecutor();
+		CreateTableExecutor cte = new CreateTableExecutor(null);
 		cte.setConnection(dbcon);
 		
 		
@@ -83,7 +83,7 @@ public class AddDropTableTest extends TestCase {
 		tbl.setColumns(columns);
 		cto.setTable(tbl);
 		
-		CreateTableExecutor cte = new CreateTableExecutor();
+		CreateTableExecutor cte = new CreateTableExecutor(null);
 		cte.setConnection(dbcon);
 		
 		
