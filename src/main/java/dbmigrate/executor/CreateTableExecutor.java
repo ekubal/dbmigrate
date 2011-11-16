@@ -14,12 +14,11 @@ public class CreateTableExecutor extends GeneralExecutor<CreateTableOperationDes
 	}
 	
 	public String createSql(CreateTableOperationDescriptor operation) {
-		String sql = "CREATE TABLE \"" + operation.getTable().getName() + "\" (";
+		String sql = "CREATE TABLE \"" + operation.getTable().getName() + "\" ( ";
 		for (IColumn c : operation.getTable().getColumns()) {
 			sql += c.getSqlDescription() + ",";
 		}
 		sql = sql.substring(0, sql.length() - 1) + ");";
-		
 		return sql;
 	}
 	
