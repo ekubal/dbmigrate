@@ -11,9 +11,11 @@
 				<column name="username">
 					<type>text</type>
 					<notnull>true</notnull>
+					<length>40</length>
 				</column>
 				<column name="password">
 					<type>text</type>
+					<length>40</length>
 					<notnull>true</notnull>
 				</column>
 			</columns>
