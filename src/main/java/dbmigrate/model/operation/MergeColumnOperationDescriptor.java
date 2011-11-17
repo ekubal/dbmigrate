@@ -52,7 +52,7 @@ public class MergeColumnOperationDescriptor implements IOperationDescriptor {
 		this.delimiter = delimiter;
 	}
 
-	public AddColumnOperationDescriptor getDestinationColumn() {
+	public AddColumnOperationDescriptor getDestinationColumnDescriptor() {
 		return destinationColumn;
 	}
 
