@@ -37,7 +37,7 @@ public class Application {
 				e.printStackTrace();
 			}
 
-			System.out.println("Program zakonczony dzialanie.");
+			System.out.println("Program zakonczyl dzialanie.");
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
