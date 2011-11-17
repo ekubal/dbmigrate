@@ -34,6 +34,7 @@ public class ExecutorEngine {
 	}
 
 	public void executeMigration() throws SQLException{
+		
 		for(IOperationDescriptor operation : migrationConfiguration.getOperations()){		
 			if(operation instanceof AddColumnOperationDescriptor){
 				new AddColumnExecutor(connection).execute((AddColumnOperationDescriptor) operation);

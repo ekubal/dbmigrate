@@ -16,19 +16,9 @@ public class DropTableExecutor extends GeneralExecutor<DropTableOperationDescrip
 	}
 	
 	@Override
-	public void execute(DropTableOperationDescriptor operation) {
-		try {
-			Statement stmt = getConnection().createStatement();
-			stmt.executeUpdate(createSql(operation));
-		} catch (SQLException e) {
-			// TODO Throw project-specific exception.
-			e.printStackTrace();
-		}
-	}
-
-	public Connection getConnection() {
-		// TODO Auto-generated method stub
-		return null;
+	public void execute(DropTableOperationDescriptor operation) throws SQLException {
+		Statement stmt = getConnection().createStatement();
+		stmt.executeUpdate(createSql(operation));
 	}
 
 }

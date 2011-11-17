@@ -4,7 +4,6 @@
   <groupId>pl.edu.agh.two.dbmigrate</groupId>
   <artifactId>db-migrate</artifactId>
   <packaging>jar</packaging>
-  <version>1.0-SNAPSHOT</version>
   <name>db-migrate</name>
   <url>http://maven.apache.org</url>
   <dependencies>
@@ -25,4 +24,32 @@
     	<version>8.3-603</version>
     </dependency>
   </dependencies>
+    <version>0.1.0</version>
+    <description>Database migration engine.</description>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>2.3.2</version>
+                <configuration>
+                    <source>1.6</source>
+                    <target>1.6</target>
+                </configuration>
+            </plugin>
+	    <plugin>
+		<groupId>org.apache.maven.plugins</groupId>
+		<artifactId>maven-jar-plugin</artifactId>
+		<version>2.3.2</version>
+		<configuration>
+		  <archive>
+		    <manifest>
+		      <addClasspath>true</addClasspath>
+		      <mainClass>dbmigrate.app.Application</mainClass>
+		    </manifest>
+		  </archive>
+		</configuration>
+	    </plugin>
+        </plugins>
+    </build>
 </project>

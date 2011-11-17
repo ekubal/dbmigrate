@@ -19,7 +19,7 @@ public class ModifyColumnExecutor extends GeneralExecutor<ModifyColumnOperationD
 	}
 	
 	public void execute(ModifyColumnOperationDescriptor operation) throws SQLException {
-        Statement stmt = getConnection().createStatement();
-        stmt.executeUpdate(createSql(operation));
+		Statement stmt = getConnection().createStatement();
+		stmt.executeUpdate(createSql(operation));
 	}
 }

@@ -4,16 +4,18 @@
 			<name>users</name>
 			<columns>
 				<column name="id">
-					<type>integer</type>
+					<type>int</type>
 					<length>4</length>
 					<notnull>true</notnull>
 				</column>
 				<column name="username">
 					<type>text</type>
 					<notnull>true</notnull>
+					<length>40</length>
 				</column>
 				<column name="password">
 					<type>text</type>
+					<length>40</length>
 					<notnull>true</notnull>
 				</column>
 			</columns>
@@ -21,7 +23,7 @@
 	</do>
 
 	<undo>
-		<remove-table id="first1">
+		<remove-table for="first1">
 			<name>users</name>
 		</remove-table>
 	</undo>

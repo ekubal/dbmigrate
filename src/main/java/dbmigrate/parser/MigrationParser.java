@@ -8,9 +8,13 @@ import com.thoughtworks.xstream.XStream;
 import dbmigrate.parser.model.Column;
 import dbmigrate.parser.model.CreateColumn;
 import dbmigrate.parser.model.CreateTable;
+import dbmigrate.parser.model.DestinationColumn;
+import dbmigrate.parser.model.MergeColumns;
 import dbmigrate.parser.model.Migration;
 import dbmigrate.parser.model.RemoveColumn;
 import dbmigrate.parser.model.RemoveTable;
+import dbmigrate.parser.model.SourceColumn;
+import dbmigrate.parser.model.SplitColumn;
 
 public class MigrationParser {
 
@@ -22,9 +26,13 @@ public class MigrationParser {
 		XSTREAM.processAnnotations(Column.class);
 		XSTREAM.processAnnotations(CreateColumn.class);
 		XSTREAM.processAnnotations(CreateTable.class);
+		XSTREAM.processAnnotations(DestinationColumn.class);
+		XSTREAM.processAnnotations(MergeColumns.class);
 		XSTREAM.processAnnotations(Migration.class);
 		XSTREAM.processAnnotations(RemoveColumn.class);
 		XSTREAM.processAnnotations(RemoveTable.class);
+		XSTREAM.processAnnotations(SourceColumn.class);
+		XSTREAM.processAnnotations(SplitColumn.class);
 	}
 	
 	private MigrationParser(){

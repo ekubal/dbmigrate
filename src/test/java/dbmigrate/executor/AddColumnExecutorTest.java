@@ -26,7 +26,7 @@ public class AddColumnExecutorTest extends TestCase {
 		
 		AddColumnExecutor executor = new AddColumnExecutor(null);
 		System.out.println(executor.createSql(operation));
-		assertEquals("ALTER TABLE ala ADD ola_varchar_255 VARCHAR (255) NOT NULL;", executor.createSql(operation));
+		assertEquals("ALTER TABLE \"ala\" ADD ola_varchar_255 VARCHAR (255) NOT NULL", executor.createSql(operation));
 		
 	}
 }
