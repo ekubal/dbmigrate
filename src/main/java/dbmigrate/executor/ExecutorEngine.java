@@ -35,21 +35,27 @@ public class ExecutorEngine {
 
 	public void executeMigration() throws SQLException{
 		
-		for(IOperationDescriptor operation : migrationConfiguration.getOperations()){		
-			if(operation instanceof AddColumnOperationDescriptor){
-				new AddColumnExecutor(connection).execute((AddColumnOperationDescriptor) operation);
-			} else if(operation instanceof ModifyColumnOperationDescriptor){
-				new ModifyColumnExecutor(connection).execute((ModifyColumnOperationDescriptor) operation);
-			} else if(operation instanceof DropTableOperationDescriptor){
-				new DropTableExecutor(connection).execute((DropTableOperationDescriptor) operation);
-			} else if(operation instanceof DropColumnOperationDescriptor){
-				new DropColumnExecutor(connection).execute((DropColumnOperationDescriptor) operation);
-			} else if(operation instanceof CreateTableOperationDescriptor){
-				new CreateTableExecutor(connection).execute((CreateTableOperationDescriptor) operation);
-			} else if(operation instanceof ChangeColumnOperationDescriptor){
-				new ChangeColumnExecutor(connection).execute((ChangeColumnOperationDescriptor) operation);
+		try{
+			for(IOperationDescriptor operation : migrationConfiguration.getOperations()){		
+				if(operation instanceof AddColumnOperationDescriptor){
+					new AddColumnExecutor(connection).execute((AddColumnOperationDescriptor) operation);
+				} else if(operation instanceof ModifyColumnOperationDescriptor){
+					new ModifyColumnExecutor(connection).execute((ModifyColumnOperationDescriptor) operation);
+				} else if(operation instanceof DropTableOperationDescriptor){
+					new DropTableExecutor(connection).execute((DropTableOperationDescriptor) operation);
+				} else if(operation instanceof DropColumnOperationDescriptor){
+					new DropColumnExecutor(connection).execute((DropColumnOperationDescriptor) operation);
+				} else if(operation instanceof CreateTableOperationDescriptor){
+					new CreateTableExecutor(connection).execute((CreateTableOperationDescriptor) operation);
+				} else if(operation instanceof ChangeColumnOperationDescriptor){
+					new ChangeColumnExecutor(connection).execute((ChangeColumnOperationDescriptor) operation);
+				}
 			}
-			
+		} catch (SQLException e){
+			if(!autoCommitEnable){
+				connection.rollback();
+			}
+			e.printStackTrace();
 		}
 		
 		if(!autoCommitEnable){
