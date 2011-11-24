@@ -1,4 +1,4 @@
-package dbmigrate.exception;
+package dbmigrate.exceptions;
 
 /**
  * Operation descriptor validation exception. Used by executors.

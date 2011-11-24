@@ -3,7 +3,7 @@ package dbmigrate.executor;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-import dbmigrate.exception.ValidationException;
+import dbmigrate.exceptions.ValidationException;
 import dbmigrate.model.operation.IOperationDescriptor;
 
 public class GeneralExecutor<T extends IOperationDescriptor> implements IExecutor<T> {

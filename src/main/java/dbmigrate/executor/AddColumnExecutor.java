@@ -3,7 +3,7 @@ package dbmigrate.executor;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import dbmigrate.exception.ValidationException;
+import dbmigrate.exceptions.ValidationException;
 import dbmigrate.model.db.TypeEnum;
 import dbmigrate.model.operation.AddColumnOperationDescriptor;
 
