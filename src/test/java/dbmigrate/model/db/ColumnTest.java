@@ -70,6 +70,6 @@ public class ColumnTest extends TestCase {
 		instance.setName("nazwa_kolumny");
 		instance.setNullable(false);
 		instance.setType(TypeEnum.INT);
-		assertEquals("nazwa_kolumny INT (4) NOT NULL", instance.getSqlDescription());
+		assertEquals("nazwa_kolumny INT NOT NULL", instance.getSqlDescription());
 	}
 }
