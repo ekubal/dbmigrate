@@ -2,6 +2,6 @@ package dbmigrate.logging;
 
 public enum Level {
 	
-	Error,Logging,Info;
+	Error,Warning,Info;
 
 }
