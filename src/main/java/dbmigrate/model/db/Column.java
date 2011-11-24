@@ -1,5 +1,9 @@
 package dbmigrate.model.db;
 
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
+
 public class Column implements IColumn {
 	private String name;
 	private Boolean nullable = null;
@@ -7,6 +11,7 @@ public class Column implements IColumn {
 	private Boolean signed = null;
 	private int length = -1;
 	private String defaultValue;
+	private static final Set<TypeEnum> typesWithLength = new HashSet<TypeEnum>(Arrays.asList(new TypeEnum[]{TypeEnum.VARCHAR, TypeEnum.TEXT}));
 	
 	public String getSqlDescription() {
 		String desc = "";
@@ -14,8 +19,10 @@ public class Column implements IColumn {
 		
 		buf.append(getName()).append(' ');
 		buf.append(getType().toString()).append(' ');
-		if (getLength() > -1) {
-			buf.append('(').append(getLength()).append(") ");
+		if(typesWithLength.contains(type)){
+			if (getLength() > -1) {
+				buf.append('(').append(getLength()).append(") ");
+			}
 		}
 		
 		if (getSigned() != null)  {

@@ -13,7 +13,16 @@ import dbmigrate.model.operation.CreateTableOperationDescriptor;
 
 public class CreateTableExecutorTest extends TestCase {
 
-	public void testCreateSql() {
+	public void testGenerateColumnSQL(){
+		Column column = new Column();
+		column.setType(TypeEnum.INT);
+		column.setName("ola_int");
+		column.setNullable(true);
+		column.setLength(13);
+		assertEquals("ola_int INT NULL", column.getSqlDescription().trim());
+	}
+	
+	public void testCreateTable() {
 		ITable table = new Table();
 
 		table.setName("ala");
@@ -39,9 +48,7 @@ public class CreateTableExecutorTest extends TestCase {
 		CreateTableOperationDescriptor operation = new CreateTableOperationDescriptor(table);
 
 		CreateTableExecutor executor = new CreateTableExecutor(null);
-		System.out.println(executor.createSql(operation));
-		assertEquals("CREATE TABLE \"ala\" ( ola_varchar_255 VARCHAR (255) NOT NULL,ola_int INT NULL);", executor.createSql(operation));
-
+		assertEquals("CREATE TABLE \"ala\" ( ola_varchar_255 VARCHAR (255) NOT NULL,ola_int INT NULL);", executor.createSql(operation).trim());
 	}
 
 }
