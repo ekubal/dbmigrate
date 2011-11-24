@@ -3,6 +3,7 @@ package dbmigrate.executor;
 import java.sql.Connection;
 import java.sql.SQLException;
 
+import dbmigrate.exception.ValidationException;
 import dbmigrate.model.operation.IOperationDescriptor;
 
 public class GeneralExecutor<T extends IOperationDescriptor> implements IExecutor<T> {
@@ -24,5 +25,11 @@ public class GeneralExecutor<T extends IOperationDescriptor> implements IExecuto
 
 	public void execute(T operation) throws SQLException {
 		throw new UnsupportedOperationException("Not supported yet.");
+	}
+
+	@Override
+	public void validate(T operation) throws ValidationException {
+		// TODO Auto-generated method stub
+		
 	}
 }
