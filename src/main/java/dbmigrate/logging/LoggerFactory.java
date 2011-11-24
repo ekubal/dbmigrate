@@ -2,9 +2,9 @@ package dbmigrate.logging;
 
 public class LoggerFactory {
 
-	private static Logger logger = new LoggerImpl(); 
+	private static ILogger logger = new LoggerImpl(); 
 	
-	public static Logger getLogger() {
+	public static ILogger getLogger() {
 		return logger;
 	}
 	
