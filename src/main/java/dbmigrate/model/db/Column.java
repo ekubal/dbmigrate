@@ -18,6 +18,12 @@ public class Column implements IColumn {
 			buf.append('(').append(getLength()).append(") ");
 		}
 		
+		if (defaultValue!= null && defaultValue != "")
+		{
+			buf.append("DEFAULT ");
+			buf.append(defaultValue + " ");
+		}
+		
 		if (getSigned() != null)  {
 			if (getSigned()) {
 				buf.append("SIGNED ");
