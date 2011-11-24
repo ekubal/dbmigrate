@@ -31,6 +31,7 @@ public class CreateTableExecutorTest extends TestCase {
 		column2.setType(TypeEnum.INT);
 		column2.setName("ola_int");
 		column2.setNullable(true);
+		column2.setLength(13);
 		columns.add(column2);
 
 		table.setColumns(columns);
