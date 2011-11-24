@@ -62,6 +62,7 @@ public class Loader {
 						cc.setNullable(!c.getNotnull());
 						cc.setSigned(c.getSigned());
 						cc.setDefault(c.getDefaultValue());
+						columns.add(cc);
 					}
 				t.setColumns(columns);
 				d = new CreateTableOperationDescriptor(t);
