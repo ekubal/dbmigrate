@@ -13,7 +13,6 @@ import dbmigrate.model.operation.CreateTableOperationDescriptor;
 import dbmigrate.model.operation.DropColumnOperationDescriptor;
 import dbmigrate.model.operation.DropTableOperationDescriptor;
 import dbmigrate.model.operation.IOperationDescriptor;
-import dbmigrate.model.operation.MergeColumnOperationDescriptor;
 import dbmigrate.model.operation.MigrationConfiguration;
 import dbmigrate.parser.model.CreateColumn;
 import dbmigrate.parser.model.CreateTable;

@@ -1,5 +1,5 @@
 package dbmigrate.exceptions;
 
-public class ParseException extends DbmigrateException{
+public class ParseException extends DbmigrateException {
 
 }
