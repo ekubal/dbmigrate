@@ -1,0 +1,17 @@
+<migration version="testedit">
+	<do>
+		<edit-column id="first1">
+			<table>users</table>
+			<oldColumnName>old</oldColumnName>
+			<newColumnName>new</newColumnName>
+		</edit-column>
+	</do>
+
+	<undo>
+		<edit-column id="first1">
+			<table>users</table>
+			<oldColumnName>new</oldColumnName>
+			<newColumnName>old</newColumnName>
+		</edit-column>
+	</undo>
+</migration>

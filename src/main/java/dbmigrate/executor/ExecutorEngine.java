@@ -11,6 +11,7 @@ import dbmigrate.model.operation.DropTableOperationDescriptor;
 import dbmigrate.model.operation.IOperationDescriptor;
 import dbmigrate.model.operation.MigrationConfiguration;
 import dbmigrate.model.operation.ModifyColumnOperationDescriptor;
+import dbmigrate.model.operation.RenameColumnOperationDescriptor;
 
 public class ExecutorEngine {
 
@@ -33,32 +34,35 @@ public class ExecutorEngine {
 		}
 	}
 
-	public void executeMigration() throws SQLException{
-		
-		try{
-			for(IOperationDescriptor operation : migrationConfiguration.getOperations()){		
-				if(operation instanceof AddColumnOperationDescriptor){
-					new AddColumnExecutor(connection).execute((AddColumnOperationDescriptor) operation);
-				} else if(operation instanceof ModifyColumnOperationDescriptor){
-					new ModifyColumnExecutor(connection).execute((ModifyColumnOperationDescriptor) operation);
-				} else if(operation instanceof DropTableOperationDescriptor){
-					new DropTableExecutor(connection).execute((DropTableOperationDescriptor) operation);
-				} else if(operation instanceof DropColumnOperationDescriptor){
-					new DropColumnExecutor(connection).execute((DropColumnOperationDescriptor) operation);
-				} else if(operation instanceof CreateTableOperationDescriptor){
-					new CreateTableExecutor(connection).execute((CreateTableOperationDescriptor) operation);
-				} else if(operation instanceof ChangeColumnOperationDescriptor){
-					new ChangeColumnExecutor(connection).execute((ChangeColumnOperationDescriptor) operation);
+	public void executeMigration() throws SQLException {
+		try {
+			for (IOperationDescriptor operation : migrationConfiguration
+					.getOperations()) {
+				if (operation instanceof AddColumnOperationDescriptor) {
+					new AddColumnExecutor(connection)
+							.execute((AddColumnOperationDescriptor) operation);
+				} else if (operation instanceof DropTableOperationDescriptor) {
+					new DropTableExecutor(connection)
+							.execute((DropTableOperationDescriptor) operation);
+				} else if (operation instanceof DropColumnOperationDescriptor) {
+					new DropColumnExecutor(connection)
+							.execute((DropColumnOperationDescriptor) operation);
+				} else if (operation instanceof CreateTableOperationDescriptor) {
+					new CreateTableExecutor(connection)
+							.execute((CreateTableOperationDescriptor) operation);
+				} else if (operation instanceof RenameColumnOperationDescriptor) {
+					new RenameColumnExecutor(connection)
+							.execute((RenameColumnOperationDescriptor) operation);
 				}
 			}
-		} catch (SQLException e){
-			if(!autoCommitEnable){
+		} catch (SQLException e) {
+			if (!autoCommitEnable) {
 				connection.rollback();
 			}
 			e.printStackTrace();
 		}
-		
-		if(!autoCommitEnable){
+
+		if (!autoCommitEnable) {
 			try {
 				connection.commit();
 				autoCommitEnable = true;

@@ -31,7 +31,37 @@ public class AddDropColumnTest extends TestCase {
 		return colname;
 	}
 	
-	
+	public void testAddDropIntDefaultColumn() {
+		String colname = getColName();
+		Column col = new Column();
+		col.setName(colname);
+		col.setType(TypeEnum.INT);
+		col.setDefault("5");
+		//col.setSigned(false);
+		AddColumnOperationDescriptor aco = new AddColumnOperationDescriptor(sampleTable, col);
+		AddColumnExecutor ace = new AddColumnExecutor(dbcon);
+		System.out.println(ace.createSql(aco));
+		try {
+			ace.execute(aco);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+			fail();
+		}
+		Table t=new Table();
+		t.setName(sampleTable);
+		DropColumnOperationDescriptor dco = new DropColumnOperationDescriptor(t, col);
+		DropColumnExecutor dce = new DropColumnExecutor(dbcon);
+		
+		System.out.println(dce.createSql(dco));
+		try {
+			dce.execute(dco);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+			fail();
+		}
+	}
 	
 	public void testAddIntColumn() {
 		String colname = getColName();
@@ -44,6 +74,20 @@ public class AddDropColumnTest extends TestCase {
 		System.out.println(ace.createSql(aco));
 		try {
 			ace.execute(aco);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+			fail();
+		}
+		Table tbl = new Table();
+		tbl.setName(sampleTable);
+		
+		DropColumnOperationDescriptor dco = new DropColumnOperationDescriptor(tbl, col);
+		DropColumnExecutor dce = new DropColumnExecutor(dbcon);
+		
+		System.out.println(dce.createSql(dco));
+		try {
+			dce.execute(dco);
 		}
 		catch (Exception e) {
 			e.printStackTrace();
@@ -62,6 +106,20 @@ public class AddDropColumnTest extends TestCase {
 		System.out.println(ace.createSql(aco));
 		try {
 			ace.execute(aco);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+			fail();
+		}
+		Table tbl = new Table();
+		tbl.setName(sampleTable);
+		
+		DropColumnOperationDescriptor dco = new DropColumnOperationDescriptor(tbl, col);
+		DropColumnExecutor dce = new DropColumnExecutor(dbcon);
+		
+		System.out.println(dce.createSql(dco));
+		try {
+			dce.execute(dco);
 		}
 		catch (Exception e) {
 			e.printStackTrace();

@@ -20,13 +20,14 @@ public class AddColumnExecutorTest extends TestCase {
 		column.setType(TypeEnum.VARCHAR);
 		column.setName("ola_varchar_255");
 		column.setNullable(false);
+		column.setDefault("DOPE");
 		columns.add(column);
 		
 		AddColumnOperationDescriptor operation = new AddColumnOperationDescriptor(tableName, column);
 		
 		AddColumnExecutor executor = new AddColumnExecutor(null);
 		System.out.println(executor.createSql(operation));
-		assertEquals("ALTER TABLE \"ala\" ADD ola_varchar_255 VARCHAR (255) NOT NULL", executor.createSql(operation));
+		assertEquals("ALTER TABLE \"ala\" ADD ola_varchar_255 VARCHAR (255) DEFAULT DOPE NOT NULL", executor.createSql(operation));
 		
 	}
 }

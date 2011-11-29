@@ -1,0 +1,93 @@
+<?xml version="1.0" ?>
+<migration version="20110503">
+	<do>
+		<create-table id="foo">
+			<name>tbl1</name>
+		</create-table>
+		<remove-table id="abc">
+			<name>foo</name>
+		</remove-table>
+		<create-column id="xyz">
+			<table>tblx</table>
+			<name>col1</name>
+			<type>integer</type>
+			<length>4</length>
+			<notnull>true</notnull>
+			<default>53</default>
+		</create-column>
+		<remove-column id="def">
+			<table>tbly</table>
+			<name>kolumna56</name>
+		</remove-column>
+		<merge-columns id="1">
+			<table-name>TabA</table-name>
+			<source-columns>
+				<string>Imie</string>
+				<string>Nazwisko</string>
+			</source-columns>
+			<destination-column>
+				<merge-expression>'{Imie},{Nazwisko}'</merge-expression>
+				<create-column>
+					<name>ImieNazwisko</name>
+					<type>varchar</type>
+					<length>100</length>
+					<notnull>true</notnull>
+				</create-column>
+			</destination-column>
+		</merge-columns>
+	</do>
+	<undo>
+		<remove-table id="foo">
+			<name>tbl1</name>
+		</remove-table>
+		<create-table id="abc">
+			<name>foo</name>
+			<columns>
+				<column name="id">
+					<type>integer</type>
+					<length>4</length>
+					<notnull>true</notnull>
+					<default>53</default>
+				</column>
+			</columns>
+		</create-table>
+		<remove-column id="xyz">
+			<table>tblx</table>
+			<name>col1</name>
+		</remove-column>
+		<create-column id="def">
+			<table>tbly</table>
+			<name>kolumna56</name>
+			<type>integer</type>
+			<length>4</length>
+			<notnull>true</notnull>
+			<default>53</default>
+		</create-column>
+		<split-column id="1">
+			<table-name>TabB</table-name>
+			<source-column>
+				<name>ImieNazwisko</name>
+				<split-expression>','</split-expression> <!-- zawsze regex -->
+			</source-column>
+			<destinations>
+				<destination-column>
+					<create-column>
+						<name>Imie</name>
+						<type>char</type>
+						<length>20</length>
+					</create-column>
+					<splitted-index>0</splitted-index>
+				</destination-column>
+				<destination-column>
+					<create-column>
+						<name>Nazwisko</name>
+						<type>char</type>
+						<length>20</length>
+					</create-column>
+					<splitted-index>1</splitted-index>
+				</destination-column>
+			</destinations>
+		</split-column>
+	</undo>
+</migration>
+
