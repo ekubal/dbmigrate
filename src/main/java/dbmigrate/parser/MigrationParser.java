@@ -43,8 +43,10 @@ public class MigrationParser {
 	private MigrationParser() {
 	}
 
-	public static Migration loadMigration(File file) throws Exception {
-		XmlValidator.validate(file);
+	public static Migration loadMigration(File file, boolean performValidation) throws Exception {
+		if(performValidation) {
+			XmlValidator.validate(file);
+		}
 		try {
 			return (Migration) XSTREAM.fromXML(file);
 		} catch (ConversionException e) {

@@ -25,8 +25,8 @@ import dbmigrate.parser.model.RemoveColumn;
 import dbmigrate.parser.model.RemoveTable;
 
 public class Loader {
-	public static MigrationConfiguration load(File file) throws Exception {
-		Migration m = MigrationParser.loadMigration(file);
+	public static MigrationConfiguration load(File file, boolean performValidation) throws Exception {
+		Migration m = MigrationParser.loadMigration(file, performValidation);
 		return map(m);
 	}
 
@@ -65,7 +65,6 @@ public class Loader {
 				if (col != null)
 					for (dbmigrate.parser.model.Column c : col) {
 						Column cc = new Column();
-						System.out.println(c.getLength());
 						cc.setLength((int) (long) c.getLength());
 						cc.setName(c.getName());
 						cc.setNullable(c.getNotnull());
@@ -83,8 +82,9 @@ public class Loader {
 				Table t = new Table();
 				t.setName(c.getTable());
 				Column cc = new Column();
-				if (c.getLength() != null)
+				if (c.getLength() != null) {
 					cc.setLength((int) (long) c.getLength());
+				}
 				cc.setName(c.getName());
 				// cc.setNullable(c.getNotnull());
 				cc.setType(getType(c.getType()));
@@ -96,9 +96,10 @@ public class Loader {
 				d = new AddColumnOperationDescriptor(t.getName(), cc);
 			} else if (op instanceof MergeColumns) {
 
-			} else
+			} else {
 				throw new Exception("Nieznana operacja: "
 						+ op.getClass().getName());
+			}
 			mc.addOperation(d);
 		}
 		return mc;

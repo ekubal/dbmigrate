@@ -22,14 +22,9 @@ public class CreateTableExecutor extends GeneralExecutor<CreateTableOperationDes
 		return sql;
 	}
 	
-	public void execute(CreateTableOperationDescriptor operation) {
-		try {
-			Statement stmt = getConnection().createStatement();
-			stmt.executeUpdate(createSql(operation));
-		} catch (SQLException e) {
-			// TODO Throw project-specific exception.
-			e.printStackTrace();
-		}
+	public void execute(CreateTableOperationDescriptor operation) throws SQLException {
+		Statement stmt = getConnection().createStatement();
+		stmt.executeUpdate(createSql(operation));
 	}
 	
 }
