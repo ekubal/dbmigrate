@@ -14,8 +14,10 @@ import dbmigrate.model.operation.DropColumnOperationDescriptor;
 import dbmigrate.model.operation.DropTableOperationDescriptor;
 import dbmigrate.model.operation.IOperationDescriptor;
 import dbmigrate.model.operation.MigrationConfiguration;
+import dbmigrate.model.operation.RenameColumnOperationDescriptor;
 import dbmigrate.parser.model.CreateColumn;
 import dbmigrate.parser.model.CreateTable;
+import dbmigrate.parser.model.EditColumn;
 import dbmigrate.parser.model.IOperation;
 import dbmigrate.parser.model.Migration;
 import dbmigrate.parser.model.RemoveColumn;
@@ -44,6 +46,15 @@ public class Loader {
 				Table t = new Table();
 				t.setName(rt.getName());
 				d = new DropTableOperationDescriptor(t);
+			} else if (op instanceof EditColumn) {
+				EditColumn ec = (EditColumn) op;
+				Table t = new Table();
+				t.setName(ec.getTable());
+				Column c1 = new Column();
+				c1.setName(ec.getOldColumnName());
+				Column c2 = new Column();
+				c2.setName(ec.getNewColumnName());
+				d = new RenameColumnOperationDescriptor(t,c1,c2);
 			} else if (op instanceof CreateTable) {
 				CreateTable ct = (CreateTable) op;
 				Table t = new Table();
@@ -62,6 +73,7 @@ public class Loader {
 						cc.setNullable(!c.getNotnull());
 						cc.setSigned(c.getSigned());
 						cc.setDefault(c.getDefaultValue());
+						columns.add(cc);
 					}
 				t.setColumns(columns);
 				d = new CreateTableOperationDescriptor(t);

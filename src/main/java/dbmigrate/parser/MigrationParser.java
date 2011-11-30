@@ -9,6 +9,7 @@ import dbmigrate.parser.model.Column;
 import dbmigrate.parser.model.CreateColumn;
 import dbmigrate.parser.model.CreateTable;
 import dbmigrate.parser.model.DestinationColumn;
+import dbmigrate.parser.model.EditColumn;
 import dbmigrate.parser.model.MergeColumns;
 import dbmigrate.parser.model.Migration;
 import dbmigrate.parser.model.RemoveColumn;
@@ -27,6 +28,7 @@ public class MigrationParser {
 		XSTREAM.processAnnotations(CreateColumn.class);
 		XSTREAM.processAnnotations(CreateTable.class);
 		XSTREAM.processAnnotations(DestinationColumn.class);
+		XSTREAM.processAnnotations(EditColumn.class);
 		XSTREAM.processAnnotations(MergeColumns.class);
 		XSTREAM.processAnnotations(Migration.class);
 		XSTREAM.processAnnotations(RemoveColumn.class);
@@ -44,6 +46,10 @@ public class MigrationParser {
 	
 	public static Migration loadMigration(FileReader fileReader) {
 		return (Migration) XSTREAM.fromXML(fileReader);
+	}
+	
+	public static Migration loadMigration(String xmlFromString) {
+		return (Migration) XSTREAM.fromXML(xmlFromString);
 	}
 	
 }
