@@ -9,12 +9,12 @@
 					<notnull>true</notnull>
 				</column>
 				<column name="username">
-					<type>text</type>
+					<type>varchar</type>
 					<notnull>true</notnull>
 					<length>40</length>
 				</column>
 				<column name="password">
-					<type>text</type>
+					<type>varchar</type>
 					<length>40</length>
 					<notnull>true</notnull>
 				</column>
