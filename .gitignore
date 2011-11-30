@@ -3,3 +3,5 @@ nbproject/**
 .classpath
 .project
 .settings/**
+/dbmigrate.log
+/nbactions.xml
