@@ -4,7 +4,10 @@ import java.io.File;
 import java.io.FileReader;
 
 import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.converters.ConversionException;
 
+import dbmigrate.logging.Level;
+import dbmigrate.logging.LoggerFactory;
 import dbmigrate.parser.model.Column;
 import dbmigrate.parser.model.CreateColumn;
 import dbmigrate.parser.model.CreateTable;
@@ -20,10 +23,10 @@ import dbmigrate.parser.model.SplitColumn;
 public class MigrationParser {
 
 	private final static XStream XSTREAM;
-	
+
 	static {
 		XSTREAM = new XStream();
-        
+
 		XSTREAM.processAnnotations(Column.class);
 		XSTREAM.processAnnotations(CreateColumn.class);
 		XSTREAM.processAnnotations(CreateTable.class);
@@ -36,20 +39,38 @@ public class MigrationParser {
 		XSTREAM.processAnnotations(SourceColumn.class);
 		XSTREAM.processAnnotations(SplitColumn.class);
 	}
-	
-	private MigrationParser(){
+
+	private MigrationParser() {
 	}
-	
-	public static Migration loadMigration(File file) {
-		return (Migration) XSTREAM.fromXML(file);
+
+	public static Migration loadMigration(File file) throws Exception {
+		XmlValidator.validate(file);
+		try {
+			return (Migration) XSTREAM.fromXML(file);
+		} catch (ConversionException e) {
+			LoggerFactory.getLogger().log(e.getShortMessage(), Level.Error);
+			throw e;
+		} catch (Exception e) {
+			LoggerFactory.getLogger().log(e.getMessage(), Level.Error);
+			throw e;
+		}
 	}
-	
-	public static Migration loadMigration(FileReader fileReader) {
-		return (Migration) XSTREAM.fromXML(fileReader);
+
+	public static Migration loadMigration(FileReader fileReader)
+			throws Exception {
+		XmlValidator.validate(fileReader);
+		try {
+			return (Migration) XSTREAM.fromXML(fileReader);
+		} catch (ConversionException e) {
+			LoggerFactory.getLogger().log(e.getShortMessage(), Level.Error);
+			throw e;
+		} catch (Exception e) {
+			LoggerFactory.getLogger().log(e.getMessage(), Level.Error);
+			throw e;
+		}
 	}
-	
+
 	public static Migration loadMigration(String xmlFromString) {
 		return (Migration) XSTREAM.fromXML(xmlFromString);
 	}
-	
 }

@@ -19,6 +19,7 @@ import dbmigrate.parser.model.CreateColumn;
 import dbmigrate.parser.model.CreateTable;
 import dbmigrate.parser.model.EditColumn;
 import dbmigrate.parser.model.IOperation;
+import dbmigrate.parser.model.MergeColumns;
 import dbmigrate.parser.model.Migration;
 import dbmigrate.parser.model.RemoveColumn;
 import dbmigrate.parser.model.RemoveTable;
@@ -93,6 +94,8 @@ public class Loader {
 				cc.setDefault(c.getDefaultValue());
 
 				d = new AddColumnOperationDescriptor(t.getName(), cc);
+			} else if (op instanceof MergeColumns) {
+
 			} else
 				throw new Exception("Nieznana operacja: "
 						+ op.getClass().getName());

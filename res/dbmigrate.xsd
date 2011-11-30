@@ -1,0 +1,27 @@
+<xsd:schema attributeFormDefault="unqualified" elementFormDefault="qualified" version="1.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <xsd:element name="migration">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element name="do">
+          <xsd:complexType>
+            <xsd:sequence>
+              <xsd:element name="create-column">
+                <xsd:complexType>
+                  <xsd:sequence>
+                    <xsd:element name="table" type="xsd:string" />
+                    <xsd:element name="name" type="xsd:string" />
+                    <xsd:element name="type" type="xsd:string" />
+                    <xsd:element name="length" type="xsd:int" />
+                    <xsd:element name="notnull" type="xsd:boolean" />
+                  </xsd:sequence>
+                  <xsd:attribute name="id" type="xsd:string" />
+                </xsd:complexType>
+              </xsd:element>
+            </xsd:sequence>
+          </xsd:complexType>
+        </xsd:element>
+      </xsd:sequence>
+      <xsd:attribute name="version" type="xsd:int" />
+    </xsd:complexType>
+  </xsd:element>
+</xsd:schema>

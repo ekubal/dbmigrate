@@ -16,16 +16,18 @@ public class MergeColumnExecutor extends
 
 	public void execute(MergeColumnOperationDescriptor operation)
 			throws SQLException {
-		(new AddColumnExecutor(this.getConnection())).execute(operation
-				.getDestinationColumn());
+		AddColumnExecutor executor = new AddColumnExecutor(this.getConnection());
+		executor.execute(operation.getDestinationColumnDescriptor());
 
 		StringBuffer buf = new StringBuffer();
-		buf.append("UPDATE \"").append(operation.getTableName())
+		buf.append("UPDATE \"")
+				.append(operation.getTableName())
 				.append("\" SET ")
-				.append(operation.getDestinationColumn().getTableName())
-				.append(" = ").append(operation.getSourceColumn1())
-				.append(" || '").append(operation.getDelimiter())
-				.append("' || ").append(operation.getSourceColumn2());
+				.append(operation.getDestinationColumnDescriptor()
+						.getTableName()).append(" = ")
+				.append(operation.getSourceColumn1()).append(" || '")
+				.append(operation.getDelimiter()).append("' || ")
+				.append(operation.getSourceColumn2());
 
 		Statement stmt = getConnection().createStatement();
 		stmt.executeUpdate(buf.toString());
@@ -36,6 +38,10 @@ public class MergeColumnExecutor extends
 		table.setName(operation.getTableName());
 		DropColumnOperationDescriptor dcod = new DropColumnOperationDescriptor(
 				table, operation.getSourceColumn1());
+		dcx.execute(dcod);
+
+		dcod = new DropColumnOperationDescriptor(table,
+				operation.getSourceColumn2());
 		dcx.execute(dcod);
 	}
 
