@@ -31,7 +31,26 @@ public class Column implements IColumn {
 
 		if (defaultValue != null && defaultValue != "") {
 			buf.append("DEFAULT ");
-			buf.append(defaultValue + " ");
+			switch (type) {
+				case VARCHAR:
+					buf.append("'" + defaultValue + "' ");
+					break;
+				case TEXT:
+					buf.append("'" + defaultValue + "' ");
+					break;
+				case DATETIME:
+					buf.append("'" + defaultValue + "' ");
+					break;
+				case DATE:
+					buf.append("'" + defaultValue + "' ");
+					break;
+				case BINARY:
+					buf.append("B'" + defaultValue + "' ");
+					break;
+				default:
+					buf.append(defaultValue + " ");
+					break;
+			}
 		}
 
 		if (getSigned() != null) {
