@@ -6,77 +6,66 @@ import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
 @XStreamAlias("column")
 public class Column {
 
-	@XStreamAsAttribute
-	private String name;
+    @XStreamAsAttribute
+    private String name;
 
-	private String type;
+    private String type;
 
-	private Long length;
+    private Long length;
 
-	private Boolean notnull;
+    private Boolean notnull;
 
-	private Boolean signed;
+    private Boolean signed;
 
-	@XStreamAlias("default")
-	private String defaultValue;
+    @XStreamAlias("default")
+    private String defaultValue;
 
-	@XStreamAlias("values")
-	private String valueToSet;
+    public String getName() {
+	return name;
+    }
 
-	public String getName() {
-		return name;
-	}
+    public void setName(String name) {
+	this.name = name;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public String getType() {
+	return type;
+    }
 
-	public String getType() {
-		return type;
-	}
+    public void setType(String type) {
+	this.type = type;
+    }
 
-	public void setType(String type) {
-		this.type = type;
-	}
+    public Long getLength() {
+	return length;
+    }
 
-	public Long getLength() {
-		return length;
-	}
+    public void setLength(Long length) {
+	this.length = length;
+    }
 
-	public void setLength(Long length) {
-		this.length = length;
-	}
+    public Boolean getNotnull() {
+	return notnull;
+    }
 
-	public Boolean getNotnull() {
-		return notnull;
-	}
+    public void setNotnull(Boolean notnull) {
+	this.notnull = notnull;
+    }
 
-	public void setNotnull(Boolean notnull) {
-		this.notnull = notnull;
-	}
+    public String getDefaultValue() {
+	return defaultValue;
+    }
 
-	public String getDefaultValue() {
-		return defaultValue;
-	}
+    public void setDefaultValue(String defaultValue) {
+	this.defaultValue = defaultValue;
+    }
 
-	public void setDefaultValue(String defaultValue) {
-		this.defaultValue = defaultValue;
-	}
+    public Boolean getSigned() {
+	return signed;
+    }
 
-	public Boolean getSigned() {
-		return signed;
-	}
-
-	public void setSigned(Boolean signed) {
-		this.signed = signed;
-	}
-
-	public String getValueToSet() {
-		return valueToSet;
-	}
-
-	public void setValueToSet(String valueToSet) {
-		this.valueToSet = valueToSet;
-	}
+    public void setSigned(Boolean signed) {
+	this.signed = signed;
+    }
 
 }
