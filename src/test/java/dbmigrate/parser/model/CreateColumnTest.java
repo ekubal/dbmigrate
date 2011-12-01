@@ -1,4 +1,4 @@
-package dbmigrate.parse.model;
+package dbmigrate.parser.model;
 
 import junit.framework.TestCase;
 import dbmigrate.parser.model.CreateColumn;
