@@ -14,9 +14,15 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.Properties;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 import dbmigrate.model.db.DbConnector;
@@ -37,7 +43,7 @@ public class DbConfigurationDialog extends javax.swing.JDialog {
 	private DbConnector connector;
 	private JTextField hostnameText;
 	private JTextField usernameText;
-	private JTextField passwordText;
+	private JPasswordField passwordText;
 	private JTextField databaseText;
 
 	/** Creates new form DbConfigurationDialog */
@@ -46,6 +52,26 @@ public class DbConfigurationDialog extends javax.swing.JDialog {
 		setResizable(false);
 		setPreferredSize(new Dimension(350, 160));
 		initComponents();
+
+		// create and load default properties
+		Properties defaultProps = new Properties();
+		FileInputStream in;
+		try {
+			in = new FileInputStream("dbmigrate.properties");
+			defaultProps.load(in);
+			in.close();
+			hostnameText.setText(defaultProps.getProperty("hostname", ""));
+			usernameText.setText(defaultProps.getProperty("username", ""));
+			databaseText.setText(defaultProps.getProperty("database", ""));
+			passwordText.setText(defaultProps.getProperty("password", ""));
+
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	/**
@@ -80,7 +106,7 @@ public class DbConfigurationDialog extends javax.swing.JDialog {
 		usernameText.setBounds(157, 42, 114, 22);
 		usernameText.setColumns(10);
 
-		passwordText = new JTextField();
+		passwordText = new JPasswordField();
 		passwordText.setBounds(157, 72, 114, 22);
 		passwordText.setColumns(10);
 
@@ -92,7 +118,7 @@ public class DbConfigurationDialog extends javax.swing.JDialog {
 		hostnameText.setFont(fontStyle);
 		passwordText.setFont(fontStyle);
 		databaseText.setFont(fontStyle);
-		
+
 		getContentPane().setLayout(null);
 		getContentPane().add(lblHostname);
 		getContentPane().add(hostnameText);
@@ -112,7 +138,7 @@ public class DbConfigurationDialog extends javax.swing.JDialog {
 				connector.getConnection(DbConnector.DB_TYPE,
 						hostnameText.getText(), databaseText.getText(),
 						usernameText.getText(), passwordText.getText());
-
+				saveProperties();
 				DbConfigurationDialog.this.setVisible(false);
 			}
 		});
@@ -123,6 +149,7 @@ public class DbConfigurationDialog extends javax.swing.JDialog {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
+				saveProperties();
 				DbConfigurationDialog.this.setVisible(false);
 			}
 		});
@@ -130,6 +157,26 @@ public class DbConfigurationDialog extends javax.swing.JDialog {
 		getContentPane().add(cancelButton);
 
 		pack();
+	}
+
+	private void saveProperties() {
+		FileOutputStream out;
+		try {
+			out = new FileOutputStream("dbmigrate.properties");
+			Properties defaultProps = new Properties();
+			defaultProps.setProperty("hostname", hostnameText.getText());
+			defaultProps.setProperty("username", usernameText.getText());
+			defaultProps.setProperty("password", passwordText.getText());
+			defaultProps.setProperty("database", databaseText.getText());
+			defaultProps.store(out, "---No Comment---");
+			out.close();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	/**
