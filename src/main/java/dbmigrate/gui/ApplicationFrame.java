@@ -151,6 +151,11 @@ public class ApplicationFrame extends javax.swing.JFrame {
         jMenu2.setText("Preferences");
 
         dbConfigItem.setText("Database connection");
+        dbConfigItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                dbConfigItemActionPerformed(evt);
+            }
+        });
         jMenu2.add(dbConfigItem);
 
         jMenuBar1.add(jMenu2);
@@ -183,6 +188,11 @@ private void quitItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
 	WindowEvent wev = new WindowEvent(this, WindowEvent.WINDOW_CLOSING);
 	Toolkit.getDefaultToolkit().getSystemEventQueue().postEvent(wev);
 }//GEN-LAST:event_quitItemActionPerformed
+
+private void dbConfigItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dbConfigItemActionPerformed
+	DbConfigurationDialog dialog = new DbConfigurationDialog(this, true);
+	dialog.setVisible(true);
+}//GEN-LAST:event_dbConfigItemActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JToolBar buttonPanel;
