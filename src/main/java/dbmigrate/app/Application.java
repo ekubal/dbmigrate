@@ -14,6 +14,7 @@ import dbmigrate.executor.MergeColumnExecutor;
 import dbmigrate.executor.ModifyColumnExecutor;
 import dbmigrate.executor.RenameColumnExecutor;
 import dbmigrate.executor.SplitColumnExecutor;
+import dbmigrate.gui.ApplicationFrame;
 import dbmigrate.logging.LoggerFactory;
 import dbmigrate.model.db.DbConnector;
 import dbmigrate.model.operation.ModifyColumnOperationDescriptor;
@@ -32,10 +33,11 @@ public class Application {
 
 	public static void main(String[] args) {
 		if(args.length < 5) {
-			System.out.println("Usage:");
-			System.out.println("dbmigrate.jar migration_file dbtype host dbname user password [OPTIONS]");
-			System.out.println("Options:");
-			System.out.println(" --validate      - validates the migration file against XSD Schema.");
+			java.awt.EventQueue.invokeLater(new Runnable() {
+				public void run() {
+					new ApplicationFrame().setVisible(true);
+				}
+			});
 			return;
 		}
 		boolean performValidation = false;
