@@ -10,6 +10,7 @@
  */
 package dbmigrate.gui;
 
+
 import dbmigrate.logging.IListener;
 import dbmigrate.logging.ILogger;
 import dbmigrate.logging.Level;
@@ -17,11 +18,24 @@ import dbmigrate.logging.LoggerFactory;
 import dbmigrate.logging.LoggerImpl;
 import javax.swing.DefaultListModel;
 
+import dbmigrate.executor.ExecutorEngine;
+import dbmigrate.model.db.DbConnector;
+import dbmigrate.model.operation.MigrationConfiguration;
+import dbmigrate.parser.Loader;
+import java.awt.Toolkit;
+import java.awt.event.WindowEvent;
+import java.io.File;
+import java.sql.Connection;
+import java.util.logging.Logger;
+import javax.swing.JFileChooser;
+
+
 /**
  *
  * @author zyxist
  */
 public class ApplicationFrame extends javax.swing.JFrame {
+
     private final DefaultListModel model;
 
         private class Listener implements IListener
@@ -34,17 +48,33 @@ public class ApplicationFrame extends javax.swing.JFrame {
             
         }
     
+
+	private DbConnector dbConnector;
+	private Connection connection;
+	private MigrationConfiguration migrationConfiguration;
+	
+	
 	/** Creates new form ApplicationFrame */
 	public ApplicationFrame() {
-        ILogger logger = LoggerFactory.getLogger();
-            
-                initComponents();
+		this.dbConnector = new DbConnector();
+		
+		initComponents();
+
+                ILogger logger = LoggerFactory.getLogger();
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
                 model = new DefaultListModel();
                 logList.setModel(model);
                 LoggerImpl.register(new Listener());
                 
                 logger.log("Started", Level.Info);
+	}
+	
+	public DbConnector getDbConnector() {
+		return this.dbConnector;
+	}
+	
+	public MigrationConfiguration getMigrationConfiguration() {
+		return this.migrationConfiguration;
 	}
 
 	/** This method is called from within the constructor to
@@ -142,6 +172,11 @@ public class ApplicationFrame extends javax.swing.JFrame {
         jMenu1.setText("File");
 
         loadMigrationItem.setText("Load migration");
+        loadMigrationItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                loadMigrationItemActionPerformed(evt);
+            }
+        });
         jMenu1.add(loadMigrationItem);
 
         quitItem.setText("Quit");
@@ -157,6 +192,11 @@ public class ApplicationFrame extends javax.swing.JFrame {
         jMenu2.setText("Preferences");
 
         dbConfigItem.setText("Database connection");
+        dbConfigItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                dbConfigItemActionPerformed(evt);
+            }
+        });
         jMenu2.add(dbConfigItem);
 
         jMenuBar1.add(jMenu2);
@@ -186,7 +226,30 @@ public class ApplicationFrame extends javax.swing.JFrame {
 
 private void quitItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_quitItemActionPerformed
 	this.setVisible(false);
+	WindowEvent wev = new WindowEvent(this, WindowEvent.WINDOW_CLOSING);
+	Toolkit.getDefaultToolkit().getSystemEventQueue().postEvent(wev);
 }//GEN-LAST:event_quitItemActionPerformed
+
+private void dbConfigItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dbConfigItemActionPerformed
+	DbConfigurationDialog dialog = new DbConfigurationDialog(this, true);
+	dialog.setVisible(true);
+}//GEN-LAST:event_dbConfigItemActionPerformed
+
+private void loadMigrationItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loadMigrationItemActionPerformed
+	JFileChooser fc = new JFileChooser();
+	fc.setDragEnabled(false);
+	fc.setMultiSelectionEnabled(false);
+	fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
+	fc.setDialogTitle("Load migration...");
+	if(fc.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
+		try {
+			this.migrationConfiguration = Loader.load(new File(fc.getSelectedFile().getAbsolutePath()), false);
+			this.statusText.setText(fc.getSelectedFile().getName()+" successfully loaded.");
+		} catch (Exception ex) {
+			this.statusText.setText(ex.getMessage());
+		}
+	}
+}//GEN-LAST:event_loadMigrationItemActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JToolBar buttonPanel;
