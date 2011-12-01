@@ -1,7 +1,5 @@
 package dbmigrate.parser;
 
-import java.io.File;
-
 import junit.framework.TestCase;
 import dbmigrate.executor.CreateTableExecutor;
 import dbmigrate.model.operation.CreateTableOperationDescriptor;
@@ -23,8 +21,21 @@ public class LoaderTest extends TestCase {
 
     public void testCreateMigrationConfiguration() {
 	try {
-	    MigrationConfiguration mc = Loader.load(new File(
-		    "migrations/2011111001_first_migration.xml"), false);
+	    String c = "<migration version=\"2011111001\">" + "<do>"
+		    + "<create-table id=\"first1\">" + "<name>users</name>"
+		    + "<columns>" + "<column name=\"id\">" + "<type>int</type>"
+		    + "<length>4</length>" + "<notnull>true</notnull>"
+		    + "</column>" + "<column name=\"username\">"
+		    + "<type>varchar</type>" + "<notnull>true</notnull>"
+		    + "<length>40</length>" + "</column>"
+		    + "<column name=\"password\">" + "<type>varchar</type>"
+		    + "<length>40</length>" + "<notnull>true</notnull>"
+		    + "</column>" + "</columns>" + "</create-table>" + "</do>"
+		    + "<undo>" + "<remove-table for=\"first1\">"
+		    + "<name>users</name>" + "</remove-table>" + "</undo>"
+		    + "</migration>";
+	    Migration m = MigrationParser.loadMigration(c);
+	    MigrationConfiguration mc = Loader.map(m);
 	    CreateTableOperationDescriptor desc = (CreateTableOperationDescriptor) mc
 		    .getOperations().get(0);
 	    CreateTableExecutor executor = new CreateTableExecutor(null);
@@ -36,5 +47,4 @@ public class LoaderTest extends TestCase {
 	}
 
     }
-
 }
