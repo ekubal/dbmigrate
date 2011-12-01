@@ -23,7 +23,7 @@ public class LoaderTest  extends TestCase{
 	
 	public void testCreateMigrationConfiguration(){
 		try {
-			MigrationConfiguration mc = Loader.load(new File("migrations/2011111001_first_migration.xml", false));
+			MigrationConfiguration mc = Loader.load(new File("migrations/2011111001_first_migration.xml"), false);
 			CreateTableOperationDescriptor desc = (CreateTableOperationDescriptor) mc.getOperations().get(0);
 			CreateTableExecutor executor = new CreateTableExecutor(null);
 			assertEquals("CREATE TABLE \"users\" ( id INT NOT NULL,username TEXT (40) NOT NULL,password TEXT (40) NOT NULL);", executor.createSql(desc).trim());
