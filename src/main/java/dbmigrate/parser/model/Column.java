@@ -5,20 +5,23 @@ import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
 
 @XStreamAlias("column")
 public class Column {
-	
+
 	@XStreamAsAttribute
 	private String name;
-	
+
 	private String type;
-	
+
 	private Long length;
-	
+
 	private Boolean notnull;
-	
+
 	private Boolean signed;
-	
+
 	@XStreamAlias("default")
 	private String defaultValue;
+
+	@XStreamAlias("values")
+	private String valueToSet;
 
 	public String getName() {
 		return name;
@@ -66,6 +69,14 @@ public class Column {
 
 	public void setSigned(Boolean signed) {
 		this.signed = signed;
+	}
+
+	public String getValueToSet() {
+		return valueToSet;
+	}
+
+	public void setValueToSet(String valueToSet) {
+		this.valueToSet = valueToSet;
 	}
 
 }
