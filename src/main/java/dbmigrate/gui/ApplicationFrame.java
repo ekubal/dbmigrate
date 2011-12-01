@@ -10,9 +10,18 @@
  */
 package dbmigrate.gui;
 
+import dbmigrate.executor.ExecutorEngine;
+import dbmigrate.model.db.DbConnector;
+import dbmigrate.model.operation.MigrationConfiguration;
+import dbmigrate.parser.Loader;
+
 import java.awt.Toolkit;
 import java.awt.event.WindowEvent;
+import java.io.File;
 import java.sql.Connection;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JFileChooser;
 
 import dbmigrate.model.db.DbConnector;
 import dbmigrate.model.operation.MigrationConfiguration;
@@ -29,6 +38,8 @@ public class ApplicationFrame extends javax.swing.JFrame {
 	
 	/** Creates new form ApplicationFrame */
 	public ApplicationFrame() {
+		this.dbConnector = new DbConnector();
+		
 		initComponents();
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 	}
@@ -136,6 +147,11 @@ public class ApplicationFrame extends javax.swing.JFrame {
         jMenu1.setText("File");
 
         loadMigrationItem.setText("Load migration");
+        loadMigrationItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                loadMigrationItemActionPerformed(evt);
+            }
+        });
         jMenu1.add(loadMigrationItem);
 
         quitItem.setText("Quit");
@@ -194,6 +210,22 @@ private void dbConfigItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
 	dialog.setConnector(dbConnector);
 	dialog.setVisible(true);
 }//GEN-LAST:event_dbConfigItemActionPerformed
+
+private void loadMigrationItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loadMigrationItemActionPerformed
+	JFileChooser fc = new JFileChooser();
+	fc.setDragEnabled(false);
+	fc.setMultiSelectionEnabled(false);
+	fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
+	fc.setDialogTitle("Load migration...");
+	if(fc.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
+		try {
+			this.migrationConfiguration = Loader.load(new File(fc.getSelectedFile().getAbsolutePath()), false);
+			this.statusText.setText(fc.getSelectedFile().getName()+" successfully loaded.");
+		} catch (Exception ex) {
+			this.statusText.setText(ex.getMessage());
+		}
+	}
+}//GEN-LAST:event_loadMigrationItemActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JToolBar buttonPanel;
