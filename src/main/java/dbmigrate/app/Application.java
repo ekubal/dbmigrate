@@ -30,6 +30,18 @@ import dbmigrate.model.operation.SplitColumnOperationDescriptor;
 import dbmigrate.parser.Loader;
 
 public class Application {
+	
+	public static void configureExecutorEngine(ExecutorEngine executorEngine) {
+		executorEngine.registerExecutor(AddColumnOperationDescriptor.class, AddColumnExecutor.class);
+		executorEngine.registerExecutor(DropTableOperationDescriptor.class, DropTableExecutor.class);
+		executorEngine.registerExecutor(DropColumnOperationDescriptor.class, DropColumnExecutor.class);
+		executorEngine.registerExecutor(CreateTableOperationDescriptor.class, CreateTableExecutor.class);
+		executorEngine.registerExecutor(RenameColumnOperationDescriptor.class, RenameColumnExecutor.class);
+		executorEngine.registerExecutor(ModifyColumnOperationDescriptor.class, ModifyColumnExecutor.class);
+		executorEngine.registerExecutor(ChangeColumnOperationDescriptor.class, ChangeColumnExecutor.class);
+		executorEngine.registerExecutor(SplitColumnOperationDescriptor.class, SplitColumnExecutor.class);
+		executorEngine.registerExecutor(MergeColumnOperationDescriptor.class, MergeColumnExecutor.class);
+	}
 
 	public static void main(String[] args) {
 		if(args.length < 5) {
@@ -61,15 +73,7 @@ public class Application {
 			ExecutorEngine executorEngine = new ExecutorEngine(connection,
 					migrationConfiguration, true);
 			
-			executorEngine.registerExecutor(AddColumnOperationDescriptor.class, AddColumnExecutor.class);
-			executorEngine.registerExecutor(DropTableOperationDescriptor.class, DropTableExecutor.class);
-			executorEngine.registerExecutor(DropColumnOperationDescriptor.class, DropColumnExecutor.class);
-			executorEngine.registerExecutor(CreateTableOperationDescriptor.class, CreateTableExecutor.class);
-			executorEngine.registerExecutor(RenameColumnOperationDescriptor.class, RenameColumnExecutor.class);
-			executorEngine.registerExecutor(ModifyColumnOperationDescriptor.class, ModifyColumnExecutor.class);
-			executorEngine.registerExecutor(ChangeColumnOperationDescriptor.class, ChangeColumnExecutor.class);
-			executorEngine.registerExecutor(SplitColumnOperationDescriptor.class, SplitColumnExecutor.class);
-			executorEngine.registerExecutor(MergeColumnOperationDescriptor.class, MergeColumnExecutor.class);
+			configureExecutorEngine(executorEngine);
 			
 			executorEngine.setLogger(LoggerFactory.getLogger());
 			executorEngine.executeMigration();

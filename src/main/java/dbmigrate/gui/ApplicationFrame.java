@@ -10,7 +10,9 @@
  */
 package dbmigrate.gui;
 
+import dbmigrate.app.Application;
 import dbmigrate.executor.ExecutorEngine;
+import dbmigrate.logging.LoggerFactory;
 import dbmigrate.model.db.DbConnector;
 import dbmigrate.model.operation.MigrationConfiguration;
 import dbmigrate.parser.Loader;
@@ -18,6 +20,7 @@ import java.awt.Toolkit;
 import java.awt.event.WindowEvent;
 import java.io.File;
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
@@ -132,6 +135,11 @@ public class ApplicationFrame extends javax.swing.JFrame {
         runButton.setFocusable(false);
         runButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         runButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        runButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                runButtonActionPerformed(evt);
+            }
+        });
         buttonPanel.add(runButton);
 
         undoButton.setText("Undo");
@@ -221,6 +229,25 @@ private void loadMigrationItemActionPerformed(java.awt.event.ActionEvent evt) {/
 		}
 	}
 }//GEN-LAST:event_loadMigrationItemActionPerformed
+
+private void runButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_runButtonActionPerformed
+	if(null == this.migrationConfiguration) {
+		this.statusText.setText("No migration loaded.");
+	} else if(null == this.connection) {
+		this.statusText.setText("Please specify a database connection.");
+	} else {
+		ExecutorEngine executorEngine = new ExecutorEngine(connection,
+			migrationConfiguration, true);
+		Application.configureExecutorEngine(executorEngine);
+		executorEngine.setLogger(LoggerFactory.getLogger());
+		try {
+			executorEngine.executeMigration();
+			this.statusText.setText("Migration executed.");
+		} catch (SQLException ex) {
+			this.statusText.setText(ex.getMessage());
+		}
+	}
+}//GEN-LAST:event_runButtonActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JToolBar buttonPanel;
