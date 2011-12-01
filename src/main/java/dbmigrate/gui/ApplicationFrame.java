@@ -10,16 +10,41 @@
  */
 package dbmigrate.gui;
 
+import dbmigrate.logging.IListener;
+import dbmigrate.logging.ILogger;
+import dbmigrate.logging.Level;
+import dbmigrate.logging.LoggerFactory;
+import dbmigrate.logging.LoggerImpl;
+import javax.swing.DefaultListModel;
+
 /**
  *
  * @author zyxist
  */
 public class ApplicationFrame extends javax.swing.JFrame {
+    private final DefaultListModel model;
 
+        private class Listener implements IListener
+        {
+
+            @Override
+            public void log(String message, Level level) {
+                model.addElement("[" + level + "] " + message);
+            }
+            
+        }
+    
 	/** Creates new form ApplicationFrame */
 	public ApplicationFrame() {
-		initComponents();
+        ILogger logger = LoggerFactory.getLogger();
+            
+                initComponents();
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
+                model = new DefaultListModel();
+                logList.setModel(model);
+                LoggerImpl.register(new Listener());
+                
+                logger.log("Started", Level.Info);
 	}
 
 	/** This method is called from within the constructor to
