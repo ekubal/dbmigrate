@@ -43,15 +43,20 @@ public class ApplicationFrame extends javax.swing.JFrame
         historyList = new javax.swing.JList();
         jToolBar2 = new javax.swing.JToolBar();
         buttonPanel = new javax.swing.JToolBar();
+        runButton = new javax.swing.JButton();
+        undoButton = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
+        loadMigrationItem = new javax.swing.JMenuItem();
+        quitItem = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
+        dbConfigItem = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         hintPanel.setRollover(true);
 
-        statusText.setText("jLabel1");
+        statusText.setText("Please load a migration.");
         hintPanel.add(statusText);
 
         logList.setModel(new javax.swing.AbstractListModel() {
@@ -98,10 +103,33 @@ public class ApplicationFrame extends javax.swing.JFrame
 
         buttonPanel.setRollover(true);
 
+        runButton.setText("Run");
+        runButton.setFocusable(false);
+        runButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        runButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        buttonPanel.add(runButton);
+
+        undoButton.setText("Undo");
+        undoButton.setFocusable(false);
+        undoButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        undoButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        buttonPanel.add(undoButton);
+
         jMenu1.setText("File");
+
+        loadMigrationItem.setText("Load migration");
+        jMenu1.add(loadMigrationItem);
+
+        quitItem.setText("Quit");
+        jMenu1.add(quitItem);
+
         jMenuBar1.add(jMenu1);
 
-        jMenu2.setText("Edit");
+        jMenu2.setText("Preferences");
+
+        dbConfigItem.setText("Database connection");
+        jMenu2.add(dbConfigItem);
+
         jMenuBar1.add(jMenu2);
 
         setJMenuBar(jMenuBar1);
@@ -178,6 +206,7 @@ public class ApplicationFrame extends javax.swing.JFrame
 	}
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JToolBar buttonPanel;
+    private javax.swing.JMenuItem dbConfigItem;
     private javax.swing.JToolBar hintPanel;
     private javax.swing.JList historyList;
     private javax.swing.JMenu jMenu1;
@@ -189,7 +218,11 @@ public class ApplicationFrame extends javax.swing.JFrame
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JToolBar jToolBar2;
+    private javax.swing.JMenuItem loadMigrationItem;
     private javax.swing.JList logList;
+    private javax.swing.JMenuItem quitItem;
+    private javax.swing.JButton runButton;
     private javax.swing.JLabel statusText;
+    private javax.swing.JButton undoButton;
     // End of variables declaration//GEN-END:variables
 }
