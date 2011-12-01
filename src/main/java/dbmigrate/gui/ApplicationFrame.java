@@ -10,16 +10,35 @@
  */
 package dbmigrate.gui;
 
+import dbmigrate.executor.ExecutorEngine;
+import dbmigrate.model.db.DbConnector;
+import dbmigrate.model.operation.MigrationConfiguration;
+import java.awt.Toolkit;
+import java.awt.event.WindowEvent;
+import java.sql.Connection;
+
 /**
  *
  * @author zyxist
  */
 public class ApplicationFrame extends javax.swing.JFrame {
-
+	private DbConnector dbConnector;
+	private Connection connection;
+	private MigrationConfiguration migrationConfiguration;
+	
+	
 	/** Creates new form ApplicationFrame */
 	public ApplicationFrame() {
 		initComponents();
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
+	}
+	
+	public DbConnector getDbConnector() {
+		return this.dbConnector;
+	}
+	
+	public MigrationConfiguration getMigrationConfiguration() {
+		return this.migrationConfiguration;
 	}
 
 	/** This method is called from within the constructor to
@@ -161,6 +180,8 @@ public class ApplicationFrame extends javax.swing.JFrame {
 
 private void quitItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_quitItemActionPerformed
 	this.setVisible(false);
+	WindowEvent wev = new WindowEvent(this, WindowEvent.WINDOW_CLOSING);
+	Toolkit.getDefaultToolkit().getSystemEventQueue().postEvent(wev);
 }//GEN-LAST:event_quitItemActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
