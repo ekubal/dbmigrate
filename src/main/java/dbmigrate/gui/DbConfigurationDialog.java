@@ -9,6 +9,16 @@
  * Created on 2011-12-01, 17:44:14
  */
 package dbmigrate.gui;
+import java.awt.Dimension;
+
+import javax.swing.JLabel;
+import javax.swing.GroupLayout.Alignment;
+import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.JTextField;
+import javax.swing.GroupLayout;
+import javax.swing.JButton;
+
+import dbmigrate.model.db.DbConnector;
 
 /**
  *
@@ -16,11 +26,26 @@ package dbmigrate.gui;
  */
 public class DbConfigurationDialog extends javax.swing.JDialog
 {
+	public DbConnector getConnector() {
+		return connector;
+	}
+
+	public void setConnector(DbConnector connector) {
+		this.connector = connector;
+	}
+
+	private DbConnector connector;
+	private JTextField hostnameText;
+	private JTextField usernameText;
+	private JTextField passwordText;
+	private JTextField databaseText;
 
 	/** Creates new form DbConfigurationDialog */
 	public DbConfigurationDialog(java.awt.Frame parent, boolean modal)
 	{
-		super(parent, modal);
+		super(parent, true);
+		setResizable(false);
+		setPreferredSize(new Dimension(500, 200));
 		initComponents();
 	}
 
@@ -34,17 +59,51 @@ public class DbConfigurationDialog extends javax.swing.JDialog
     private void initComponents() {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
-        );
+        
+        JLabel lblHostname = new JLabel("Hostname");
+        lblHostname.setBounds(115, 30, 72, 15);
+        
+        JLabel lblUsername = new JLabel("Username");
+        lblUsername.setBounds(115, 55, 72, 15);
+        
+        JLabel lblPassword = new JLabel("Password");
+        lblPassword.setBounds(115, 80, 70, 15);
+        
+        JLabel lblDatabase = new JLabel("Database");
+        lblDatabase.setBounds(118, 105, 69, 15);
+        
+        hostnameText = new JTextField();
+        hostnameText.setBounds(218, 30, 114, 19);
+        hostnameText.setColumns(10);
+        
+        usernameText = new JTextField();
+        usernameText.setBounds(218, 55, 114, 19);
+        usernameText.setColumns(10);
+        
+        passwordText = new JTextField();
+        passwordText.setBounds(218, 80, 114, 19);
+        passwordText.setColumns(10);
+        
+        databaseText = new JTextField();
+        databaseText.setBounds(218, 105, 114, 19);
+        databaseText.setColumns(10);
+        getContentPane().setLayout(null);
+        getContentPane().add(lblHostname);
+        getContentPane().add(hostnameText);
+        getContentPane().add(lblPassword);
+        getContentPane().add(lblUsername);
+        getContentPane().add(lblDatabase);
+        getContentPane().add(databaseText);
+        getContentPane().add(passwordText);
+        getContentPane().add(usernameText);
+        
+        JButton btnNewButton = new JButton("Ok");
+        btnNewButton.setBounds(218, 136, 117, 25);
+        getContentPane().add(btnNewButton);
+        
+        JButton btnNewButton_1 = new JButton("Cancel");
+        btnNewButton_1.setBounds(347, 136, 117, 25);
+        getContentPane().add(btnNewButton_1);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -108,6 +167,4 @@ public class DbConfigurationDialog extends javax.swing.JDialog
 			}
 		});
 	}
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    // End of variables declaration//GEN-END:variables
 }
