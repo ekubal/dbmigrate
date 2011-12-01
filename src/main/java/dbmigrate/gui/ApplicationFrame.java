@@ -10,12 +10,12 @@
  */
 package dbmigrate.gui;
 
-import dbmigrate.executor.ExecutorEngine;
-import dbmigrate.model.db.DbConnector;
-import dbmigrate.model.operation.MigrationConfiguration;
 import java.awt.Toolkit;
 import java.awt.event.WindowEvent;
 import java.sql.Connection;
+
+import dbmigrate.model.db.DbConnector;
+import dbmigrate.model.operation.MigrationConfiguration;
 
 /**
  *
@@ -191,6 +191,7 @@ private void quitItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
 
 private void dbConfigItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dbConfigItemActionPerformed
 	DbConfigurationDialog dialog = new DbConfigurationDialog(this, true);
+	dialog.setConnector(dbConnector);
 	dialog.setVisible(true);
 }//GEN-LAST:event_dbConfigItemActionPerformed
 
