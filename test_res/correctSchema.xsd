@@ -176,4 +176,3 @@
   <xs:element name="oldColumnName" type="xs:NCName"/>
   <xs:element name="newColumnName" type="xs:NCName"/>
 </xs:schema>
-
