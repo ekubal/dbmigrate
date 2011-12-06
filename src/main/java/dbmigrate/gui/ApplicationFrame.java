@@ -11,6 +11,11 @@
 package dbmigrate.gui;
 
 import dbmigrate.app.Application;
+import dbmigrate.logging.IListener;
+import dbmigrate.logging.ILogger;
+import dbmigrate.logging.Level;
+import dbmigrate.logging.LoggerImpl;
+import javax.swing.DefaultListModel;
 import dbmigrate.executor.ExecutorEngine;
 import dbmigrate.logging.LoggerFactory;
 import dbmigrate.model.db.DbConnector;
@@ -21,15 +26,15 @@ import java.awt.event.WindowEvent;
 import java.io.File;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JFileChooser;
+
 
 /**
  *
  * @author zyxist
  */
-public class ApplicationFrame extends javax.swing.JFrame {
+public class ApplicationFrame extends javax.swing.JFrame {    
+	private final DefaultListModel model;
 	private DbConnector dbConnector;
 	private Connection connection;
 	private MigrationConfiguration migrationConfiguration;
@@ -40,7 +45,14 @@ public class ApplicationFrame extends javax.swing.JFrame {
 		this.dbConnector = new DbConnector();
 		
 		initComponents();
+
+                ILogger logger = LoggerFactory.getLogger();
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
+                model = new DefaultListModel();
+                logList.setModel(model);
+                LoggerImpl.register(new Listener());
+                
+                logger.log("Started", Level.Info);
 	}
 	
 	public DbConnector getDbConnector() {
@@ -270,4 +282,12 @@ private void runButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
     private javax.swing.JLabel statusText;
     private javax.swing.JButton undoButton;
     // End of variables declaration//GEN-END:variables
+
+	private class Listener implements IListener
+	{
+		@Override
+		public void log(String message, Level level) {
+			model.addElement("[" + level + "] " + message);
+		}
+	}
 }

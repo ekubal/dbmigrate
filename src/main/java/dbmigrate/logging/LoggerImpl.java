@@ -1,8 +1,16 @@
 package dbmigrate.logging;
 
+import java.util.ArrayList;
+import java.util.List;
 import org.apache.log4j.Priority;
 
 public class LoggerImpl implements ILogger {
+        private static List<IListener> listeners = new ArrayList<IListener>();
+        
+        public static void register(IListener listener)
+        {
+            listeners.add(listener);
+        }
 
 	public void log(String message, Level level) {
 		Priority prio = org.apache.log4j.Level.INFO;
@@ -19,6 +27,9 @@ public class LoggerImpl implements ILogger {
 		}
 		
 		org.apache.log4j.Logger.getLogger("dbmigrate").log(prio, message);
+                
+                for(IListener l : listeners)
+                    l.log(message, level);
 	}
 
 }
