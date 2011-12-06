@@ -14,6 +14,7 @@ import dbmigrate.executor.MergeColumnExecutor;
 import dbmigrate.executor.ModifyColumnExecutor;
 import dbmigrate.executor.RenameColumnExecutor;
 import dbmigrate.executor.SplitColumnExecutor;
+import dbmigrate.gui.ApplicationFrame;
 import dbmigrate.logging.LoggerFactory;
 import dbmigrate.model.db.DbConnector;
 import dbmigrate.model.operation.ModifyColumnOperationDescriptor;
@@ -29,13 +30,26 @@ import dbmigrate.model.operation.SplitColumnOperationDescriptor;
 import dbmigrate.parser.Loader;
 
 public class Application {
+	
+	public static void configureExecutorEngine(ExecutorEngine executorEngine) {
+		executorEngine.registerExecutor(AddColumnOperationDescriptor.class, AddColumnExecutor.class);
+		executorEngine.registerExecutor(DropTableOperationDescriptor.class, DropTableExecutor.class);
+		executorEngine.registerExecutor(DropColumnOperationDescriptor.class, DropColumnExecutor.class);
+		executorEngine.registerExecutor(CreateTableOperationDescriptor.class, CreateTableExecutor.class);
+		executorEngine.registerExecutor(RenameColumnOperationDescriptor.class, RenameColumnExecutor.class);
+		executorEngine.registerExecutor(ModifyColumnOperationDescriptor.class, ModifyColumnExecutor.class);
+		executorEngine.registerExecutor(ChangeColumnOperationDescriptor.class, ChangeColumnExecutor.class);
+		executorEngine.registerExecutor(SplitColumnOperationDescriptor.class, SplitColumnExecutor.class);
+		executorEngine.registerExecutor(MergeColumnOperationDescriptor.class, MergeColumnExecutor.class);
+	}
 
 	public static void main(String[] args) {
 		if(args.length < 5) {
-			System.out.println("Usage:");
-			System.out.println("dbmigrate.jar migration_file dbtype host dbname user password [OPTIONS]");
-			System.out.println("Options:");
-			System.out.println(" --validate      - validates the migration file against XSD Schema.");
+			java.awt.EventQueue.invokeLater(new Runnable() {
+				public void run() {
+					new ApplicationFrame().setVisible(true);
+				}
+			});
 			return;
 		}
 		boolean performValidation = false;
@@ -59,15 +73,7 @@ public class Application {
 			ExecutorEngine executorEngine = new ExecutorEngine(connection,
 					migrationConfiguration, true);
 			
-			executorEngine.registerExecutor(AddColumnOperationDescriptor.class, AddColumnExecutor.class);
-			executorEngine.registerExecutor(DropTableOperationDescriptor.class, DropTableExecutor.class);
-			executorEngine.registerExecutor(DropColumnOperationDescriptor.class, DropColumnExecutor.class);
-			executorEngine.registerExecutor(CreateTableOperationDescriptor.class, CreateTableExecutor.class);
-			executorEngine.registerExecutor(RenameColumnOperationDescriptor.class, RenameColumnExecutor.class);
-			executorEngine.registerExecutor(ModifyColumnOperationDescriptor.class, ModifyColumnExecutor.class);
-			executorEngine.registerExecutor(ChangeColumnOperationDescriptor.class, ChangeColumnExecutor.class);
-			executorEngine.registerExecutor(SplitColumnOperationDescriptor.class, SplitColumnExecutor.class);
-			executorEngine.registerExecutor(MergeColumnOperationDescriptor.class, MergeColumnExecutor.class);
+			configureExecutorEngine(executorEngine);
 			
 			executorEngine.setLogger(LoggerFactory.getLogger());
 			executorEngine.executeMigration();
