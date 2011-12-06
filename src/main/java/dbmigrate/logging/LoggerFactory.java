@@ -11,7 +11,7 @@ public class LoggerFactory {
 	}
 	
 	public static ILogger getLogger() {
-		return logger;
+		return LoggerFactory.logger;
 	}
 	
 }

@@ -14,7 +14,7 @@ public class RemoveColumn implements IOperation {
 	private String name;
 
 	public String getId() {
-		return id;
+		return this.id;
 	}
 
 	public void setId(String id) {
@@ -22,7 +22,7 @@ public class RemoveColumn implements IOperation {
 	}
 
 	public String getTable() {
-		return table;
+		return this.table;
 	}
 
 	public void setTable(String table) {
@@ -30,7 +30,7 @@ public class RemoveColumn implements IOperation {
 	}
 
 	public String getName() {
-		return name;
+		return this.name;
 	}
 
 	public void setName(String name) {

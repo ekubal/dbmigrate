@@ -2,10 +2,9 @@ package dbmigrate.executor;
 
 import java.sql.SQLException;
 import java.sql.Statement;
-
-import dbmigrate.model.operation.RenameColumnOperationDescriptor;
 import java.sql.Connection;
 
+import dbmigrate.model.operation.RenameColumnOperationDescriptor;
 
 public class RenameColumnExecutor extends GeneralExecutor<RenameColumnOperationDescriptor> {
 	public RenameColumnExecutor(Connection connection) {
@@ -20,7 +19,7 @@ public class RenameColumnExecutor extends GeneralExecutor<RenameColumnOperationD
 	}
 	
 	public void execute(RenameColumnOperationDescriptor operation) throws SQLException {
-        Statement stmt = getConnection().createStatement();
-        stmt.executeUpdate(createSql(operation));
+		Statement stmt = this.getConnection().createStatement();
+		stmt.executeUpdate(this.createSql(operation));
 	}
 }

@@ -1,17 +1,15 @@
 package dbmigrate.model.db;
 
-import dbmigrate.model.db.IColumn;
-import dbmigrate.model.db.Table;
 import java.util.LinkedList;
 import java.util.List;
+
 import junit.framework.TestCase;
 
 /**
  *
  * @author zyxist
  */
-public class TableTest extends TestCase
-{
+public class TableTest extends TestCase {
 	
 	public TableTest(String testName){
 		super(testName);
@@ -31,10 +29,10 @@ public class TableTest extends TestCase
 		Table t = new Table();
 		t.setName("foo");
 		
-		assertEquals("foo", t.getName());
+		this.assertEquals("foo", t.getName());
 		
 		t.setName("bar");
-		assertEquals("bar", t.getName());
+		this.assertEquals("bar", t.getName());
 	}
 	
 	public void testGetAndSetColumns() {
@@ -42,6 +40,6 @@ public class TableTest extends TestCase
 		
 		List<IColumn> ll = new LinkedList<IColumn>();
 		t.setColumns(ll);
-		assertSame(ll, t.getColumns());
+		this.assertSame(ll, t.getColumns());
 	}
 }

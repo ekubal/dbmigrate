@@ -18,7 +18,7 @@ public class MergeColumns implements IOperation {
 	private DestinationColumn destinationColumn;
 
 	public String getTableName() {
-		return tableName;
+		return this.tableName;
 	}
 
 	public void setTableName(String tableName) {
@@ -26,7 +26,7 @@ public class MergeColumns implements IOperation {
 	}
 
 	public List<String> getColumnNames() {
-		return columnNames;
+		return this.columnNames;
 	}
 
 	public void setColumnNames(List<String> columnNames) {
@@ -34,7 +34,7 @@ public class MergeColumns implements IOperation {
 	}
 
 	public DestinationColumn getDestinationColumn() {
-		return destinationColumn;
+		return this.destinationColumn;
 	}
 
 	public void setDestinationColumn(DestinationColumn destinationColumn) {

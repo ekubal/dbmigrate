@@ -27,7 +27,7 @@ import dbmigrate.parser.model.RemoveTable;
 public class Loader {
 	public static MigrationConfiguration load(File file, boolean performValidation) throws Exception {
 		Migration m = MigrationParser.loadMigration(file, performValidation);
-		return map(m);
+		return this.map(m);
 	}
 
 	public static MigrationConfiguration map(Migration m) throws Exception {
@@ -62,19 +62,20 @@ public class Loader {
 				t.setName(ct.getName());
 				ArrayList<IColumn> columns = new ArrayList<IColumn>();
 				List<dbmigrate.parser.model.Column> col = ct.getColumns();
-				if (col != null)
+				if (col != null) {
 					for (dbmigrate.parser.model.Column c : col) {
 						Column cc = new Column();
 						cc.setLength((int) (long) c.getLength());
 						cc.setName(c.getName());
 						cc.setNullable(c.getNotnull());
-						cc.setType(getType(c.getType()));
+						cc.setType(this.getType(c.getType()));
 						cc.setLength((int) (long) c.getLength());
 						cc.setNullable(!c.getNotnull());
 						cc.setSigned(c.getSigned());
 						cc.setDefault(c.getDefaultValue());
 						columns.add(cc);
 					}
+				}
 				t.setColumns(columns);
 				d = new CreateTableOperationDescriptor(t);
 			} else if (op instanceof CreateColumn) {
@@ -106,25 +107,26 @@ public class Loader {
 	}
 
 	private static TypeEnum getType(String type) throws Exception {
-		if (type.equals("boolean"))
+		if ("boolean".equals(type)) {
 			return TypeEnum.BOOLEAN;
-		else if (type.equals("short"))
+		} else if ("short".equals(type)) {
 			return TypeEnum.SHORTINT;
-		else if (type.equals("int"))
+		} else if ("int".equals(type)) {
 			return TypeEnum.INT;
-		else if (type.equals("bigint"))
+		} else if ("bigint".equals(type)) {
 			return TypeEnum.BIGINT;
-		else if (type.equals("varchar"))
+		} else if ("varchar".equals(type)) {
 			return TypeEnum.VARCHAR;
-		else if (type.equals("char"))
+		} else if ("char".equals(type)) {
 			return TypeEnum.CHAR;
-		else if (type.equals("text"))
+		} else if ("text".equals(type)) {
 			return TypeEnum.TEXT;
-		else if (type.equals("double"))
+		} else if ("double".equals(type)) {
 			return TypeEnum.DOUBLE;
-		else if (type.equals("binary"))
+		} else if ("binary".equals(type)) {
 			return TypeEnum.BINARY;
-		else
-			throw new Exception("Nieznany typ danych: " + type);
+		} else {
+			throw new Exception("Unknown data type: " + type);
+		}
 	}
 }

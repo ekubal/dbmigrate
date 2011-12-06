@@ -18,19 +18,19 @@ import dbmigrate.logging.LoggerFactory;
 
 public class XmlValidator {
 	public static boolean validate(File file, String xsdPath) throws ParseException {
-		return validateSchema(new StreamSource(file), xsdPath);
+		return XmlValidator.validateSchema(new StreamSource(file), xsdPath);
 	}
 
 	public static boolean validate(FileReader file, String xsdPath) throws ParseException {
-		return validateSchema(new StreamSource(file), xsdPath);
+		return XmlValidator.validateSchema(new StreamSource(file), xsdPath);
 	}
 	
 	public static boolean validate(File file) throws ParseException {
-		return validateSchema(new StreamSource(file));
+		return XmlValidator.validateSchema(new StreamSource(file));
 	}
 
 	public static boolean validate(FileReader file) throws ParseException {
-		return validateSchema(new StreamSource(file));
+		return XmlValidator.validateSchema(new StreamSource(file));
 	}
 
 	private static boolean validateSchema(Source source, String xsdPath) throws ParseException {
@@ -56,6 +56,6 @@ public class XmlValidator {
 	}
 	
 	private static boolean validateSchema(Source source) throws ParseException {
-		return validateSchema(source, "res/dbmigrate.xsd");
+		return XmlValidator.validateSchema(source, "res/dbmigrate.xsd");
 	}
 }

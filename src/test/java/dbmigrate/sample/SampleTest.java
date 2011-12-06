@@ -19,7 +19,7 @@ public class SampleTest {
 	public void incrementOnce() {
 		System.out.println("increment");
 		++a;
-		assertEquals(a, 1);
+		this.assertEquals(a, 1);
 	}
 
 	@Test
@@ -27,7 +27,7 @@ public class SampleTest {
 		System.out.println("increment twice");
 		++a;
 		++a;
-		assertEquals(a, 2); // a nie 3, ani nie 10!
+		this.assertEquals(a, 2); // a nie 3, ani nie 10!
 	}
 
 	@After

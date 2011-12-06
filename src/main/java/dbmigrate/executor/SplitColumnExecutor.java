@@ -36,10 +36,10 @@ public class SplitColumnExecutor extends
 				.append(operation.getColumn().getName()).append(", E'")
 				.append(operation.getRegexp()).append("')[2]");
 
-		Statement stmt = getConnection().createStatement();
+		Statement stmt = this.getConnection().createStatement();
 		stmt.executeUpdate(buf.toString());
 
-		DropColumnExecutor dcx = new DropColumnExecutor(getConnection());
+		DropColumnExecutor dcx = new DropColumnExecutor(this.getConnection());
 
 		ITable table = new Table();
 		table.setName(operation.getTableName());

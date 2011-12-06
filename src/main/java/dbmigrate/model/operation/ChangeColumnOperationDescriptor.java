@@ -12,19 +12,19 @@ public class ChangeColumnOperationDescriptor implements IOperationDescriptor {
 		this.oldColumnName = oldColumnName;
 	}
 	public IColumn getColumn() {
-		return column;
+		return this.column;
 	}
 	public void setColumn(IColumn column) {
 		this.column = column;
 	}
 	public String getTableName() {
-		return tableName;
+		return this.tableName;
 	}
 	public void setTableName(String tableName) {
 		this.tableName = tableName;
 	}
 	public String getOldColumnName() {
-		return oldColumnName;
+		return this.oldColumnName;
 	}
 	public void setOldColumnName(String oldColumnName) {
 		this.oldColumnName = oldColumnName;

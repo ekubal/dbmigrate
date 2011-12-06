@@ -21,7 +21,7 @@ public class MergeColumnOperationDescriptor implements IOperationDescriptor {
 	}
 
 	public Column getSourceColumn1() {
-		return sourceColumn1;
+		return this.sourceColumn1;
 	}
 
 	public void setSourceColumn1(Column sourceColumn1) {
@@ -29,7 +29,7 @@ public class MergeColumnOperationDescriptor implements IOperationDescriptor {
 	}
 
 	public Column getSourceColumn2() {
-		return sourceColumn2;
+		return this.sourceColumn2;
 	}
 
 	public void setSourceColumn2(Column sourceColumn2) {
@@ -37,7 +37,7 @@ public class MergeColumnOperationDescriptor implements IOperationDescriptor {
 	}
 
 	public String getTableName() {
-		return tableName;
+		return this.tableName;
 	}
 
 	public void setTableName(String tableName) {
@@ -45,7 +45,7 @@ public class MergeColumnOperationDescriptor implements IOperationDescriptor {
 	}
 
 	public String getDelimiter() {
-		return delimiter;
+		return this.delimiter;
 	}
 
 	public void setDelimiter(String delimiter) {
@@ -53,7 +53,7 @@ public class MergeColumnOperationDescriptor implements IOperationDescriptor {
 	}
 
 	public AddColumnOperationDescriptor getDestinationColumnDescriptor() {
-		return destinationColumn;
+		return this.destinationColumn;
 	}
 
 	public void setDestinationColumn(

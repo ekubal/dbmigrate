@@ -17,8 +17,8 @@ public class DropTableExecutor extends GeneralExecutor<DropTableOperationDescrip
 	
 	@Override
 	public void execute(DropTableOperationDescriptor operation) throws SQLException {
-		Statement stmt = getConnection().createStatement();
-		stmt.executeUpdate(createSql(operation));
+		Statement stmt = this.getConnection().createStatement();
+		stmt.executeUpdate(this.createSql(operation));
 	}
 
 }

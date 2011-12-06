@@ -10,13 +10,13 @@ public class AddColumnOperationDescriptor implements IOperationDescriptor {
 		this.tableName = tableName;
 	}
 	public IColumn getColumn() {
-		return column;
+		return this.column;
 	}
 	public void setColumn(IColumn column) {
 		this.column = column;
 	}
 	public String getTableName() {
-		return tableName;
+		return this.tableName;
 	}
 	public void setTableName(String tableName) {
 		this.tableName = tableName;

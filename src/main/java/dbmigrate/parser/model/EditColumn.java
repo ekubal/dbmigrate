@@ -16,7 +16,7 @@ public class EditColumn implements IOperation{
 	private String oldColumnName;
 	
 	public String getId() {
-		return id;
+		return this.id;
 	}
 
 	public void setId(String id) {
@@ -24,7 +24,7 @@ public class EditColumn implements IOperation{
 	}
 
 	public String getTable() {
-		return table;
+		return this.table;
 	}
 
 	public void setTable(String tableName) {
@@ -32,7 +32,7 @@ public class EditColumn implements IOperation{
 	}
 
 	public String getNewColumnName() {
-		return newColumnName;
+		return this.newColumnName;
 	}
 
 	public void setNewColumnName(String newColumnName) {
@@ -40,7 +40,7 @@ public class EditColumn implements IOperation{
 	}
 
 	public String getOldColumnName() {
-		return oldColumnName;
+		return this.oldColumnName;
 	}
 
 	public void setOldColumnName(String oldColumnName) {

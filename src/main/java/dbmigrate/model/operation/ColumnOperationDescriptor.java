@@ -20,11 +20,11 @@ public abstract class ColumnOperationDescriptor {
 	}
 
 	public ITable getTable() {
-		return table;
+		return this.table;
 	}
 
 	public IColumn getColumn() {
-		return column;
+		return this.column;
 	}
 
 	public void setColumn(IColumn column) {

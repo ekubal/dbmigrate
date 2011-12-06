@@ -23,8 +23,8 @@ public class ChangeColumnExecutor extends GeneralExecutor<ChangeColumnOperationD
 	
 	public void execute(ChangeColumnOperationDescriptor operation) {
 	        try {
-	                Statement stmt = getConnection().createStatement();
-	                stmt.executeUpdate(createSql(operation));
+	                Statement stmt = this.getConnection().createStatement();
+	                stmt.executeUpdate(this.createSql(operation));
 	        } catch (SQLException e) {
 	                // TODO Throw project-specific exception.
 	                e.printStackTrace();

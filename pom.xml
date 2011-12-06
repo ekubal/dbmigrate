@@ -106,6 +106,7 @@
 				<artifactId>maven-checkstyle-plugin</artifactId>
 				<configuration>
 					<configLocation>checkstyle.xml</configLocation>
+					<suppressionsLocation>checkstyle_suppressions.xml</suppressionsLocation>
 				</configuration>
 			</plugin>
 		</plugins>

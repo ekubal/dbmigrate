@@ -31,6 +31,7 @@ import dbmigrate.model.operation.SplitColumnOperationDescriptor;
 import dbmigrate.parser.Loader;
 
 public class Application {
+	private final static int ARGS_LENGTH = 5;
 	
 	public static void configureExecutorEngine(ExecutorEngine executorEngine) {
 		executorEngine.registerExecutor(AddColumnOperationDescriptor.class, AddColumnExecutor.class);
@@ -45,7 +46,7 @@ public class Application {
 	}
 
 	public static void main(String[] args) {
-		if(args.length < 5) {
+		if(args.length < Application.ARGS_LENGTH) {
 			java.awt.EventQueue.invokeLater(new Runnable() {
 				public void run() {
 					new ApplicationFrame().setVisible(true);
@@ -54,9 +55,9 @@ public class Application {
 			return;
 		}
 		boolean performValidation = false;
-		if(args.length > 5) {
+		if(args.length > Application.ARGS_LENGTH) {
 			for(String opt: args) {
-				if(opt.equals("--validate")) {
+				if("--validate".equals(opt)) {
 					performValidation = true;
 				}
 			}
@@ -80,7 +81,7 @@ public class Application {
 			ExecutorEngine executorEngine = new ExecutorEngine(connection,
 					migrationConfiguration, true);
 			
-			configureExecutorEngine(executorEngine);
+			Application.configureExecutorEngine(executorEngine);
 			
 			executorEngine.setLogger(LoggerFactory.getLogger());
 			executorEngine.executeMigration();

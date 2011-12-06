@@ -11,7 +11,7 @@ public class SourceColumn {
 	private String splitExpression;
 
 	public String getName() {
-		return name;
+		return this.name;
 	}
 
 	public void setName(String name) {
@@ -19,7 +19,7 @@ public class SourceColumn {
 	}
 
 	public String getSplitExpression() {
-		return splitExpression;
+		return this.splitExpression;
 	}
 
 	public void setSplitExpression(String splitExpression) {

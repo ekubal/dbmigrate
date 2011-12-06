@@ -19,7 +19,7 @@ public class Migration {
 	private List<IOperation> undoList = new ArrayList<IOperation>();
 	
 	public List<IOperation> getDoList() {
-		return doList;
+		return this.doList;
 	}
 	
 	public void setDoList(List<IOperation> doList) {
@@ -27,7 +27,7 @@ public class Migration {
 	}
 	
 	public List<IOperation> getUndoList() {
-		return undoList;
+		return this.undoList;
 	}
 	
 	public void setUndoList(List<IOperation> undoList) {
@@ -35,7 +35,7 @@ public class Migration {
 	}
 	
 	public String getVersion() {
-		return version;
+		return this.version;
 	}
 
 	public void setVersion(String version) {

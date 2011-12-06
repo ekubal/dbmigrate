@@ -9,7 +9,7 @@ public class Table implements ITable {
 	private List<IColumn> columns;
 	
 	public String getName() {
-		return name;
+		return this.name;
 	}
 
 	public void setName(String name) {
@@ -18,7 +18,7 @@ public class Table implements ITable {
 	}
 
 	public List<IColumn> getColumns() {
-		return columns;
+		return this.columns;
 	}
 
 	public void setColumns(List<IColumn> columns) {

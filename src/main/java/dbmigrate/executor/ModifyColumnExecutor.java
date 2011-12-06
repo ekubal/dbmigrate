@@ -2,9 +2,9 @@ package dbmigrate.executor;
 
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Connection;
 
 import dbmigrate.model.operation.ModifyColumnOperationDescriptor;
-import java.sql.Connection;
 
 
 public class ModifyColumnExecutor extends GeneralExecutor<ModifyColumnOperationDescriptor> {
@@ -19,7 +19,7 @@ public class ModifyColumnExecutor extends GeneralExecutor<ModifyColumnOperationD
 	}
 	
 	public void execute(ModifyColumnOperationDescriptor operation) throws SQLException {
-		Statement stmt = getConnection().createStatement();
-		stmt.executeUpdate(createSql(operation));
+		Statement stmt = this.getConnection().createStatement();
+		stmt.executeUpdate(this.createSql(operation));
 	}
 }

@@ -17,19 +17,19 @@ public class RenameColumnOperationDescriptor implements IOperationDescriptor {
 	}
 	
 	public IColumn getOldColumn() {
-		return oldColumn;
+		return this.oldColumn;
 	}
 	public void setOldColumn(IColumn oldColumn) {
 		this.oldColumn = oldColumn;
 	}
 	public IColumn getNewColumn() {
-		return newColumn;
+		return this.newColumn;
 	}
 	public void setNewColumn(IColumn newColumn) {
 		this.newColumn = newColumn;
 	}
 	public ITable getTable() {
-		return table;
+		return this.table;
 	}
 	public void setTable(ITable table) {
 		this.table = table;

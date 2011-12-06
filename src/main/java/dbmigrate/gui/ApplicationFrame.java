@@ -33,7 +33,7 @@ import dbmigrate.model.operation.MigrationConfiguration;
  *
  * @author zyxist
  */
-public class ApplicationFrame extends javax.swing.JFrame {    
+public class ApplicationFrame extends javax.swing.JFrame {
 	private final DefaultListModel model;
 	private DbConnector dbConnector;
 	private Connection connection;
@@ -44,15 +44,15 @@ public class ApplicationFrame extends javax.swing.JFrame {
 	public ApplicationFrame() {
 		this.dbConnector = new DbConnector();
 		
-		initComponents();
+		this.initComponents();
 
-                ILogger logger = LoggerFactory.getLogger();
-		setDefaultCloseOperation(EXIT_ON_CLOSE);
-                model = new DefaultListModel();
-                logList.setModel(model);
-                LoggerImpl.register(new Listener());
-                
-                logger.log("Started", Level.Info);
+		ILogger logger = LoggerFactory.getLogger();
+		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+		this.model = new DefaultListModel();
+		this.logList.setModel(this.model);
+		LoggerImpl.register(new Listener());
+
+		logger.log("Started", Level.Info);
 	}
 	
 	public DbConnector getDbConnector() {
@@ -63,6 +63,7 @@ public class ApplicationFrame extends javax.swing.JFrame {
 		return this.migrationConfiguration;
 	}
 
+	// CHECKSTYLE:OFF
 	/** This method is called from within the constructor to
 	 * initialize the form.
 	 * WARNING: Do NOT modify this code. The content of this method is
@@ -284,11 +285,11 @@ private void runButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
     private javax.swing.JButton undoButton;
     // End of variables declaration//GEN-END:variables
 
-	private class Listener implements IListener
-	{
+	// CHECKSTYLE:ON
+	private class Listener implements IListener {
 		@Override
 		public void log(String message, Level level) {
-			model.addElement("[" + level + "] " + message);
+			this.model.addElement("[" + level + "] " + message);
 		}
 	}
 }

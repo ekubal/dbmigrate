@@ -20,7 +20,7 @@ public class MigrationExecutor {
 	}
 
 	public void setConnection(Connection c){
-		connection = c;
+		this.connection = c;
 	}
 	
 	public void setMigrationConfiguration(MigrationConfiguration migrationConfiguration) {
@@ -28,20 +28,20 @@ public class MigrationExecutor {
 	}
 
 	public boolean executeMigration(){
-		if(connection == null){
+		if(this.connection == null){
 			throw new NullPointerException("You must set connection first. Right now it is NULL");
 		}
 
 		try {
-			connection.setAutoCommit(false);
-			List<IOperationDescriptor> operations = migrationConfiguration.getOperations();
+			this.connection.setAutoCommit(false);
+			List<IOperationDescriptor> operations = this.migrationConfiguration.getOperations();
 			for(IOperationDescriptor operation : operations){
 				//TODO
 				//stworzyć executora
 				//wsadzić do niego connection z ustawionym automatycznym commitem na false
 			}
 			
-			connection.commit();
+			this.connection.commit();
 			return true;
 		} catch (SQLException e) {
 			e.printStackTrace();

@@ -21,7 +21,7 @@ public class SplitColumnOperationDescriptor implements IOperationDescriptor {
 	}
 
 	public Column getColumn() {
-		return column;
+		return this.column;
 	}
 
 	public void setColumn(Column column) {
@@ -29,7 +29,7 @@ public class SplitColumnOperationDescriptor implements IOperationDescriptor {
 	}
 
 	public String getTableName() {
-		return tableName;
+		return this.tableName;
 	}
 
 	public void setTableName(String tableName) {
@@ -37,7 +37,7 @@ public class SplitColumnOperationDescriptor implements IOperationDescriptor {
 	}
 
 	public String getRegexp() {
-		return regexp;
+		return this.regexp;
 	}
 
 	public void setRegexp(String regexp) {
@@ -45,7 +45,7 @@ public class SplitColumnOperationDescriptor implements IOperationDescriptor {
 	}
 
 	public AddColumnOperationDescriptor getNewColumnDescriptor1() {
-		return newColumnDescriptor1;
+		return this.newColumnDescriptor1;
 	}
 
 	public void setNewColumnDescriptor1(
@@ -54,7 +54,7 @@ public class SplitColumnOperationDescriptor implements IOperationDescriptor {
 	}
 
 	public AddColumnOperationDescriptor getNewColumnDescriptor2() {
-		return newColumnDescriptor2;
+		return this.newColumnDescriptor2;
 	}
 
 	public void setNewColumnDescriptor2(

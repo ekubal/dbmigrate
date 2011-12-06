@@ -22,22 +22,20 @@ import dbmigrate.parser.model.SplitColumn;
 
 public class MigrationParser {
 
-	private final static XStream XSTREAM;
+	private final static XStream XSTREAM = new XStream();
 
 	static {
-		XSTREAM = new XStream();
-
-		XSTREAM.processAnnotations(Column.class);
-		XSTREAM.processAnnotations(CreateColumn.class);
-		XSTREAM.processAnnotations(CreateTable.class);
-		XSTREAM.processAnnotations(DestinationColumn.class);
-		XSTREAM.processAnnotations(EditColumn.class);
-		XSTREAM.processAnnotations(MergeColumns.class);
-		XSTREAM.processAnnotations(Migration.class);
-		XSTREAM.processAnnotations(RemoveColumn.class);
-		XSTREAM.processAnnotations(RemoveTable.class);
-		XSTREAM.processAnnotations(SourceColumn.class);
-		XSTREAM.processAnnotations(SplitColumn.class);
+		MigrationParser.XSTREAM.processAnnotations(Column.class);
+		MigrationParser.XSTREAM.processAnnotations(CreateColumn.class);
+		MigrationParser.XSTREAM.processAnnotations(CreateTable.class);
+		MigrationParser.XSTREAM.processAnnotations(DestinationColumn.class);
+		MigrationParser.XSTREAM.processAnnotations(EditColumn.class);
+		MigrationParser.XSTREAM.processAnnotations(MergeColumns.class);
+		MigrationParser.XSTREAM.processAnnotations(Migration.class);
+		MigrationParser.XSTREAM.processAnnotations(RemoveColumn.class);
+		MigrationParser.XSTREAM.processAnnotations(RemoveTable.class);
+		MigrationParser.XSTREAM.processAnnotations(SourceColumn.class);
+		MigrationParser.XSTREAM.processAnnotations(SplitColumn.class);
 	}
 
 	private MigrationParser() {
@@ -48,7 +46,7 @@ public class MigrationParser {
 			XmlValidator.validate(file);
 		}
 		try {
-			return (Migration) XSTREAM.fromXML(file);
+			return (Migration) MigrationParser.XSTREAM.fromXML(file);
 		} catch (ConversionException e) {
 			LoggerFactory.getLogger().log(e.getShortMessage(), Level.Error);
 			throw e;
@@ -62,7 +60,7 @@ public class MigrationParser {
 			throws Exception {
 		XmlValidator.validate(fileReader);
 		try {
-			return (Migration) XSTREAM.fromXML(fileReader);
+			return (Migration) MigrationParser.XSTREAM.fromXML(fileReader);
 		} catch (ConversionException e) {
 			LoggerFactory.getLogger().log(e.getShortMessage(), Level.Error);
 			throw e;
@@ -73,6 +71,6 @@ public class MigrationParser {
 	}
 
 	public static Migration loadMigration(String xmlFromString) {
-		return (Migration) XSTREAM.fromXML(xmlFromString);
+		return (Migration) MigrationParser.XSTREAM.fromXML(xmlFromString);
 	}
 }

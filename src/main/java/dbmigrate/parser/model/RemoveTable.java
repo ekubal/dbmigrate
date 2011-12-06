@@ -12,7 +12,7 @@ public class RemoveTable implements IOperation {
 	private String name;
 
 	public String getId() {
-		return id;
+		return this.id;
 	}
 
 	public void setId(String id) {
@@ -20,7 +20,7 @@ public class RemoveTable implements IOperation {
 	}
 
 	public String getName() {
-		return name;
+		return this.name;
 	}
 
 	public void setName(String name) {

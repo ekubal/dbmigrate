@@ -5,15 +5,12 @@ import java.util.Random;
 
 import junit.framework.TestCase;
 
-import org.postgresql.util.PSQLException;
-
 import dbmigrate.model.db.Column;
 import dbmigrate.model.db.DbConnector;
 import dbmigrate.model.db.Table;
 import dbmigrate.model.db.TypeEnum;
 import dbmigrate.model.operation.AddColumnOperationDescriptor;
 import dbmigrate.model.operation.DropColumnOperationDescriptor;
-import dbmigrate.model.operation.DropTableOperationDescriptor;
 
 public class AddDropColumnTest extends TestCase {
 	private Connection dbcon = null;

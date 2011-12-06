@@ -19,11 +19,11 @@ public class XmlValidatorTest extends TestCase {
 			exceptionThrown = true;
 		}
 		
-		assertTrue(!validateResult || exceptionThrown);
+		this.assertTrue(!validateResult || exceptionThrown);
 	}
 	
 	public void testIfValidationPassesWithCorrectMigration () throws ParseException {
-		assertTrue(XmlValidator.validate(new File("test_res/correctMigration.xml"), "test_res/correctSchema.xsd"));
+		this.assertTrue(XmlValidator.validate(new File("test_res/correctMigration.xml"), "test_res/correctSchema.xsd"));
 	}
 	
 }

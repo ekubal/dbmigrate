@@ -21,7 +21,7 @@ public class SplitColumn implements IOperation {
 	private List<DestinationColumn> destinations = new ArrayList<DestinationColumn>();
 
 	public String getId() {
-		return id;
+		return this.id;
 	}
 
 	public void setId(String id) {
@@ -29,7 +29,7 @@ public class SplitColumn implements IOperation {
 	}
 
 	public String getTableName() {
-		return tableName;
+		return this.tableName;
 	}
 
 	public void setTableName(String tableName) {
@@ -37,7 +37,7 @@ public class SplitColumn implements IOperation {
 	}
 
 	public List<DestinationColumn> getDestinations() {
-		return destinations;
+		return this.destinations;
 	}
 
 	public void setDestinations(List<DestinationColumn> destinations) {
@@ -45,7 +45,7 @@ public class SplitColumn implements IOperation {
 	}
 
 	public SourceColumn getSourceColumn() {
-		return sourceColumn;
+		return this.sourceColumn;
 	}
 
 	public void setSourceColumn(SourceColumn sourceColumn) {

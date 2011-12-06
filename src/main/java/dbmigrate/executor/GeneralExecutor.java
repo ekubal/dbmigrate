@@ -11,7 +11,7 @@ public class GeneralExecutor<T extends IOperationDescriptor> implements IExecuto
 	private Connection connection;
 
 	public Connection getConnection() {
-		return connection;
+		return this.connection;
 	}
 
 	public void setConnection(Connection connection) {

@@ -8,15 +8,15 @@ public class MigrationConfiguration {
 	List<IOperationDescriptor> operations;
 
 	public void addOperation(IOperationDescriptor operationDescriptor) {
-		if (operations == null) {
-			operations = new ArrayList<IOperationDescriptor>();
+		if (this.operations == null) {
+			this.operations = new ArrayList<IOperationDescriptor>();
 		}
 
-		operations.add(operationDescriptor);
+		this.operations.add(operationDescriptor);
 	}
 
 	public List<IOperationDescriptor> getOperations() {
-		return operations;
+		return this.operations;
 	}
 
 	public void setOperations(List<IOperationDescriptor> operations) {

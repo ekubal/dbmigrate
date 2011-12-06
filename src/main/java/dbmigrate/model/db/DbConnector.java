@@ -19,7 +19,7 @@ public class DbConnector {
 			e.printStackTrace();
 		}
 		Connection connection = null;
-		if(databaseType.equals(DB_TYPE)){
+		if(databaseType.equals(DbConnector.DB_TYPE)){
 			try {
 				connection = DriverManager.getConnection("jdbc:postgresql://"+host+"/"+dbName,
 					user, password);

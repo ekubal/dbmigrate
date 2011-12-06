@@ -1,5 +1,8 @@
 package dbmigrate.executor;
 
+import java.lang.reflect.Constructor;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import java.sql.Connection;
 import java.sql.SQLException;
 
@@ -9,17 +12,13 @@ import dbmigrate.logging.Level;
 import dbmigrate.model.operation.IOperationDescriptor;
 import dbmigrate.model.operation.MigrationConfiguration;
 
-import java.lang.reflect.Constructor;
-import java.util.LinkedHashMap;
-import java.util.Map;
-
 public class ExecutorEngine {
 
 	private Connection connection;
 	private MigrationConfiguration migrationConfiguration;
 	private boolean autoCommitEnable = true;
 	private ILogger logger;
-	
+
 	private Map<Class<? extends IOperationDescriptor>, Class<? extends IExecutor>> executors;
 
 	public ExecutorEngine(Connection connection,
@@ -30,14 +29,14 @@ public class ExecutorEngine {
 		if (atomicity) {
 			try {
 				connection.setAutoCommit(false);
-				autoCommitEnable = false;
+				this.autoCommitEnable = false;
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
 		}
 		this.executors = new LinkedHashMap<Class<? extends IOperationDescriptor>, Class<? extends IExecutor>>();
 	}
-	
+
 	public void registerExecutor(Class<? extends IOperationDescriptor> descriptorClass, Class<? extends IExecutor> executorClass) {
 		this.executors.put(descriptorClass, executorClass);
 	}
@@ -45,7 +44,7 @@ public class ExecutorEngine {
 	public void executeMigration() throws SQLException {
 		boolean areErrors = false;
 		Map<IOperationDescriptor, IExecutor> localExecutors = new LinkedHashMap<IOperationDescriptor, IExecutor>();
-		for (IOperationDescriptor operation : migrationConfiguration
+		for (IOperationDescriptor operation : this.migrationConfiguration
 				.getOperations()) {
 			try {
 				// You can register new executors in Application.java now.
@@ -57,10 +56,10 @@ public class ExecutorEngine {
 				localExecutors.put(operation, executor);
 			} catch (ValidationException e) {
 				areErrors = true;
-				logger.log(e.getMessage(), Level.Error);
+				this.logger.log(e.getMessage(), Level.Error);
 			} catch (Exception e) {
 				areErrors = true;
-				logger.log("Error in the executor definition: "+e.getMessage(), Level.Error);
+				this.logger.log("Error in the executor definition: "+e.getMessage(), Level.Error);
 			}
 		}
 
@@ -70,27 +69,27 @@ public class ExecutorEngine {
 					entry.getValue().execute(entry.getKey());
 				}
 
-				if (!autoCommitEnable) {
+				if (!this.autoCommitEnable) {
 					try {
-						logger.log("Committing changes...", Level.Info);
-						connection.commit();
-						logger.log("Transaction committed.", Level.Info);
-						autoCommitEnable = true;
+						this.logger.log("Committing changes...", Level.Info);
+						this.connection.commit();
+						this.logger.log("Transaction committed.", Level.Info);
+						this.autoCommitEnable = true;
 					} catch (SQLException e) {
 						e.printStackTrace();
 					}
 				}
 			} catch (SQLException e) {
-				logger.log(e.getMessage(), Level.Error);
+				this.logger.log(e.getMessage(), Level.Error);
 				
-				if (!autoCommitEnable) {
+				if (!this.autoCommitEnable) {
 					try {
-						logger.log("Rolling back the transaction...", Level.Info);
-						connection.rollback();
-						logger.log("Transaction rolled back.", Level.Info);
-						autoCommitEnable = true;
+						this.logger.log("Rolling back the transaction...", Level.Info);
+						this.connection.rollback();
+						this.logger.log("Transaction rolled back.", Level.Info);
+						this.autoCommitEnable = true;
 					} catch (SQLException ex) {
-						logger.log("Cannot rollback the transaction, I'm sorry: "+ex.getMessage(), Level.Error);
+						this.logger.log("Cannot rollback the transaction, I'm sorry: "+ex.getMessage(), Level.Error);
 					}
 				}
 			}

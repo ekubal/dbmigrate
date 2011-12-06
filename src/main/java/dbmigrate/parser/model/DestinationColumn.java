@@ -15,7 +15,7 @@ public class DestinationColumn {
 	private CreateColumn createColumn;
 
 	public String getMergeExpression() {
-		return mergeExpression;
+		return this.mergeExpression;
 	}
 
 	public void setMergeExpression(String mergeExpression) {
@@ -23,7 +23,7 @@ public class DestinationColumn {
 	}
 
 	public CreateColumn getCreateColumn() {
-		return createColumn;
+		return this.createColumn;
 	}
 
 	public void setCreateColumn(CreateColumn createColumn) {
@@ -31,7 +31,7 @@ public class DestinationColumn {
 	}
 
 	public Integer getSplittedIndex() {
-		return splittedIndex;
+		return this.splittedIndex;
 	}
 
 	public void setSplittedIndex(Integer splittedIndex) {

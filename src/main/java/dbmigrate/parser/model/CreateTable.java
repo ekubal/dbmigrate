@@ -17,7 +17,7 @@ public class CreateTable implements IOperation {
 	private List<Column> columns = new ArrayList<Column>();
 
 	public String getId() {
-		return id;
+		return this.id;
 	}
 
 	public void setId(String id) {
@@ -25,7 +25,7 @@ public class CreateTable implements IOperation {
 	}
 
 	public String getName() {
-		return name;
+		return this.name;
 	}
 
 	public void setName(String name) {
@@ -33,7 +33,7 @@ public class CreateTable implements IOperation {
 	}
 
 	public List<Column> getColumns() {
-		return columns;
+		return this.columns;
 	}
 
 	public void setColumns(List<Column> columns) {

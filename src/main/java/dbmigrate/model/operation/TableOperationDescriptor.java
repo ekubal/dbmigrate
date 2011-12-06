@@ -18,7 +18,7 @@ public abstract class TableOperationDescriptor implements IOperationDescriptor {
 	}
 
 	public ITable getTable() {
-		return table;
+		return this.table;
 	}
 
 }

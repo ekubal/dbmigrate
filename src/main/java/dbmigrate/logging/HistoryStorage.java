@@ -20,7 +20,7 @@ public class HistoryStorage {
 	
 	private void createTable() {
 		Table table = new Table();
-		table.setName(tableName);
+		table.setName(this.tableName);
 		
 		List<IColumn> columns =  new ArrayList<IColumn> ();
 		Column ip = new Column();
@@ -64,7 +64,7 @@ public class HistoryStorage {
 		CreateTableOperationDescriptor createDesc = new CreateTableOperationDescriptor();
 		createDesc.setTable(table);
 		
-		CreateTableExecutor createExec = new CreateTableExecutor(conn);
+		CreateTableExecutor createExec = new CreateTableExecutor(this.conn);
 		
 		try {
 			createExec.execute(createDesc);
@@ -77,7 +77,7 @@ public class HistoryStorage {
 	
 	public void store(String ip, String migration_id, String date, int direction, String operations, boolean success) {
 		StringBuffer query = new StringBuffer();
-		query.append("INSERT INTO \"" + tableName + "\" (ip, migration_id, migration_date, direction, operations, success) VALUES(");
+		query.append("INSERT INTO \"" + this.tableName + "\" (ip, migration_id, migration_date, direction, operations, success) VALUES(");
 		query.append("'" + ip + "', ");
 		query.append("'" + migration_id + "', ");
 		query.append("'" + date + "', ");
@@ -91,8 +91,8 @@ public class HistoryStorage {
 		LoggerFactory.getLogger().log(query.toString(), Level.Info);
 		
 		try {
-			conn.createStatement().executeUpdate(query.toString());
-			conn.commit();
+			this.conn.createStatement().executeUpdate(query.toString());
+			this.conn.commit();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -103,7 +103,7 @@ public class HistoryStorage {
 	public HistoryStorage(Connection conn) {
 		this.conn = conn;
 		
-		String query = "SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = 'public' AND table_name='" + tableName + "';";
+		String query = "SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = 'public' AND table_name='" + this.tableName + "';";
 		
 		try {
 			ResultSet rset = conn.createStatement().executeQuery(query);
@@ -112,7 +112,7 @@ public class HistoryStorage {
 			LoggerFactory.getLogger().log("Table count: " + count, Level.Info);
 			
 			if (count == 0) {
-				createTable();
+				this.createTable();
 			}
 			
 		} catch (SQLException e) {
