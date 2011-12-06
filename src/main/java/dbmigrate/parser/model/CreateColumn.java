@@ -6,85 +6,97 @@ import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
 @XStreamAlias("create-column")
 public class CreateColumn implements IOperation {
 
-	@XStreamAsAttribute
-	private String id;
-	
-	private String table;
-	
-	private String name;
+    @XStreamAsAttribute
+    private String id;
 
-	private String type;
-	
-	private Long length;
-	
-	private Boolean notnull;
-	
-	@XStreamAlias("default")
-	private String defaultValue;
+    private String table;
 
-	private Boolean signed;
+    private String name;
 
-	public String getId() {
-		return id;
-	}
+    private String type;
 
-	public void setId(String id) {
-		this.id = id;
-	}
+    private Long length;
 
-	public String getTable() {
-		return table;
-	}
+    private Boolean notnull;
 
-	public void setTable(String table) {
-		this.table = table;
-	}
+    @XStreamAlias("default")
+    private String defaultValue;
 
-	public String getName() {
-		return name;
-	}
+    @XStreamAlias("values")
+    private String valueToSet;
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    private Boolean signed;
 
-	public String getType() {
-		return type;
-	}
+    public String getId() {
+	return id;
+    }
 
-	public void setType(String type) {
-		this.type = type;
-	}
+    public void setId(String id) {
+	this.id = id;
+    }
 
-	public Long getLength() {
-		return length;
-	}
+    public String getTable() {
+	return table;
+    }
 
-	public void setLength(Long length) {
-		this.length = length;
-	}
+    public void setTable(String table) {
+	this.table = table;
+    }
 
-	public Boolean getNotnull() {
-		return notnull;
-	}
+    public String getName() {
+	return name;
+    }
 
-	public void setNotnull(Boolean notnull) {
-		this.notnull = notnull;
-	}
+    public void setName(String name) {
+	this.name = name;
+    }
 
-	public String getDefaultValue() {
-		return defaultValue;
-	}
+    public String getType() {
+	return type;
+    }
 
-	public void setDefaultValue(String defaultValue) {
-		this.defaultValue = defaultValue;
-	}
-	
-	public Boolean getSigned() {
-		return signed;
-	}
+    public void setType(String type) {
+	this.type = type;
+    }
 
-	public void setSigned(Boolean signed) {
-		this.signed = signed;
-	}
+    public Long getLength() {
+	return length;
+    }
+
+    public void setLength(Long length) {
+	this.length = length;
+    }
+
+    public Boolean getNotnull() {
+	return notnull;
+    }
+
+    public void setNotnull(Boolean notnull) {
+	this.notnull = notnull;
+    }
+
+    public String getDefaultValue() {
+	return defaultValue;
+    }
+
+    public void setDefaultValue(String defaultValue) {
+	this.defaultValue = defaultValue;
+    }
+
+    public Boolean getSigned() {
+	return signed;
+    }
+
+    public void setSigned(Boolean signed) {
+	this.signed = signed;
+    }
+
+    public String getValueToSet() {
+	return valueToSet;
+    }
+
+    public void setValueToSet(String valueToSet) {
+	this.valueToSet = valueToSet;
+    }
+
 }

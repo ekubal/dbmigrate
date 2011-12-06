@@ -5,67 +5,67 @@ import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
 
 @XStreamAlias("column")
 public class Column {
-	
-	@XStreamAsAttribute
-	private String name;
-	
-	private String type;
-	
-	private Long length;
-	
-	private Boolean notnull;
-	
-	private Boolean signed;
-	
-	@XStreamAlias("default")
-	private String defaultValue;
 
-	public String getName() {
-		return name;
-	}
+    @XStreamAsAttribute
+    private String name;
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    private String type;
 
-	public String getType() {
-		return type;
-	}
+    private Long length;
 
-	public void setType(String type) {
-		this.type = type;
-	}
+    private Boolean notnull;
 
-	public Long getLength() {
-		return length;
-	}
+    private Boolean signed;
 
-	public void setLength(Long length) {
-		this.length = length;
-	}
+    @XStreamAlias("default")
+    private String defaultValue;
 
-	public Boolean getNotnull() {
-		return notnull;
-	}
+    public String getName() {
+	return name;
+    }
 
-	public void setNotnull(Boolean notnull) {
-		this.notnull = notnull;
-	}
+    public void setName(String name) {
+	this.name = name;
+    }
 
-	public String getDefaultValue() {
-		return defaultValue;
-	}
+    public String getType() {
+	return type;
+    }
 
-	public void setDefaultValue(String defaultValue) {
-		this.defaultValue = defaultValue;
-	}
+    public void setType(String type) {
+	this.type = type;
+    }
 
-	public Boolean getSigned() {
-		return signed;
-	}
+    public Long getLength() {
+	return length;
+    }
 
-	public void setSigned(Boolean signed) {
-		this.signed = signed;
-	}
+    public void setLength(Long length) {
+	this.length = length;
+    }
+
+    public Boolean getNotnull() {
+	return notnull;
+    }
+
+    public void setNotnull(Boolean notnull) {
+	this.notnull = notnull;
+    }
+
+    public String getDefaultValue() {
+	return defaultValue;
+    }
+
+    public void setDefaultValue(String defaultValue) {
+	this.defaultValue = defaultValue;
+    }
+
+    public Boolean getSigned() {
+	return signed;
+    }
+
+    public void setSigned(Boolean signed) {
+	this.signed = signed;
+    }
 
 }
