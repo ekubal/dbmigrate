@@ -17,6 +17,14 @@ import dbmigrate.logging.Level;
 import dbmigrate.logging.LoggerFactory;
 
 public class XmlValidator {
+	public static boolean validate(File file, String xsdPath) throws ParseException {
+		return validateSchema(new StreamSource(file), xsdPath);
+	}
+
+	public static boolean validate(FileReader file, String xsdPath) throws ParseException {
+		return validateSchema(new StreamSource(file), xsdPath);
+	}
+	
 	public static boolean validate(File file) throws ParseException {
 		return validateSchema(new StreamSource(file));
 	}
@@ -25,12 +33,12 @@ public class XmlValidator {
 		return validateSchema(new StreamSource(file));
 	}
 
-	private static boolean validateSchema(Source source) throws ParseException {
+	private static boolean validateSchema(Source source, String xsdPath) throws ParseException {
 		try {
 			SchemaFactory factory = SchemaFactory
 					.newInstance("http://www.w3.org/2001/XMLSchema");
 
-			File schemaLocation = new File("res/dbmigrate.xsd");
+			File schemaLocation = new File(xsdPath);
 			Schema schema;
 			schema = factory.newSchema(schemaLocation);
 
@@ -45,5 +53,9 @@ public class XmlValidator {
 			LoggerFactory.getLogger().log(e.getMessage(), Level.Error);
 			throw new ParseException();
 		}
+	}
+	
+	private static boolean validateSchema(Source source) throws ParseException {
+		return validateSchema(source, "res/dbmigrate.xsd");
 	}
 }

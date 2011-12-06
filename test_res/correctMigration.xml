@@ -1,0 +1,16 @@
+<migration version="1111">
+	<do>
+		<edit-column id="aaa">
+			<table>users</table>
+			<oldColumnName>old</oldColumnName>
+			<newColumnName>new</newColumnName>
+		</edit-column>
+	</do>
+	<undo>
+		<edit-column id="aaa">
+			<table>users</table>
+			<oldColumnName>new</oldColumnName>
+			<newColumnName>old</newColumnName>
+		</edit-column>
+	</undo>
+</migration>
