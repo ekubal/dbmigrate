@@ -289,7 +289,7 @@ private void runButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
 	private class Listener implements IListener {
 		@Override
 		public void log(String message, Level level) {
-			this.model.addElement("[" + level + "] " + message);
+			ApplicationFrame.this.model.addElement("[" + level + "] " + message);
 		}
 	}
 }

@@ -27,7 +27,7 @@ import dbmigrate.parser.model.RemoveTable;
 public class Loader {
 	public static MigrationConfiguration load(File file, boolean performValidation) throws Exception {
 		Migration m = MigrationParser.loadMigration(file, performValidation);
-		return this.map(m);
+		return Loader.map(m);
 	}
 
 	public static MigrationConfiguration map(Migration m) throws Exception {
@@ -68,7 +68,7 @@ public class Loader {
 						cc.setLength((int) (long) c.getLength());
 						cc.setName(c.getName());
 						cc.setNullable(c.getNotnull());
-						cc.setType(this.getType(c.getType()));
+						cc.setType(Loader.getType(c.getType()));
 						cc.setLength((int) (long) c.getLength());
 						cc.setNullable(!c.getNotnull());
 						cc.setSigned(c.getSigned());
