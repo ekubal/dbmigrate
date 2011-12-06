@@ -18,16 +18,16 @@ import dbmigrate.logging.LoggerImpl;
 import javax.swing.DefaultListModel;
 import dbmigrate.executor.ExecutorEngine;
 import dbmigrate.logging.LoggerFactory;
-import dbmigrate.model.db.DbConnector;
-import dbmigrate.model.operation.MigrationConfiguration;
 import dbmigrate.parser.Loader;
+
 import java.awt.Toolkit;
 import java.awt.event.WindowEvent;
 import java.io.File;
 import java.sql.Connection;
 import java.sql.SQLException;
 import javax.swing.JFileChooser;
-
+import dbmigrate.model.db.DbConnector;
+import dbmigrate.model.operation.MigrationConfiguration;
 
 /**
  *
@@ -223,6 +223,7 @@ private void quitItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
 
 private void dbConfigItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dbConfigItemActionPerformed
 	DbConfigurationDialog dialog = new DbConfigurationDialog(this, true);
+	dialog.setConnector(dbConnector);
 	dialog.setVisible(true);
 }//GEN-LAST:event_dbConfigItemActionPerformed
 
