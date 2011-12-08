@@ -122,10 +122,11 @@ public class ExecutorEngine {
 	}
 	
 	private String classNamePrettifier(String className) {
-		String[] cn = className.split(".");
-		String newName = cn[cn.length - 1];
-		String prettyName = newName.replace("Descriptor", "");
-		return prettyName;
+//		String[] cn = className.split(".");
+//		String newName = cn[cn.length - 1];
+//		String prettyName = newName.replace("Descriptor", "");
+//		return prettyName;
+		return className;
 	}
 
 	public void setLogger(ILogger logger) {
