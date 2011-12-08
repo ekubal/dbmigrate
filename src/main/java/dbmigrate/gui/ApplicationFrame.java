@@ -256,7 +256,7 @@ private void loadMigrationItemActionPerformed(java.awt.event.ActionEvent evt) {/
 	fc.setDialogTitle("Load migration...");
 	if(fc.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
 		try {
-			this.migrationConfiguration = Loader.load(new File(fc.getSelectedFile().getAbsolutePath()), false);
+			this.migrationConfiguration = Loader.load(new File(fc.getSelectedFile().getAbsolutePath()), true);
 			this.statusText.setText(fc.getSelectedFile().getName()+" successfully loaded.");
 		} catch (Exception ex) {
 			this.statusText.setText(ex.getMessage());
