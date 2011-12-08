@@ -50,8 +50,10 @@ public class ExecutorEngine {
 		this.executors.put(descriptorClass, executorClass);
 	}
 
-	public void executeMigration() throws SQLException {
+	// tak na prade wyjatku nie rzUca nigdzie -.-
+	public boolean executeMigration() throws SQLException {
 		boolean areErrors = false;
+		boolean isSuccess = true;
 		Map<IOperationDescriptor, IExecutor> localExecutors = new LinkedHashMap<IOperationDescriptor, IExecutor>();
 		for (IOperationDescriptor operation : this.migrationConfiguration
 				.getOperations(this.forwards)) {
@@ -65,9 +67,11 @@ public class ExecutorEngine {
 				localExecutors.put(operation, executor);
 			} catch (ValidationException e) {
 				areErrors = true;
+				isSuccess = false;
 				this.logger.log(e.getMessage(), Level.Error);
 			} catch (Exception e) {
 				areErrors = true;
+				isSuccess = false;
 				this.logger.log("Error in the executor definition: "+e.getMessage(), Level.Error);
 			}
 		}
@@ -86,6 +90,7 @@ public class ExecutorEngine {
 						this.autoCommitEnable = true;
 					} catch (SQLException e) {
 						e.printStackTrace();
+						isSuccess = false;
 					}
 				}
 			} catch (SQLException e) {
@@ -99,10 +104,13 @@ public class ExecutorEngine {
 						this.autoCommitEnable = true;
 					} catch (SQLException ex) {
 						this.logger.log("Cannot rollback the transaction, I'm sorry: "+ex.getMessage(), Level.Error);
+						isSuccess = false;
 					}
 				}
 			}
 		}
+		
+		return isSuccess;
 	}
 
 	public void setLogger(ILogger logger) {
