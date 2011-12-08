@@ -19,7 +19,7 @@ public class SampleTest {
 	public void incrementOnce() {
 		System.out.println("increment");
 		++a;
-		this.assertEquals(a, 1);
+		assertEquals(a, 1); 
 	}
 
 	@Test
