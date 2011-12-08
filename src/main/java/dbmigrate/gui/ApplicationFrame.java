@@ -59,6 +59,10 @@ public class ApplicationFrame extends javax.swing.JFrame {
 		return this.dbConnector;
 	}
 	
+	public void setConnection(Connection connection) {
+		this.connection = connection;
+	}
+	
 	public MigrationConfiguration getMigrationConfiguration() {
 		return this.migrationConfiguration;
 	}
@@ -159,6 +163,11 @@ public class ApplicationFrame extends javax.swing.JFrame {
         undoButton.setFocusable(false);
         undoButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         undoButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        undoButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                undoButtonActionPerformed(evt);
+            }
+        });
         buttonPanel.add(undoButton);
 
         jMenu1.setText("File");
@@ -247,10 +256,10 @@ private void loadMigrationItemActionPerformed(java.awt.event.ActionEvent evt) {/
 private void runButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_runButtonActionPerformed
 	if(null == this.migrationConfiguration) {
 		this.statusText.setText("No migration loaded.");
-	} else if(null == this.connection) {
+	} else if(!this.dbConnector.hasParams()) {
 		this.statusText.setText("Please specify a database connection.");
 	} else {
-		ExecutorEngine executorEngine = new ExecutorEngine(connection,
+		ExecutorEngine executorEngine = new ExecutorEngine(this.dbConnector.getConnection(),
 			migrationConfiguration, true);
 		Application.configureExecutorEngine(executorEngine);
 		executorEngine.setLogger(LoggerFactory.getLogger());
@@ -262,6 +271,16 @@ private void runButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
 		}
 	}
 }//GEN-LAST:event_runButtonActionPerformed
+
+private void undoButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_undoButtonActionPerformed
+	if(null == this.migrationConfiguration) {
+		this.statusText.setText("No migration loaded.");
+	} else if(null == this.connection) {
+		this.statusText.setText("Please specify a database connection.");
+	} else {
+		this.statusText.setText("Not implemented yet.");
+	}
+}//GEN-LAST:event_undoButtonActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JToolBar buttonPanel;
@@ -287,7 +306,7 @@ private void runButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
 
 	// CHECKSTYLE:ON
 	private class Listener implements IListener {
-		@Override
+		
 		public void log(String message, Level level) {
 			ApplicationFrame.this.model.addElement("[" + level + "] " + message);
 		}
