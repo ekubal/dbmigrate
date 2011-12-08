@@ -11,6 +11,7 @@
 package dbmigrate.gui;
 
 import dbmigrate.app.Application;
+import dbmigrate.logging.HistoryStorage;
 import dbmigrate.logging.IListener;
 import dbmigrate.logging.ILogger;
 import dbmigrate.logging.Level;
@@ -21,6 +22,7 @@ import dbmigrate.logging.LoggerFactory;
 import dbmigrate.parser.Loader;
 
 import java.awt.Toolkit;
+import java.awt.event.MouseAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
 import java.sql.Connection;
@@ -43,9 +45,8 @@ public class ApplicationFrame extends javax.swing.JFrame {
 	/** Creates new form ApplicationFrame */
 	public ApplicationFrame() {
 		this.dbConnector = new DbConnector();
+		initComponents();
 		
-		this.initComponents();
-
 		ILogger logger = LoggerFactory.getLogger();
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.model = new DefaultListModel();
@@ -53,6 +54,7 @@ public class ApplicationFrame extends javax.swing.JFrame {
 		LoggerImpl.register(new Listener());
 
 		logger.log("Started", Level.Info);
+		
 	}
 	
 	public DbConnector getDbConnector() {
@@ -123,6 +125,15 @@ public class ApplicationFrame extends javax.swing.JFrame {
         );
 
         jTabbedPane1.addTab("Logs", jPanel1);
+        jTabbedPane1.addMouseListener(new MouseAdapter() {
+        	public void mouseClicked(java.awt.event.MouseEvent evt) {
+        		if (jTabbedPane1.getSelectedIndex() == 1) {
+        			List<HistoryElement> elements = null;
+        			
+        			
+        		}
+        	}
+		});
 
         historyList.setModel(new javax.swing.AbstractListModel() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
@@ -314,6 +325,7 @@ private void undoButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FI
     private javax.swing.JLabel statusText;
     private javax.swing.JButton undoButton;
     // End of variables declaration//GEN-END:variables
+	private HistoryStorage historyStorage;
 
 	// CHECKSTYLE:ON
 	private class Listener implements IListener {
@@ -321,5 +333,10 @@ private void undoButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FI
 		public void log(String message, Level level) {
 			ApplicationFrame.this.model.addElement("[" + level + "] " + message);
 		}
+	}
+
+	public void setHistoryStorage(HistoryStorage historyStorage) {
+		this.historyStorage = historyStorage;
+		
 	}
 }

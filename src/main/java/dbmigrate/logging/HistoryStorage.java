@@ -3,6 +3,7 @@ package dbmigrate.logging;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -98,6 +99,28 @@ public class HistoryStorage {
 			e.printStackTrace();
 		}
 		
+	}
+	
+	public List<HistoryElement> getHistory() {
+		String query = "SELECT * FROM \"" + this.tableName + "\" ORDER BY migration_date DESC";
+		List<HistoryElement> elements = new ArrayList<HistoryElement> ();
+		try {
+			Statement stmt = this.conn.createStatement();
+			ResultSet rs = stmt.executeQuery(query);
+			while (rs.next()) {
+				String ip = rs.getString(1);
+				String migration_id = rs.getString(2);
+				String date = rs.getString(3);
+				int direction = rs.getInt(4);
+				String operations = rs.getString(5);
+				boolean success = rs.getBoolean(6);
+				elements.add(new HistoryElement(ip, migration_id, date, direction, operations, success));
+			}
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+		return elements;
 	}
 	
 	public HistoryStorage(Connection conn) {
