@@ -94,7 +94,7 @@
 			</plugin>
 		</plugins>
 	</build>
-	<reporting>
+	<!-- <reporting>
 		<plugins>
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
@@ -105,10 +105,14 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-checkstyle-plugin</artifactId>
 				<configuration>
-					<configLocation>checkstyle.xml</configLocation>
-					<suppressionsLocation>checkstyle_suppressions.xml</suppressionsLocation>
+					<configLocation>${basedir}/checkstyle.xml</configLocation>
+					<suppressionsLocation></suppressionsLocation>
 				</configuration>
 			</plugin>
 		</plugins>
-	</reporting>
+	</reporting> -->
+	<properties>
+		<checkstyle.config.location>${basedir}/checkstyle.xml</checkstyle.config.location>
+		<checkstyle.suppressions.location>${basedir}/checkstyle_surpressions.xml</checkstyle.suppressions.location>
+	</properties>
 </project>

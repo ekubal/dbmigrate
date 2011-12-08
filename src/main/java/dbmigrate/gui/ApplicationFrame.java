@@ -10,28 +10,26 @@
  */
 package dbmigrate.gui;
 
-import dbmigrate.app.Application;
-import dbmigrate.logging.HistoryStorage;
-import dbmigrate.logging.IListener;
-import dbmigrate.logging.ILogger;
-import dbmigrate.logging.Level;
-import dbmigrate.logging.LoggerImpl;
-import javax.swing.DefaultListModel;
-import dbmigrate.executor.ExecutorEngine;
-import dbmigrate.logging.HistoryElement;
-import dbmigrate.logging.LoggerFactory;
-import dbmigrate.parser.Loader;
-
 import java.awt.Toolkit;
 import java.awt.event.MouseAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
 import java.sql.Connection;
-import java.sql.SQLException;
+import java.util.List;
+
+import javax.swing.DefaultListModel;
 import javax.swing.JFileChooser;
+
+import dbmigrate.logging.HistoryElement;
+import dbmigrate.logging.HistoryStorage;
+import dbmigrate.logging.IListener;
+import dbmigrate.logging.ILogger;
+import dbmigrate.logging.Level;
+import dbmigrate.logging.LoggerFactory;
+import dbmigrate.logging.LoggerImpl;
 import dbmigrate.model.db.DbConnector;
 import dbmigrate.model.operation.MigrationConfiguration;
-import java.util.List;
+import dbmigrate.parser.Loader;
 
 /**
  *
@@ -258,7 +256,7 @@ private void loadMigrationItemActionPerformed(java.awt.event.ActionEvent evt) {/
 	fc.setDialogTitle("Load migration...");
 	if(fc.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
 		try {
-			this.migrationConfiguration = Loader.load(new File(fc.getSelectedFile().getAbsolutePath()), false);
+			this.migrationConfiguration = Loader.load(new File(fc.getSelectedFile().getAbsolutePath()), true);
 			this.statusText.setText(fc.getSelectedFile().getName()+" successfully loaded.");
 		} catch (Exception ex) {
 			this.statusText.setText(ex.getMessage());
@@ -272,17 +270,9 @@ private void runButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
 	} else if(!this.dbConnector.hasParams()) {
 		this.statusText.setText("Please specify a database connection.");
 	} else {
-		ExecutorEngine executorEngine = new ExecutorEngine(this.dbConnector.getConnection(),
-			migrationConfiguration, true);
-		Application.configureExecutorEngine(executorEngine);
-		executorEngine.setForwards(true);
-		executorEngine.setLogger(LoggerFactory.getLogger());
-		try {
-			executorEngine.executeMigration();
-			this.statusText.setText("Migration executed.");
-		} catch (SQLException ex) {
-			this.statusText.setText(ex.getMessage());
-		}
+		MigrationRunner runner = new MigrationRunner(true, dbConnector,
+				migrationConfiguration, "Migration executed.", statusText);
+		runner.start();
 	}
 }//GEN-LAST:event_runButtonActionPerformed
 
@@ -292,17 +282,9 @@ private void undoButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FI
 	} else if(!this.dbConnector.hasParams()) {
 		this.statusText.setText("Please specify a database connection.");
 	} else {
-		ExecutorEngine executorEngine = new ExecutorEngine(this.dbConnector.getConnection(),
-			migrationConfiguration, true);
-		Application.configureExecutorEngine(executorEngine);
-		executorEngine.setForwards(false);
-		executorEngine.setLogger(LoggerFactory.getLogger());
-		try {
-			executorEngine.executeMigration();
-			this.statusText.setText("Migration cancelled.");
-		} catch (SQLException ex) {
-			this.statusText.setText(ex.getMessage());
-		}
+		MigrationRunner runner = new MigrationRunner(false, dbConnector,
+				migrationConfiguration, "Migration cancelled.", statusText);
+		runner.start();
 	}
 }//GEN-LAST:event_undoButtonActionPerformed
 
