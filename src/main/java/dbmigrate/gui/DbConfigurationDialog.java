@@ -148,7 +148,7 @@ public class DbConfigurationDialog extends javax.swing.JDialog {
 
 		cancelButton.addActionListener(new ActionListener() {
 
-			@Override
+			
 			public void actionPerformed(ActionEvent arg0) {
 				saveProperties();
 				DbConfigurationDialog.this.setVisible(false);
