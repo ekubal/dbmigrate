@@ -256,10 +256,10 @@ private void loadMigrationItemActionPerformed(java.awt.event.ActionEvent evt) {/
 private void runButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_runButtonActionPerformed
 	if(null == this.migrationConfiguration) {
 		this.statusText.setText("No migration loaded.");
-	} else if(null == this.connection) {
+	} else if(!this.dbConnector.hasParams()) {
 		this.statusText.setText("Please specify a database connection.");
 	} else {
-		ExecutorEngine executorEngine = new ExecutorEngine(connection,
+		ExecutorEngine executorEngine = new ExecutorEngine(this.dbConnector.getConnection(),
 			migrationConfiguration, true);
 		Application.configureExecutorEngine(executorEngine);
 		executorEngine.setLogger(LoggerFactory.getLogger());

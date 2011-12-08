@@ -68,8 +68,7 @@ public class DbConfigurationDialog extends javax.swing.JDialog {
 			this.passwordText.setText(defaultProps.getProperty("password", ""));
 
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -172,11 +171,17 @@ public class DbConfigurationDialog extends javax.swing.JDialog {
 			defaultProps.store(out, "---No Comment---");
 			out.close();
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} finally {
+			this.connector.setConnectionParams(
+				"postgresql",
+				this.hostnameText.getText(),
+				this.databaseText.getText(),
+				this.usernameText.getText(),
+				this.passwordText.getText()
+			);
 		}
 	}
 
