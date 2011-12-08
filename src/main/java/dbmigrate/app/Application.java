@@ -85,8 +85,6 @@ public class Application {
 
 			app.setConnection(connection);
 			HistoryStorage historyStorage = new HistoryStorage(connection);
-			app.setHistoryStorage(historyStorage);
-			
 			historyStorage.store("1.2.3.4", "mig_01_12_2011", "2011-12-01", 1,
 					"added table blabla", true);
 
