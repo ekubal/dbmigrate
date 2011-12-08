@@ -2,6 +2,7 @@ package dbmigrate.executor;
 
 import dbmigrate.model.db.ITable;
 import dbmigrate.model.db.Table;
+import dbmigrate.model.operation.AddColumnOperationDescriptor;
 import dbmigrate.model.operation.DropColumnOperationDescriptor;
 import dbmigrate.model.operation.SplitColumnOperationDescriptor;
 import java.sql.Connection;
@@ -20,24 +21,10 @@ public class SplitColumnExecutor extends
 		ace.execute(operation.getNewColumnDescriptor1());
 		ace.execute(operation.getNewColumnDescriptor2());
 
-		StringBuffer buf = new StringBuffer();
-		buf.append("UPDATE \"")
-				.append(operation.getTableName())
-				.append("\" SET ")
-				.append(operation.getNewColumnDescriptor1().getColumn()
-						.getName())
-				.append(" = regexp_split_to_array(")
-				.append(operation.getColumn().getName())
-				.append(", E'")
-				.append(operation.getRegexp())
-				.append("')[1], ")
-				.append(operation.getNewColumnDescriptor2().getColumn()
-						.getName()).append(" = regexp_split_to_array(")
-				.append(operation.getColumn().getName()).append(", E'")
-				.append(operation.getRegexp()).append("')[2]");
+		String sql = this.createSql(operation);
 
 		Statement stmt = this.getConnection().createStatement();
-		stmt.executeUpdate(buf.toString());
+		stmt.executeUpdate(sql);
 
 		DropColumnExecutor dcx = new DropColumnExecutor(this.getConnection());
 
@@ -46,5 +33,24 @@ public class SplitColumnExecutor extends
 		DropColumnOperationDescriptor dcod = new DropColumnOperationDescriptor(
 				table, operation.getColumn());
 		dcx.execute(dcod);
+	}
+	
+	public String createSql(SplitColumnOperationDescriptor operation) {
+		StringBuffer buf = new StringBuffer();
+		buf.append("UPDATE \"");
+				buf.append(operation.getTableName());
+				buf.append("\" SET ");
+				buf.append(operation.getNewColumnDescriptor1().getColumn()
+						.getName());
+				buf.append(" = regexp_split_to_array(");
+				buf.append(operation.getColumn().getName());
+				buf.append(", E'");
+				buf.append(operation.getRegexp());
+				buf.append("')[1], ");
+				buf.append(operation.getNewColumnDescriptor2().getColumn()
+						.getName()).append(" = regexp_split_to_array(");
+				buf.append(operation.getColumn().getName()).append(", E'");
+				buf.append(operation.getRegexp()).append("')[2]");
+		return buf.toString();
 	}
 }
