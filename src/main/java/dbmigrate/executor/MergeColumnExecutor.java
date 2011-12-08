@@ -14,23 +14,25 @@ public class MergeColumnExecutor extends
 		this.setConnection(connection);
 	}
 
+        public String createSql(MergeColumnOperationDescriptor operation) {
+            StringBuffer buf = new StringBuffer();
+            buf.append("UPDATE \"");
+            buf.append(operation.getTableName());
+            buf.append("\" SET ");
+            buf.append(operation.getDestinationColumnDescriptor().getTableName()).append(" = ");
+            buf.append(operation.getSourceColumn1().getName()).append(" || '");
+            buf.append(operation.getDelimiter()).append("' || ");
+            buf.append(operation.getSourceColumn2().getName());
+            return buf.toString();
+        }
+        
 	public void execute(MergeColumnOperationDescriptor operation)
 			throws SQLException {
 		AddColumnExecutor executor = new AddColumnExecutor(this.getConnection());
 		executor.execute(operation.getDestinationColumnDescriptor());
 
-		StringBuffer buf = new StringBuffer();
-		buf.append("UPDATE \"")
-				.append(operation.getTableName())
-				.append("\" SET ")
-				.append(operation.getDestinationColumnDescriptor()
-						.getTableName()).append(" = ")
-				.append(operation.getSourceColumn1()).append(" || '")
-				.append(operation.getDelimiter()).append("' || ")
-				.append(operation.getSourceColumn2());
-
 		Statement stmt = this.getConnection().createStatement();
-		stmt.executeUpdate(buf.toString());
+		stmt.executeUpdate(createSql(operation));
 
 		DropColumnExecutor dcx = new DropColumnExecutor(this.getConnection());
 
