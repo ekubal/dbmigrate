@@ -100,6 +100,7 @@ public class ExecutorEngine {
 					}
 				}
 			} catch (SQLException e) {
+				isSuccess = false;
 				this.logger.log(e.getMessage(), Level.Error);
 				
 				if (!this.autoCommitEnable) {
@@ -123,4 +124,5 @@ public class ExecutorEngine {
 	public void setLogger(ILogger logger) {
 		this.logger = logger;
 	}
+	
 }
