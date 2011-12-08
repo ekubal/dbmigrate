@@ -13,16 +13,19 @@ import dbmigrate.model.operation.CreateTableOperationDescriptor;
 import dbmigrate.model.operation.DropColumnOperationDescriptor;
 import dbmigrate.model.operation.DropTableOperationDescriptor;
 import dbmigrate.model.operation.IOperationDescriptor;
+import dbmigrate.model.operation.MergeColumnOperationDescriptor;
 import dbmigrate.model.operation.MigrationConfiguration;
 import dbmigrate.model.operation.RenameColumnOperationDescriptor;
 import dbmigrate.parser.model.CreateColumn;
 import dbmigrate.parser.model.CreateTable;
+import dbmigrate.parser.model.DestinationColumn;
 import dbmigrate.parser.model.EditColumn;
 import dbmigrate.parser.model.IOperation;
 import dbmigrate.parser.model.MergeColumns;
 import dbmigrate.parser.model.Migration;
 import dbmigrate.parser.model.RemoveColumn;
 import dbmigrate.parser.model.RemoveTable;
+import dbmigrate.parser.model.SplitColumn;
 
 public class Loader {
 	public static MigrationConfiguration load(File file, boolean performValidation) throws Exception {
@@ -109,9 +112,35 @@ public class Loader {
 
 				d = new AddColumnOperationDescriptor(t.getName(), cc);
 			} else if (op instanceof MergeColumns) {
-
+				MergeColumns c = (MergeColumns) op;
+				CreateColumn dc = c.getDestinationColumn().getCreateColumn();
+				List<String> cols = c.getColumnNames();
+				Table t = new Table();
+				t.setName(dc.getTable());
+				Column cc = new Column();
+				if (dc.getLength() != null) {
+					cc.setLength((int) (long) dc.getLength());
+				}
+				cc.setName(dc.getName());
+				// cc.setNullable(c.getNotnull());
+				cc.setType(getType(dc.getType()));
+				// cc.setLength((int)(long)c.getLength());
+				cc.setNullable(!dc.getNotnull());
+				cc.setSigned(dc.getSigned());
+				cc.setDefault(dc.getDefaultValue());
+				
+				Column c1 = new Column();
+				c1.setName(cols.get(0));
+				Column c2 = new Column();
+				c2.setName(cols.get(1));
+				
+				d = new MergeColumnOperationDescriptor(c1, c2,
+						c.getTableName(), c.getDestinationColumn().getMergeExpression(),
+					new AddColumnOperationDescriptor(t.getName(), cc));
+			} else if (op instanceof SplitColumn) {
+				
 			} else {
-				throw new Exception("Nieznana operacja: "
+				throw new Exception("Unknown operation: "
 						+ op.getClass().getName());
 			}
 			if(forwards) {
