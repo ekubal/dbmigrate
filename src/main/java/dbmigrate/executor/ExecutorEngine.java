@@ -85,7 +85,7 @@ public class ExecutorEngine {
 			try {
 				for(Map.Entry<IOperationDescriptor, IExecutor> entry: localExecutors.entrySet()) {
 					entry.getValue().execute(entry.getKey());
-					sb.append(entry.getKey().getClass().toString() + "\n");
+					sb.append(classNamePrettifier(entry.getKey().getClass().toString()) + "\n");
 				}
 
 				if (!this.autoCommitEnable) {
@@ -119,6 +119,13 @@ public class ExecutorEngine {
 		
 		storage.store("0.0.0.0", "todo", (new Date()).toString(), 0, sb.toString(), isSuccess);
 		return isSuccess;
+	}
+	
+	private String classNamePrettifier(String className) {
+		String[] cn = className.split(".");
+		String newName = cn[cn.length - 1];
+		String prettyName = newName.replace("Descriptor", "");
+		return prettyName;
 	}
 
 	public void setLogger(ILogger logger) {
