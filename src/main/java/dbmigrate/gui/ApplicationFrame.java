@@ -287,7 +287,7 @@ private void runButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
 
 	// CHECKSTYLE:ON
 	private class Listener implements IListener {
-		@Override
+		
 		public void log(String message, Level level) {
 			ApplicationFrame.this.model.addElement("[" + level + "] " + message);
 		}

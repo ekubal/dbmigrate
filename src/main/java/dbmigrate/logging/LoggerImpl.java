@@ -12,7 +12,7 @@ public class LoggerImpl implements ILogger {
 		LoggerImpl.listeners.add(listener);
 	}
 
-	@Override
+	
 	public void log(String message, Level level) {
 		Priority prio = org.apache.log4j.Level.INFO;
 		switch (level) {

@@ -27,7 +27,7 @@ public class SampleTest {
 		System.out.println("increment twice");
 		++a;
 		++a;
-		this.assertEquals(a, 2); // a nie 3, ani nie 10!
+		assertEquals(a, 2); // a nie 3, ani nie 10!
 	}
 
 	@After
