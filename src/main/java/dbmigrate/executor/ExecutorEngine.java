@@ -1,12 +1,14 @@
 package dbmigrate.executor;
 
 import java.lang.reflect.Constructor;
-import java.util.LinkedHashMap;
-import java.util.Map;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.Date;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 import dbmigrate.exceptions.ValidationException;
+import dbmigrate.logging.HistoryStorage;
 import dbmigrate.logging.ILogger;
 import dbmigrate.logging.Level;
 import dbmigrate.model.operation.IOperationDescriptor;
@@ -19,6 +21,7 @@ public class ExecutorEngine {
 	private boolean autoCommitEnable = true;
 	private ILogger logger;
 	private boolean forwards = true;
+	private HistoryStorage storage;
 
 	private Map<Class<? extends IOperationDescriptor>, Class<? extends IExecutor>> executors;
 
@@ -36,6 +39,7 @@ public class ExecutorEngine {
 			}
 		}
 		this.executors = new LinkedHashMap<Class<? extends IOperationDescriptor>, Class<? extends IExecutor>>();
+		this.storage = new HistoryStorage(connection);
 	}
 	
 	public void setForwards(boolean forwards) {
@@ -52,6 +56,7 @@ public class ExecutorEngine {
 
 	// tak na prade wyjatku nie rzUca nigdzie -.-
 	public boolean executeMigration() throws SQLException {
+		StringBuilder sb = new StringBuilder();
 		boolean areErrors = false;
 		boolean isSuccess = true;
 		Map<IOperationDescriptor, IExecutor> localExecutors = new LinkedHashMap<IOperationDescriptor, IExecutor>();
@@ -80,6 +85,7 @@ public class ExecutorEngine {
 			try {
 				for(Map.Entry<IOperationDescriptor, IExecutor> entry: localExecutors.entrySet()) {
 					entry.getValue().execute(entry.getKey());
+					sb.append(entry.getKey().getClass().toString() + "\n");
 				}
 
 				if (!this.autoCommitEnable) {
@@ -110,6 +116,7 @@ public class ExecutorEngine {
 			}
 		}
 		
+		storage.store("0.0.0.0", "todo", (new Date()).toString(), 0, sb.toString(), isSuccess);
 		return isSuccess;
 	}
 
