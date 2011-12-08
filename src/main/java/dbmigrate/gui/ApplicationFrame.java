@@ -18,6 +18,7 @@ import dbmigrate.logging.Level;
 import dbmigrate.logging.LoggerImpl;
 import javax.swing.DefaultListModel;
 import dbmigrate.executor.ExecutorEngine;
+import dbmigrate.logging.HistoryElement;
 import dbmigrate.logging.LoggerFactory;
 import dbmigrate.parser.Loader;
 
@@ -30,6 +31,7 @@ import java.sql.SQLException;
 import javax.swing.JFileChooser;
 import dbmigrate.model.db.DbConnector;
 import dbmigrate.model.operation.MigrationConfiguration;
+import java.util.List;
 
 /**
  *
