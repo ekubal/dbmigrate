@@ -58,7 +58,7 @@ public class SplitColumnExecutorTest {
 		
 		AddColumnOperationDescriptor newColumnDescriptor1 = new AddColumnOperationDescriptor(tableName, column1);
 		AddColumnOperationDescriptor newColumnDescriptor2 = new AddColumnOperationDescriptor(tableName, column2);
-		operation = new SplitColumnOperationDescriptor(column, "ala", ".a.*", newColumnDescriptor1, newColumnDescriptor2);;
+		operation = new SplitColumnOperationDescriptor(column, "ala", ".a.*", newColumnDescriptor1, newColumnDescriptor2);
 		spe = new SplitColumnExecutor(null);
 		String sql = spe.createSql(operation);
 		assertEquals("UPDATE \"ala\" SET column1 = regexp_split_to_array(ola, E'.a.*')[1], column2 = regexp_split_to_array(ola, E'.a.*')[2]"
