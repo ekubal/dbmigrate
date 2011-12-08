@@ -23,9 +23,13 @@ public interface IColumn {
 	public abstract int getLength();
 
 	public abstract void setLength(int length);
-	
+
 	public abstract String getDefault();
 
 	public abstract void setDefault(String value);
+
+	public abstract String getValueToSet();
+
+	public abstract void setValueToSet(String valueToSet);
 
 }
