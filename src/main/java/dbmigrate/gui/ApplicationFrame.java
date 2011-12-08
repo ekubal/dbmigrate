@@ -11,16 +11,19 @@
 package dbmigrate.gui;
 
 import dbmigrate.app.Application;
+import dbmigrate.logging.HistoryStorage;
 import dbmigrate.logging.IListener;
 import dbmigrate.logging.ILogger;
 import dbmigrate.logging.Level;
 import dbmigrate.logging.LoggerImpl;
 import javax.swing.DefaultListModel;
 import dbmigrate.executor.ExecutorEngine;
+import dbmigrate.logging.HistoryElement;
 import dbmigrate.logging.LoggerFactory;
 import dbmigrate.parser.Loader;
 
 import java.awt.Toolkit;
+import java.awt.event.MouseAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
 import java.sql.Connection;
@@ -28,6 +31,7 @@ import java.sql.SQLException;
 import javax.swing.JFileChooser;
 import dbmigrate.model.db.DbConnector;
 import dbmigrate.model.operation.MigrationConfiguration;
+import java.util.List;
 
 /**
  *
@@ -43,9 +47,8 @@ public class ApplicationFrame extends javax.swing.JFrame {
 	/** Creates new form ApplicationFrame */
 	public ApplicationFrame() {
 		this.dbConnector = new DbConnector();
+		initComponents();
 		
-		this.initComponents();
-
 		ILogger logger = LoggerFactory.getLogger();
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.model = new DefaultListModel();
@@ -53,10 +56,15 @@ public class ApplicationFrame extends javax.swing.JFrame {
 		LoggerImpl.register(new Listener());
 
 		logger.log("Started", Level.Info);
+		
 	}
 	
 	public DbConnector getDbConnector() {
 		return this.dbConnector;
+	}
+	
+	public void setConnection(Connection connection) {
+		this.connection = connection;
 	}
 	
 	public MigrationConfiguration getMigrationConfiguration() {
@@ -119,6 +127,15 @@ public class ApplicationFrame extends javax.swing.JFrame {
         );
 
         jTabbedPane1.addTab("Logs", jPanel1);
+        jTabbedPane1.addMouseListener(new MouseAdapter() {
+        	public void mouseClicked(java.awt.event.MouseEvent evt) {
+        		if (jTabbedPane1.getSelectedIndex() == 1) {
+        			List<HistoryElement> elements = null;
+        			
+        			
+        		}
+        	}
+		});
 
         historyList.setModel(new javax.swing.AbstractListModel() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
@@ -159,6 +176,11 @@ public class ApplicationFrame extends javax.swing.JFrame {
         undoButton.setFocusable(false);
         undoButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         undoButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        undoButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                undoButtonActionPerformed(evt);
+            }
+        });
         buttonPanel.add(undoButton);
 
         jMenu1.setText("File");
@@ -247,12 +269,13 @@ private void loadMigrationItemActionPerformed(java.awt.event.ActionEvent evt) {/
 private void runButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_runButtonActionPerformed
 	if(null == this.migrationConfiguration) {
 		this.statusText.setText("No migration loaded.");
-	} else if(null == this.connection) {
+	} else if(!this.dbConnector.hasParams()) {
 		this.statusText.setText("Please specify a database connection.");
 	} else {
-		ExecutorEngine executorEngine = new ExecutorEngine(connection,
+		ExecutorEngine executorEngine = new ExecutorEngine(this.dbConnector.getConnection(),
 			migrationConfiguration, true);
 		Application.configureExecutorEngine(executorEngine);
+		executorEngine.setForwards(true);
 		executorEngine.setLogger(LoggerFactory.getLogger());
 		try {
 			executorEngine.executeMigration();
@@ -262,6 +285,26 @@ private void runButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
 		}
 	}
 }//GEN-LAST:event_runButtonActionPerformed
+
+private void undoButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_undoButtonActionPerformed
+	if(null == this.migrationConfiguration) {
+		this.statusText.setText("No migration loaded.");
+	} else if(!this.dbConnector.hasParams()) {
+		this.statusText.setText("Please specify a database connection.");
+	} else {
+		ExecutorEngine executorEngine = new ExecutorEngine(this.dbConnector.getConnection(),
+			migrationConfiguration, true);
+		Application.configureExecutorEngine(executorEngine);
+		executorEngine.setForwards(false);
+		executorEngine.setLogger(LoggerFactory.getLogger());
+		try {
+			executorEngine.executeMigration();
+			this.statusText.setText("Migration cancelled.");
+		} catch (SQLException ex) {
+			this.statusText.setText(ex.getMessage());
+		}
+	}
+}//GEN-LAST:event_undoButtonActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JToolBar buttonPanel;
@@ -284,6 +327,7 @@ private void runButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
     private javax.swing.JLabel statusText;
     private javax.swing.JButton undoButton;
     // End of variables declaration//GEN-END:variables
+	private HistoryStorage historyStorage;
 
 	// CHECKSTYLE:ON
 	private class Listener implements IListener {
@@ -291,5 +335,10 @@ private void runButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
 		public void log(String message, Level level) {
 			ApplicationFrame.this.model.addElement("[" + level + "] " + message);
 		}
+	}
+
+	public void setHistoryStorage(HistoryStorage historyStorage) {
+		this.historyStorage = historyStorage;
+		
 	}
 }

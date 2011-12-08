@@ -18,6 +18,7 @@ public class ExecutorEngine {
 	private MigrationConfiguration migrationConfiguration;
 	private boolean autoCommitEnable = true;
 	private ILogger logger;
+	private boolean forwards = true;
 
 	private Map<Class<? extends IOperationDescriptor>, Class<? extends IExecutor>> executors;
 
@@ -36,6 +37,14 @@ public class ExecutorEngine {
 		}
 		this.executors = new LinkedHashMap<Class<? extends IOperationDescriptor>, Class<? extends IExecutor>>();
 	}
+	
+	public void setForwards(boolean forwards) {
+		this.forwards = forwards;
+	}
+	
+	public boolean getForwards() {
+		return this.forwards;
+	}
 
 	public void registerExecutor(Class<? extends IOperationDescriptor> descriptorClass, Class<? extends IExecutor> executorClass) {
 		this.executors.put(descriptorClass, executorClass);
@@ -45,7 +54,7 @@ public class ExecutorEngine {
 		boolean areErrors = false;
 		Map<IOperationDescriptor, IExecutor> localExecutors = new LinkedHashMap<IOperationDescriptor, IExecutor>();
 		for (IOperationDescriptor operation : this.migrationConfiguration
-				.getOperations()) {
+				.getOperations(this.forwards)) {
 			try {
 				// You can register new executors in Application.java now.
 				Class<? extends IExecutor> cls = this.executors.get(operation.getClass());
