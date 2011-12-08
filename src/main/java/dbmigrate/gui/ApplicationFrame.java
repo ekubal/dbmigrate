@@ -262,6 +262,7 @@ private void runButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
 		ExecutorEngine executorEngine = new ExecutorEngine(this.dbConnector.getConnection(),
 			migrationConfiguration, true);
 		Application.configureExecutorEngine(executorEngine);
+		executorEngine.setForwards(true);
 		executorEngine.setLogger(LoggerFactory.getLogger());
 		try {
 			executorEngine.executeMigration();
@@ -275,10 +276,20 @@ private void runButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
 private void undoButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_undoButtonActionPerformed
 	if(null == this.migrationConfiguration) {
 		this.statusText.setText("No migration loaded.");
-	} else if(null == this.connection) {
+	} else if(!this.dbConnector.hasParams()) {
 		this.statusText.setText("Please specify a database connection.");
 	} else {
-		this.statusText.setText("Not implemented yet.");
+		ExecutorEngine executorEngine = new ExecutorEngine(this.dbConnector.getConnection(),
+			migrationConfiguration, true);
+		Application.configureExecutorEngine(executorEngine);
+		executorEngine.setForwards(false);
+		executorEngine.setLogger(LoggerFactory.getLogger());
+		try {
+			executorEngine.executeMigration();
+			this.statusText.setText("Migration cancelled.");
+		} catch (SQLException ex) {
+			this.statusText.setText(ex.getMessage());
+		}
 	}
 }//GEN-LAST:event_undoButtonActionPerformed
 
