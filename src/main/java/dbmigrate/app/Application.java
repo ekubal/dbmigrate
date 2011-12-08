@@ -15,6 +15,7 @@ import dbmigrate.executor.ModifyColumnExecutor;
 import dbmigrate.executor.RenameColumnExecutor;
 import dbmigrate.executor.SplitColumnExecutor;
 import dbmigrate.gui.ApplicationFrame;
+import dbmigrate.logging.HistoryElement;
 import dbmigrate.logging.HistoryStorage;
 import dbmigrate.logging.LoggerFactory;
 import dbmigrate.model.db.DbConnector;
@@ -88,6 +89,7 @@ public class Application {
 			
 			historyStorage.store("1.2.3.4", "mig_01_12_2011", "2011-12-01", 1,
 					"added table blabla", true);
+
 
 			MigrationConfiguration migrationConfiguration = Loader.load(
 					new File("migrations/" + args[0]), performValidation);
