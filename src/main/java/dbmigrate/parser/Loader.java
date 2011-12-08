@@ -26,14 +26,27 @@ import dbmigrate.parser.model.RemoveTable;
 
 public class Loader {
 	public static MigrationConfiguration load(File file, boolean performValidation) throws Exception {
+		return Loader.load(file, performValidation, true);
+	}
+	
+	public static MigrationConfiguration load(File file, boolean performValidation, boolean forwards) throws Exception {
 		Migration m = MigrationParser.loadMigration(file, performValidation);
-		return Loader.map(m);
+		return Loader.map(m, forwards);
+	}
+	
+	public static MigrationConfiguration map(Migration m) throws Exception {
+		return Loader.map(m, true);
 	}
 
-	public static MigrationConfiguration map(Migration m) throws Exception {
+	public static MigrationConfiguration map(Migration m, boolean forwards) throws Exception {
 		MigrationConfiguration mc = new MigrationConfiguration();
-
-		for (IOperation op : m.getDoList()) {
+		Loader.processMigrationConfiguration(m.getDoList(), mc, true);
+		Loader.processMigrationConfiguration(m.getUndoList(), mc, false);
+		return mc;
+	}
+	
+	private static void processMigrationConfiguration(List<IOperation> ops, MigrationConfiguration mc, boolean forwards) throws Exception {
+		for (IOperation op : ops) {
 			IOperationDescriptor d = null;
 			if (op instanceof RemoveColumn) {
 				RemoveColumn rc = (RemoveColumn) op;
@@ -101,9 +114,12 @@ public class Loader {
 				throw new Exception("Nieznana operacja: "
 						+ op.getClass().getName());
 			}
-			mc.addOperation(d);
+			if(forwards) {
+				mc.addOperation(d);
+			} else {
+				mc.addUndoOperation(d);
+			}	
 		}
-		return mc;
 	}
 
 	private static TypeEnum getType(String type) throws Exception {
