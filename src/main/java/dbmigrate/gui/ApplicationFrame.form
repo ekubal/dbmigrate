@@ -190,6 +190,9 @@
                       </StringArray>
                     </Property>
                   </Properties>
+                  <Events>
+                    <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="historyListMouseClicked"/>
+                  </Events>
                 </Component>
               </SubComponents>
             </Container>
