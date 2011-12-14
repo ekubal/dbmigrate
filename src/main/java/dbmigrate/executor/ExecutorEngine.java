@@ -84,10 +84,13 @@ public class ExecutorEngine {
 		}
 
 		if (!areErrors) {
+			this.logger.log("Executor validation completed.", Level.Info);
 			try {
 				for(Map.Entry<IOperationDescriptor, IExecutor> entry: localExecutors.entrySet()) {
+					String className = this.classNamePrettifier(entry.getKey().getClass().toString());
+					this.logger.log("Executing "+className, Level.Info);
 					entry.getValue().execute(entry.getKey());
-					sb.append(this.classNamePrettifier(entry.getKey().getClass().toString())).append("\n");
+					sb.append(className).append("\n");
 				}
 
 				if (!this.autoCommitEnable) {
