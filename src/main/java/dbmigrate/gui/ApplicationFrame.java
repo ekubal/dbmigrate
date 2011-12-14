@@ -47,6 +47,7 @@ public class ApplicationFrame extends javax.swing.JFrame implements IMigrationLi
 		this.historyModel = new DefaultListModel();
 		
 		this.initComponents();
+		this.setTitle("DbMigrate - Segfault Software");
 
 		ILogger logger = LoggerFactory.getLogger();
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -208,7 +209,7 @@ public class ApplicationFrame extends javax.swing.JFrame implements IMigrationLi
 
         jMenu2.setText("Preferences");
 
-        dbConfigItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_P, 0));
+        dbConfigItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_P, java.awt.event.InputEvent.CTRL_MASK));
         dbConfigItem.setText("Database connection");
         dbConfigItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

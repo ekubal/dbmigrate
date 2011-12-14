@@ -41,7 +41,7 @@
             <MenuItem class="javax.swing.JMenuItem" name="dbConfigItem">
               <Properties>
                 <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
-                  <KeyStroke key="P"/>
+                  <KeyStroke key="Ctrl+P"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Database connection"/>
               </Properties>

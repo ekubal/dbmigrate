@@ -56,6 +56,7 @@ public class DbConfigurationDialog extends javax.swing.JDialog {
 		this.setResizable(false);
 		this.setPreferredSize(new Dimension(350, 160));
 		this.initComponents();
+		this.setTitle("Connection properties");
 
 		// create and load default properties
 		Properties defaultProps = new Properties();
