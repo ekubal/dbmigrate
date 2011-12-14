@@ -5,19 +5,24 @@ import dbmigrate.model.db.IColumn;
 public class AddColumnOperationDescriptor implements IOperationDescriptor {
 	private IColumn column;
 	private String tableName;
+
 	public AddColumnOperationDescriptor(String tableName, IColumn column) {
 		this.column = column;
 		this.tableName = tableName;
 	}
+
 	public IColumn getColumn() {
 		return this.column;
 	}
+
 	public void setColumn(IColumn column) {
 		this.column = column;
 	}
+
 	public String getTableName() {
 		return this.tableName;
 	}
+
 	public void setTableName(String tableName) {
 		this.tableName = tableName;
 	}
