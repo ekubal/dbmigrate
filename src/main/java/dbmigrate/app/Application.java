@@ -83,12 +83,7 @@ public class Application {
 			Connection connection = dbConnector.getConnection(
 					DbConnector.DB_TYPE, args[1], args[2], args[3], args[4]);
 
-			app.setConnection(connection);
 			HistoryStorage historyStorage = new HistoryStorage(connection);
-			historyStorage.store("1.2.3.4", "mig_01_12_2011", "2011-12-01", 1,
-					"added table blabla", true);
-
-
 			MigrationConfiguration migrationConfiguration = Loader.load(
 					new File("migrations/" + args[0]), performValidation);
 
