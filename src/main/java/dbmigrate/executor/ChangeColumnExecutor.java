@@ -15,13 +15,13 @@ public class ChangeColumnExecutor extends GeneralExecutor<ChangeColumnOperationD
 	}
 
 	public String createSql(ChangeColumnOperationDescriptor operation) {
-		StringBuffer buf = new StringBuffer();
+		StringBuilder buf = new StringBuilder();
 		buf.append("ALTER TABLE \"").append(operation.getTableName()).append("\" ").append("CHANGE ").append(operation.getOldColumnName()).append(" ");
 		buf.append(operation.getColumn().getSqlDescription());
 		buf.append(";");
 
 		if (operation.getColumn().getValueToSet() != null) {
-			boolean R = operation.getColumn().getValueToSet().equals(Column.RANDOM);
+			boolean random = operation.getColumn().getValueToSet().equals(Column.RANDOM);
 			IColumn column = operation.getColumn();
 			buf.append("UPDATE \"");
 			buf.append(operation.getTableName());
@@ -31,40 +31,46 @@ public class ChangeColumnExecutor extends GeneralExecutor<ChangeColumnOperationD
 
 			switch (column.getType()) {
 				case VARCHAR:
-					if (!R)
-						buf.append("'" + column.getValueToSet() + "'");
-					else
+					if (!random) {
+						buf.append("'").append(column.getValueToSet()).append("'");
+					} else {
 						buf.append("md5(random()::text)");
+					}
 					break;
 				case TEXT:
-					if (!R)
-						buf.append("'" + column.getValueToSet() + "'");
-					else
+					if (!random) {
+						buf.append("'").append(column.getValueToSet()).append("'");
+					} else {
 						buf.append("md5(random()::text)");
+					}
 					break;
 				case DATETIME:
-					if (!R)
-						buf.append("'" + column.getValueToSet() + "'");
-					else
+					if (!random) {
+						buf.append("'").append(column.getValueToSet()).append("'");
+					} else {
 						buf.append("NOW() - '1 day'::INTERVAL * ROUND(RANDOM() * 100*365)");
+					}
 					break;
 				case DATE:
-					if (!R)
-						buf.append("'" + column.getValueToSet() + "'");
-					else
+					if (!random) {
+						buf.append("'").append(column.getValueToSet()).append("'");
+					} else {
 						buf.append("NOW() - '1 day'::INTERVAL * ROUND(RANDOM() * 100*365)");
+					}
 					break;
 				case BINARY:
-					if (!R)
-						buf.append("B'" + column.getValueToSet() + "'");
-					else
+					if (!random) {
+						buf.append("B'").append(column.getValueToSet()).append("'");
+					} else {
 						buf.append("B'10101010'");
+					}
 					break;
 				default:
-					if (!R)
-						buf.append(column.getValueToSet() + "");
-					else
+					if (!random) {
+						buf.append(column.getValueToSet()).append("");
+					} else {
 						buf.append("random()");
+					}
 					break;
 			}
 			buf.append(";");

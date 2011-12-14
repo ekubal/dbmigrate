@@ -54,8 +54,7 @@ public class ExecutorEngine {
 		this.executors.put(descriptorClass, executorClass);
 	}
 
-	// tak na prade wyjatku nie rzUca nigdzie -.-
-	public boolean executeMigration() throws SQLException {
+	public boolean executeMigration() {
 		StringBuilder sb = new StringBuilder();
 		boolean areErrors = false;
 		boolean isSuccess = true;
@@ -85,7 +84,7 @@ public class ExecutorEngine {
 			try {
 				for(Map.Entry<IOperationDescriptor, IExecutor> entry: localExecutors.entrySet()) {
 					entry.getValue().execute(entry.getKey());
-					sb.append(classNamePrettifier(entry.getKey().getClass().toString()) + "\n");
+					sb.append(this.classNamePrettifier(entry.getKey().getClass().toString())).append("\n");
 				}
 
 				if (!this.autoCommitEnable) {
@@ -95,7 +94,8 @@ public class ExecutorEngine {
 						this.logger.log("Transaction committed.", Level.Info);
 						this.autoCommitEnable = true;
 					} catch (SQLException e) {
-						e.printStackTrace();
+						this.logger.log(e.getSQLState(), Level.Error);
+						this.logger.log(e.getMessage(), Level.Error);
 						isSuccess = false;
 					}
 				}
@@ -117,7 +117,7 @@ public class ExecutorEngine {
 			}
 		}
 		
-		storage.store("0.0.0.0", "todo", (new Date()).toString(), 0, sb.toString(), isSuccess);
+		this.storage.store("0.0.0.0", "todo", (new Date()).toString(), 0, sb.toString(), isSuccess);
 		return isSuccess;
 	}
 	

@@ -1,8 +1,8 @@
 package dbmigrate.executor;
 
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.sql.Connection;
 
 import dbmigrate.model.operation.RenameColumnOperationDescriptor;
 

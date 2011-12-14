@@ -1,12 +1,13 @@
 package dbmigrate.executor;
 
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Statement;
+
 import dbmigrate.model.db.ITable;
 import dbmigrate.model.db.Table;
 import dbmigrate.model.operation.DropColumnOperationDescriptor;
 import dbmigrate.model.operation.MergeColumnOperationDescriptor;
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.sql.Statement;
 
 public class MergeColumnExecutor extends
 		GeneralExecutor<MergeColumnOperationDescriptor> {

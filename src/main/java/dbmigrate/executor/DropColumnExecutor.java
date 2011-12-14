@@ -2,10 +2,9 @@ package dbmigrate.executor;
 
 import java.sql.SQLException;
 import java.sql.Statement;
-
-import dbmigrate.model.operation.DropColumnOperationDescriptor;
 import java.sql.Connection;
 
+import dbmigrate.model.operation.DropColumnOperationDescriptor;
 
 public class DropColumnExecutor extends GeneralExecutor<DropColumnOperationDescriptor> {
 

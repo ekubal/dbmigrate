@@ -1,10 +1,10 @@
 package dbmigrate.executor;
 
-import dbmigrate.model.operation.DropTableOperationDescriptor;
-
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
+
+import dbmigrate.model.operation.DropTableOperationDescriptor;
 
 public class DropTableExecutor extends GeneralExecutor<DropTableOperationDescriptor> {
 	public DropTableExecutor(Connection connection) {

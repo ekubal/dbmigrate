@@ -1,13 +1,13 @@
 package dbmigrate.executor;
 
-import dbmigrate.model.db.ITable;
-import dbmigrate.model.db.Table;
-import dbmigrate.model.operation.AddColumnOperationDescriptor;
-import dbmigrate.model.operation.DropColumnOperationDescriptor;
-import dbmigrate.model.operation.SplitColumnOperationDescriptor;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
+
+import dbmigrate.model.db.ITable;
+import dbmigrate.model.db.Table;
+import dbmigrate.model.operation.DropColumnOperationDescriptor;
+import dbmigrate.model.operation.SplitColumnOperationDescriptor;
 
 public class SplitColumnExecutor extends
 		GeneralExecutor<SplitColumnOperationDescriptor> {
