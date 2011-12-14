@@ -120,7 +120,8 @@ public class ExecutorEngine {
 			}
 		}
 		if(null != this.storage) {
-			this.storage.store("0.0.0.0", this.migrationConfiguration.getMigrationId(), (new Date()).toString(), 0, sb.toString(), isSuccess);
+			this.storage.store("0.0.0.0", this.migrationConfiguration.getMigrationId(),
+				(new Date()).toString(), (this.forwards ? 0 : 1), sb.toString(), isSuccess);
 		}
 		return isSuccess;
 	}

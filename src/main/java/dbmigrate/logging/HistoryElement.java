@@ -2,41 +2,58 @@ package dbmigrate.logging;
 
 public class HistoryElement {
 	private String ip;
-	private String migration_id;
+	private String migrationId;
 	private String date;
 	private int direction;
 	private String operations;
 	private boolean success;
+
 	public String getIp() {
-		return ip;
+		return this.ip;
 	}
-	public String getMigration_id() {
-		return migration_id;
+	public String getMigrationId() {
+		return this.migrationId;
 	}
 	public String getDate() {
-		return date;
+		return this.date;
 	}
 	public int getDirection() {
-		return direction;
+		return this.direction;
 	}
 	public String getOperations() {
-		return operations;
+		return this.operations;
 	}
 	public boolean isSuccess() {
-		return success;
+		return this.success;
 	}
 	public HistoryElement(String ip, String migration_id, String date,
 			int direction, String operations, boolean success) {
 		super();
 		this.ip = ip;
-		this.migration_id = migration_id;
+		this.migrationId = migration_id;
 		this.date = date;
 		this.direction = direction;
 		this.operations = operations;
 		this.success = success;
 	}
 	public String toString() {
-		return ip +  " @ " + date + " [#" + migration_id + "], direction: " + direction + ": " + success;
+		StringBuilder sb = new StringBuilder();
+		sb.append(ip);
+		sb.append(" @ ");
+		sb.append(date);
+		sb.append(" [#");
+		sb.append(migrationId);
+		if(0 == this.direction) {
+			sb.append("], forward: ");
+		} else {
+			sb.append("], backward: ");
+		}
+		if(this.success) {
+			sb.append("success!");
+		} else {
+			sb.append("failure.");
+		}
+		return sb.toString();
 	}
 	
 }

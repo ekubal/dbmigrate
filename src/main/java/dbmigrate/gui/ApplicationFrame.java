@@ -250,7 +250,7 @@ public class ApplicationFrame extends javax.swing.JFrame implements IMigrationLi
 			if(null != he) {
 				String operations = he.getOperations();
 				JOptionPane.showMessageDialog(ApplicationFrame.this,
-					operations, he.getMigration_id(),
+					operations, he.getMigrationId(),
 					JOptionPane.PLAIN_MESSAGE);
 			}
 		}
