@@ -109,12 +109,12 @@ public class HistoryStorage {
 			ResultSet rs = stmt.executeQuery(query);
 			while (rs.next()) {
 				String ip = rs.getString(1);
-				String migration_id = rs.getString(2);
+				String migrationId = rs.getString(2);
 				String date = rs.getString(3);
 				int direction = rs.getInt(4);
 				String operations = rs.getString(5);
 				boolean success = rs.getBoolean(6);
-				elements.add(new HistoryElement(ip, migration_id, date, direction, operations, success));
+				elements.add(new HistoryElement(ip, migrationId, date, direction, operations, success));
 			}
 		}
 		catch (Exception e) {
