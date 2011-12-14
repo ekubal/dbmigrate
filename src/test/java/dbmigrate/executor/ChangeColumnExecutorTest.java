@@ -3,11 +3,12 @@ package dbmigrate.executor;
 import java.util.ArrayList;
 import java.util.List;
 
-import junit.framework.TestCase;
 import dbmigrate.model.db.Column;
 import dbmigrate.model.db.IColumn;
 import dbmigrate.model.db.TypeEnum;
 import dbmigrate.model.operation.ChangeColumnOperationDescriptor;
+
+import junit.framework.TestCase;
 
 public class ChangeColumnExecutorTest extends TestCase {
 	public void testCreateSql() {

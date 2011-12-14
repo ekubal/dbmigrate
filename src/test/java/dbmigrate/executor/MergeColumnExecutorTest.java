@@ -3,12 +3,13 @@ package dbmigrate.executor;
 import java.util.ArrayList;
 import java.util.List;
 
-import junit.framework.TestCase;
 import dbmigrate.model.db.Column;
 import dbmigrate.model.db.IColumn;
 import dbmigrate.model.db.TypeEnum;
 import dbmigrate.model.operation.AddColumnOperationDescriptor;
 import dbmigrate.model.operation.MergeColumnOperationDescriptor;
+
+import junit.framework.TestCase;
 
 public class MergeColumnExecutorTest extends TestCase {
 	private MergeColumnOperationDescriptor operation;

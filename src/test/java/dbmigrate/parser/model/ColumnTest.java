@@ -7,20 +7,20 @@ import org.junit.Test;
 public class ColumnTest {
 	
 	Column column;
-	final static String name= "column_name";
+	final static String NAME = "column_name";
 
 	@Test
 	public void testGetName() {
 		column = new Column();
-		column.setName(name);
-		assertEquals(name, column.getName());
+		column.setName(NAME);
+		assertEquals(NAME, column.getName());
 	}
 
 	@Test
 	public void testGetType() {
 		column = new Column();
-		column.setType(name);
-		assertEquals(name, column.getType());
+		column.setType(NAME);
+		assertEquals(NAME, column.getType());
 	}
 
 	@Test

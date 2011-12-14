@@ -3,13 +3,14 @@ package dbmigrate.executor;
 import java.util.ArrayList;
 import java.util.List;
 
-import junit.framework.TestCase;
 import dbmigrate.model.db.Column;
 import dbmigrate.model.db.IColumn;
 import dbmigrate.model.db.ITable;
 import dbmigrate.model.db.Table;
 import dbmigrate.model.db.TypeEnum;
 import dbmigrate.model.operation.CreateTableOperationDescriptor;
+
+import junit.framework.TestCase;
 
 public class CreateTableExecutorTest extends TestCase {
 

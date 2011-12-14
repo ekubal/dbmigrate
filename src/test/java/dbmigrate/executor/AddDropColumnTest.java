@@ -3,14 +3,14 @@ package dbmigrate.executor;
 import java.sql.Connection;
 import java.util.Random;
 
-import junit.framework.TestCase;
-
 import dbmigrate.model.db.Column;
 import dbmigrate.model.db.DbConnector;
 import dbmigrate.model.db.Table;
 import dbmigrate.model.db.TypeEnum;
 import dbmigrate.model.operation.AddColumnOperationDescriptor;
 import dbmigrate.model.operation.DropColumnOperationDescriptor;
+
+import junit.framework.TestCase;
 
 public class AddDropColumnTest extends TestCase {
 	private Connection dbcon = null;

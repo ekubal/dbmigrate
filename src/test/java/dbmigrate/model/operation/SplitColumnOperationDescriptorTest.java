@@ -1,16 +1,14 @@
 package dbmigrate.model.operation;
-import static org.junit.Assert.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
 import dbmigrate.model.db.Column;
 import dbmigrate.model.db.IColumn;
-import dbmigrate.model.operation.AddColumnOperationDescriptor;
-import dbmigrate.model.operation.SplitColumnOperationDescriptor;
 
 
 public class SplitColumnOperationDescriptorTest {
