@@ -36,8 +36,7 @@ public class HistoryElement {
 		this.success = success;
 	}
 	public String toString() {
-		return ip +  " @ " + date + " [#" + migration_id + "] " + 
-				operations + ", direction: " + direction + ": " + success;
+		return ip +  " @ " + date + " [#" + migration_id + "], direction: " + direction + ": " + success;
 	}
 	
 }
