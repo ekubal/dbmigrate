@@ -1,8 +1,3 @@
-/*
- * ApplicationFrame.java
- *
- * Created on 2011-12-01, 17:27:55
- */
 package dbmigrate.gui;
 
 import java.awt.Toolkit;
@@ -17,6 +12,8 @@ import javax.swing.JOptionPane;
 import javax.swing.AbstractListModel;
 
 import dbmigrate.app.Application;
+import dbmigrate.exceptions.ConnectException;
+import dbmigrate.exceptions.HistoryException;
 import dbmigrate.executor.ExecutorEngine;
 import dbmigrate.logging.HistoryElement;
 import dbmigrate.logging.HistoryStorage;
@@ -28,42 +25,31 @@ import dbmigrate.logging.LoggerImpl;
 import dbmigrate.model.db.DbConnector;
 import dbmigrate.model.operation.MigrationConfiguration;
 import dbmigrate.parser.Loader;
+import java.util.List;
 
 
 /**
  * 
  * @author zyxist
  */
-public class ApplicationFrame extends javax.swing.JFrame {
+public class ApplicationFrame extends javax.swing.JFrame implements IMigrationListener {
 	private final DefaultListModel model;
+	private final DefaultListModel historyModel;
 	private DbConnector dbConnector;
 	private Connection connection;
 	private MigrationConfiguration migrationConfiguration;
-	
-	private AbstractListModel historyModel;
 
 	/** Creates new form ApplicationFrame */
 	public ApplicationFrame() {
 		this.dbConnector = new DbConnector();
-		this.historyStorage = new HistoryStorage(dbConnector.getConnection());
+		this.historyStorage = new HistoryStorage();
+		this.model = new DefaultListModel();
+		this.historyModel = new DefaultListModel();
 		
-		/*
-		this.historyModel = new AbstractListModel() {
-			public int getSize() {
-				return elements.size();
-			}
-
-			public Object getElementAt(int i) {
-				return elements.get(i);
-			}
-		};
-		*/
-		
-		initComponents();
+		this.initComponents();
 
 		ILogger logger = LoggerFactory.getLogger();
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-		this.model = new DefaultListModel();
 		this.logList.setModel(this.model);
 		LoggerImpl.register(new Listener());
 
@@ -120,6 +106,12 @@ public class ApplicationFrame extends javax.swing.JFrame {
         statusText.setText("Please load a migration.");
         hintPanel.add(statusText);
 
+        jTabbedPane1.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                jTabbedPane1StateChanged(evt);
+            }
+        });
+
         logList.setModel(new javax.swing.AbstractListModel() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
             public int getSize() { return strings.length; }
@@ -140,14 +132,15 @@ public class ApplicationFrame extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("Logs", jPanel1);
 
-        historyList.setModel(new javax.swing.AbstractListModel() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public Object getElementAt(int i) { return strings[i]; }
-        });
+        historyList.setModel(this.historyModel);
         historyList.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 historyListMouseClicked(evt);
+            }
+        });
+        historyList.addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentShown(java.awt.event.ComponentEvent evt) {
+                historyListComponentShown(evt);
             }
         });
         jScrollPane2.setViewportView(historyList);
@@ -193,6 +186,7 @@ public class ApplicationFrame extends javax.swing.JFrame {
 
         jMenu1.setText("File");
 
+        loadMigrationItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_L, java.awt.event.InputEvent.CTRL_MASK));
         loadMigrationItem.setText("Load migration");
         loadMigrationItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -201,6 +195,7 @@ public class ApplicationFrame extends javax.swing.JFrame {
         });
         jMenu1.add(loadMigrationItem);
 
+        quitItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_Q, java.awt.event.InputEvent.CTRL_MASK));
         quitItem.setText("Quit");
         quitItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -213,6 +208,7 @@ public class ApplicationFrame extends javax.swing.JFrame {
 
         jMenu2.setText("Preferences");
 
+        dbConfigItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_P, 0));
         dbConfigItem.setText("Database connection");
         dbConfigItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -251,12 +247,24 @@ public class ApplicationFrame extends javax.swing.JFrame {
 		if (evt.getClickCount() >= 2) {
 			HistoryElement he = (HistoryElement) historyList
 				.getSelectedValue();
-			String operations = he.getOperations();
-			JOptionPane.showMessageDialog(ApplicationFrame.this,
-				operations, he.getMigration_id(),
-				JOptionPane.PLAIN_MESSAGE);
+			if(null != he) {
+				String operations = he.getOperations();
+				JOptionPane.showMessageDialog(ApplicationFrame.this,
+					operations, he.getMigration_id(),
+					JOptionPane.PLAIN_MESSAGE);
+			}
 		}
 	}//GEN-LAST:event_historyListMouseClicked
+
+	private void historyListComponentShown(java.awt.event.ComponentEvent evt)//GEN-FIRST:event_historyListComponentShown
+	{//GEN-HEADEREND:event_historyListComponentShown
+		this.refreshHistoryModel();
+	}//GEN-LAST:event_historyListComponentShown
+
+	private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt)//GEN-FIRST:event_jTabbedPane1StateChanged
+	{//GEN-HEADEREND:event_jTabbedPane1StateChanged
+		this.refreshHistoryModel();
+	}//GEN-LAST:event_jTabbedPane1StateChanged
 
 	private void quitItemActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_quitItemActionPerformed
 		this.setVisible(false);
@@ -294,14 +302,11 @@ public class ApplicationFrame extends javax.swing.JFrame {
 		} else if (!this.dbConnector.hasParams()) {
 			this.statusText.setText("Please specify a database connection.");
 		} else {
-			ExecutorEngine executorEngine = new ExecutorEngine(
-				this.dbConnector.getConnection(), migrationConfiguration,
-				true);
-			Application.configureExecutorEngine(executorEngine);
-			executorEngine.setForwards(true);
-			executorEngine.setLogger(LoggerFactory.getLogger());
-			executorEngine.executeMigration();
-			this.statusText.setText("Migration executed.");
+			MigrationRunner runner = new MigrationRunner(true, this.dbConnector, this.migrationConfiguration,
+				"Migration successfully executed.", this.historyStorage, this
+			);
+			this.lockButtons();
+			runner.start();
 		}
 	}// GEN-LAST:event_runButtonActionPerformed
 
@@ -311,14 +316,11 @@ public class ApplicationFrame extends javax.swing.JFrame {
 		} else if (!this.dbConnector.hasParams()) {
 			this.statusText.setText("Please specify a database connection.");
 		} else {
-			ExecutorEngine executorEngine = new ExecutorEngine(
-				this.dbConnector.getConnection(), migrationConfiguration,
-				true);
-			Application.configureExecutorEngine(executorEngine);
-			executorEngine.setForwards(false);
-			executorEngine.setLogger(LoggerFactory.getLogger());
-			executorEngine.executeMigration();
-			this.statusText.setText("Migration cancelled.");
+			MigrationRunner runner = new MigrationRunner(false, this.dbConnector, this.migrationConfiguration,
+				"Migration successfully cancelled.", this.historyStorage, this
+			);
+			this.lockButtons();
+			runner.start();
 		}
 	}// GEN-LAST:event_undoButtonActionPerformed
 
@@ -346,9 +348,51 @@ public class ApplicationFrame extends javax.swing.JFrame {
 
 	private HistoryStorage historyStorage;
 	
+	public synchronized void refreshHistoryModel() {
+		
+		
+		try {
+			Connection conn = this.dbConnector.getConnection();
+			if(null != conn) {
+				this.historyModel.removeAllElements();
+				this.historyStorage.setConnection(this.dbConnector.getConnection());
+				List<HistoryElement> elements = this.historyStorage.getHistory();
+				for(HistoryElement element: elements) {
+					this.historyModel.addElement(element);
+				}
+			}
+		} catch(HistoryException exception) {
+			this.statusText.setText("Cannot access the migration history.");
+			JOptionPane.showMessageDialog(this, "The migration history is not available.", "History problem", JOptionPane.WARNING_MESSAGE);
+		} catch(SQLException exception) {
+			this.statusText.setText("Cannot access the migration history.");
+			JOptionPane.showMessageDialog(this, "Database error occured: "+exception.getMessage(), "SQL problem", JOptionPane.ERROR_MESSAGE);
+		} catch(ConnectException exception) {
+			this.handleConnectionProblem(exception);
+		}
+	}
+	
+	public void handleConnectionProblem(ConnectException exception) {
+		this.statusText.setText("Cannot connect to the database.");
+		JOptionPane.showMessageDialog(this, exception.getMessage(), "Connection problem", JOptionPane.WARNING_MESSAGE);
+	}
 
 	public void setHistoryStorage(HistoryStorage historyStorage) {
 		this.historyStorage = historyStorage;
+	}
+
+	public void setStatusMessage(String message) {
+		this.statusText.setText(message);
+	}
+
+	public void lockButtons() {
+		this.runButton.setEnabled(false);
+		this.undoButton.setEnabled(false);
+	}
+
+	public void unlockButtons() {
+		this.runButton.setEnabled(true);
+		this.undoButton.setEnabled(true);
 	}
 
 	// CHECKSTYLE:ON

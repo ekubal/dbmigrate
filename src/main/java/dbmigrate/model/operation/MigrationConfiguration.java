@@ -8,6 +8,16 @@ public class MigrationConfiguration {
 	private List<IOperationDescriptor> operations;
 	
 	private List<IOperationDescriptor> undoOperations;
+	
+	private String migrationId;
+	
+	public MigrationConfiguration(String id) {
+		this.migrationId = id;
+	}
+	
+	public String getMigrationId() {
+		return this.migrationId;
+	}
 
 	public void addOperation(IOperationDescriptor operationDescriptor) {
 		if (this.operations == null) {

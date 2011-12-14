@@ -83,7 +83,8 @@ public class Application {
 			Connection connection = dbConnector.getConnection(
 					DbConnector.DB_TYPE, args[1], args[2], args[3], args[4]);
 
-			HistoryStorage historyStorage = new HistoryStorage(connection);
+			HistoryStorage historyStorage = new HistoryStorage();
+			historyStorage.equals(connection);
 			MigrationConfiguration migrationConfiguration = Loader.load(
 					new File("migrations/" + args[0]), performValidation);
 

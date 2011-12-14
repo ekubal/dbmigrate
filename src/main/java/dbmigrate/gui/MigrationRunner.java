@@ -1,11 +1,15 @@
 package dbmigrate.gui;
 
 import java.sql.SQLException;
-
+import javax.swing.JButton;
+import javax.swing.JOptionPane;
 import javax.swing.JLabel;
 
 import dbmigrate.app.Application;
+import dbmigrate.exceptions.ConnectException;
+import dbmigrate.exceptions.HistoryException;
 import dbmigrate.executor.ExecutorEngine;
+import dbmigrate.logging.HistoryStorage;
 import dbmigrate.logging.LoggerFactory;
 import dbmigrate.model.db.DbConnector;
 import dbmigrate.model.operation.MigrationConfiguration;
@@ -14,32 +18,50 @@ public class MigrationRunner extends Thread {
 
 	private boolean forwards;
 	private DbConnector dbConnector;
-	private MigrationConfiguration migrationConfiguration;
+	private final MigrationConfiguration migrationConfiguration;
 	private String completeMsg;
-	private JLabel status;
+	private IMigrationListener listener;
+	private HistoryStorage historyStorage;
 
 	public MigrationRunner(boolean forwards, DbConnector dbConnector,
 			MigrationConfiguration migrationConfiguration, String completeMsg,
-			JLabel status) {
+			HistoryStorage storage,
+			IMigrationListener listener) {
 		this.forwards = forwards;
 		this.dbConnector = dbConnector;
 		this.migrationConfiguration = migrationConfiguration;
 		this.completeMsg = completeMsg;
-		this.status = status;
+		this.historyStorage = storage;
+		this.listener = listener;
 	}
 
+	@Override
 	public void run() {
-		ExecutorEngine executorEngine = new ExecutorEngine(
-				dbConnector.getConnection(), migrationConfiguration, true);
-		Application.configureExecutorEngine(executorEngine);
-		executorEngine.setForwards(forwards);
-		executorEngine.setLogger(LoggerFactory.getLogger());
-
-		try {
-			executorEngine.executeMigration();
-			status.setText(completeMsg);
-		} catch (SQLException ex) {
-			status.setText(ex.getMessage());
+		synchronized(this.migrationConfiguration) {
+			try {
+				ExecutorEngine executorEngine = new ExecutorEngine(
+						this.dbConnector.getConnection(), this.migrationConfiguration, true);
+				Application.configureExecutorEngine(executorEngine);
+				executorEngine.setForwards(this.forwards);
+				executorEngine.setLogger(LoggerFactory.getLogger());
+				executorEngine.setHistoryStorage(this.historyStorage);
+				
+				try {
+					this.historyStorage.setConnection(this.dbConnector.getConnection());
+					executorEngine.executeMigration();
+					this.listener.refreshHistoryModel();
+					this.listener.setStatusMessage(this.completeMsg);
+				} catch(HistoryException exception) {
+					this.listener.setStatusMessage("A problem occured while registering the migration in the history.");
+				} catch(SQLException exception) {
+					this.listener.setStatusMessage("Migration not registered in the database.");
+					JOptionPane.showMessageDialog(null, "A database problem occured while registering the migration in the history: "+exception.getMessage(), "Dbmigrate error", JOptionPane.ERROR_MESSAGE);
+				}
+			} catch(ConnectException exception) {
+				this.listener.handleConnectionProblem(exception);
+			} finally {
+				this.listener.unlockButtons();
+			}
 		}
 	}
 

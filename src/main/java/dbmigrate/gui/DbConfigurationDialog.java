@@ -10,6 +10,7 @@
  */
 package dbmigrate.gui;
 
+import dbmigrate.exceptions.ConnectException;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -26,6 +27,7 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 import dbmigrate.model.db.DbConnector;
+import javax.swing.JOptionPane;
 
 // CHECKSTYLE:OFF
 
@@ -135,11 +137,15 @@ public class DbConfigurationDialog extends javax.swing.JDialog {
 
 		okButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				DbConfigurationDialog.this.connector.getConnection(DbConnector.DB_TYPE,
-						DbConfigurationDialog.this.hostnameText.getText(), DbConfigurationDialog.this.databaseText.getText(),
-						DbConfigurationDialog.this.usernameText.getText(), DbConfigurationDialog.this.passwordText.getText());
-				DbConfigurationDialog.this.saveProperties();
+				try {
+					DbConfigurationDialog.this.connector.getConnection(DbConnector.DB_TYPE,
+							DbConfigurationDialog.this.hostnameText.getText(), DbConfigurationDialog.this.databaseText.getText(),
+							DbConfigurationDialog.this.usernameText.getText(), DbConfigurationDialog.this.passwordText.getText());
+					DbConfigurationDialog.this.saveProperties();
 				DbConfigurationDialog.this.setVisible(false);
+				} catch(ConnectException exception) {
+					JOptionPane.showMessageDialog(null, exception.getMessage(), "Connection problem", JOptionPane.WARNING_MESSAGE);
+				}
 			}
 		});
 
@@ -183,64 +189,5 @@ public class DbConfigurationDialog extends javax.swing.JDialog {
 				this.passwordText.getText()
 			);
 		}
-	}
-
-	/**
-	 * @param args
-	 *            the command line arguments
-	 */
-	public static void main(String args[]) {
-		/* Set the Nimbus look and feel */
-		// <editor-fold defaultstate="collapsed"
-		// desc=" Look and feel setting code (optional) ">
-		/*
-		 * If Nimbus (introduced in Java SE 6) is not available, stay with the
-		 * default look and feel. For details see
-		 * http://download.oracle.com/javase
-		 * /tutorial/uiswing/lookandfeel/plaf.html
-		 */
-		try {
-			for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager
-					.getInstalledLookAndFeels()) {
-				if ("Nimbus".equals(info.getName())) {
-					javax.swing.UIManager.setLookAndFeel(info.getClassName());
-					break;
-				}
-			}
-		} catch (ClassNotFoundException ex) {
-			java.util.logging.Logger.getLogger(
-					DbConfigurationDialog.class.getName()).log(
-					java.util.logging.Level.SEVERE, null, ex);
-		} catch (InstantiationException ex) {
-			java.util.logging.Logger.getLogger(
-					DbConfigurationDialog.class.getName()).log(
-					java.util.logging.Level.SEVERE, null, ex);
-		} catch (IllegalAccessException ex) {
-			java.util.logging.Logger.getLogger(
-					DbConfigurationDialog.class.getName()).log(
-					java.util.logging.Level.SEVERE, null, ex);
-		} catch (javax.swing.UnsupportedLookAndFeelException ex) {
-			java.util.logging.Logger.getLogger(
-					DbConfigurationDialog.class.getName()).log(
-					java.util.logging.Level.SEVERE, null, ex);
-		}
-		// </editor-fold>
-
-		/* Create and display the dialog */
-		java.awt.EventQueue.invokeLater(new Runnable() {
-
-			public void run() {
-				DbConfigurationDialog dialog = new DbConfigurationDialog(
-						new javax.swing.JFrame(), true);
-				dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-
-					@Override
-					public void windowClosing(java.awt.event.WindowEvent e) {
-						System.exit(0);
-					}
-				});
-				dialog.setVisible(true);
-			}
-		});
 	}
 }

@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import dbmigrate.exceptions.HistoryException;
 import dbmigrate.exceptions.ValidationException;
 import dbmigrate.logging.HistoryStorage;
 import dbmigrate.logging.ILogger;
@@ -25,12 +26,11 @@ public class ExecutorEngine {
 
 	private Map<Class<? extends IOperationDescriptor>, Class<? extends IExecutor>> executors;
 
-	public ExecutorEngine(Connection connection,
-			MigrationConfiguration migrationConfiguration, boolean atomicity) {
+	public ExecutorEngine(Connection connection, MigrationConfiguration migrationConfiguration, boolean atomicity) {
 		this.connection = connection;
 		this.migrationConfiguration = migrationConfiguration;
 
-		if (atomicity) {
+		if(atomicity) {
 			try {
 				connection.setAutoCommit(false);
 				this.autoCommitEnable = false;
@@ -39,7 +39,10 @@ public class ExecutorEngine {
 			}
 		}
 		this.executors = new LinkedHashMap<Class<? extends IOperationDescriptor>, Class<? extends IExecutor>>();
-		this.storage = new HistoryStorage(connection);
+	}
+	
+	public void setHistoryStorage(HistoryStorage storage) {
+		this.storage = storage;
 	}
 	
 	public void setForwards(boolean forwards) {
@@ -54,7 +57,7 @@ public class ExecutorEngine {
 		this.executors.put(descriptorClass, executorClass);
 	}
 
-	public boolean executeMigration() {
+	public boolean executeMigration() throws HistoryException, SQLException {
 		StringBuilder sb = new StringBuilder();
 		boolean areErrors = false;
 		boolean isSuccess = true;
@@ -116,8 +119,9 @@ public class ExecutorEngine {
 				}
 			}
 		}
-		
-		this.storage.store("0.0.0.0", "todo", (new Date()).toString(), 0, sb.toString(), isSuccess);
+		if(null != this.storage) {
+			this.storage.store("0.0.0.0", this.migrationConfiguration.getMigrationId(), (new Date()).toString(), 0, sb.toString(), isSuccess);
+		}
 		return isSuccess;
 	}
 	

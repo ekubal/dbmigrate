@@ -42,7 +42,7 @@ public class Loader {
 	}
 
 	public static MigrationConfiguration map(Migration m, boolean forwards) throws Exception {
-		MigrationConfiguration mc = new MigrationConfiguration();
+		MigrationConfiguration mc = new MigrationConfiguration(m.getVersion());
 		Loader.processMigrationConfiguration(m.getDoList(), mc, true);
 		Loader.processMigrationConfiguration(m.getUndoList(), mc, false);
 		return mc;

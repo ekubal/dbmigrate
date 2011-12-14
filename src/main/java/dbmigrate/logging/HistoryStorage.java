@@ -1,5 +1,6 @@
 package dbmigrate.logging;
 
+import dbmigrate.exceptions.HistoryException;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -76,76 +77,61 @@ public class HistoryStorage {
 		
 	}
 	
-	public void store(String ip, String migration_id, String date, int direction, String operations, boolean success) {
-		StringBuffer query = new StringBuffer();
-		query.append("INSERT INTO \"" + this.tableName + "\" (ip, migration_id, migration_date, direction, operations, success) VALUES(");
-		query.append("'" + ip + "', ");
-		query.append("'" + migration_id + "', ");
-		query.append("'" + date + "', ");
-		query.append("" + direction + ", ");
-		query.append("'" + operations + "', ");
+	public void store(String ip, String migration_id, String date, int direction, String operations, boolean success) throws HistoryException, SQLException {
+		if(null == this.conn) {
+			throw new HistoryException();
+		}
+		StringBuilder query = new StringBuilder();
+		query.append("INSERT INTO \"").append(this.tableName).append("\" (ip, migration_id, migration_date, direction, operations, success) VALUES(");
+		query.append("'").append(ip).append("', ");
+		query.append("'").append(migration_id).append("', ");
+		query.append("'").append(date).append("', ");
+		query.append("").append(direction).append(", ");
+		query.append("'").append(operations).append("', ");
 		int succ = 0;
 		if (success) {
 			succ = 1;
 		}
-		query.append("" + succ + ");");
-		LoggerFactory.getLogger().log(query.toString(), Level.Info);
-		
-		try {
-			this.conn.createStatement().executeUpdate(query.toString());
-			this.conn.commit();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
+		query.append("").append(succ).append(");");
+
+		this.conn.createStatement().executeUpdate(query.toString());
+		this.conn.commit();
 	}
 	
-	public List<HistoryElement> getHistory() {
+	public List<HistoryElement> getHistory() throws HistoryException, SQLException {
+		if(null == this.conn) {
+			throw new HistoryException();
+		}
 		String query = "SELECT * FROM \"" + this.tableName + "\" ORDER BY migration_date DESC";
 		List<HistoryElement> elements = new ArrayList<HistoryElement> ();
-		try {
-			Statement stmt = this.conn.createStatement();
-			ResultSet rs = stmt.executeQuery(query);
-			while (rs.next()) {
-				String ip = rs.getString(1);
-				String migrationId = rs.getString(2);
-				String date = rs.getString(3);
-				int direction = rs.getInt(4);
-				String operations = rs.getString(5);
-				boolean success = rs.getBoolean(6);
-				elements.add(new HistoryElement(ip, migrationId, date, direction, operations, success));
-			}
-		}
-		catch (Exception e) {
-			e.printStackTrace();
+		Statement stmt = this.conn.createStatement();
+		ResultSet rs = stmt.executeQuery(query);
+		while (rs.next()) {
+			String ip = rs.getString(1);
+			String migrationId = rs.getString(2);
+			String date = rs.getString(3);
+			int direction = rs.getInt(4);
+			String operations = rs.getString(5);
+			boolean success = rs.getBoolean(6);
+			elements.add(new HistoryElement(ip, migrationId, date, direction, operations, success));
 		}
 		return elements;
 	}
 	
-	public HistoryStorage(Connection conn) {
+	public void setConnection(Connection conn) throws SQLException {
+		if(null == conn) {
+			return;
+		}
 		this.conn = conn;
 		
 		String query = "SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = 'public' AND table_name='" + this.tableName + "';";
+		ResultSet rset = conn.createStatement().executeQuery(query);
+		Boolean hasTable = rset.next();
+		int count = rset.getInt(1);
 		
-		try {
-			ResultSet rset = conn.createStatement().executeQuery(query);
-			Boolean hasTable = rset.next();
-			int count = rset.getInt(1);
-			LoggerFactory.getLogger().log("Table count: " + count, Level.Info);
-			
-			if (count == 0) {
-				this.createTable();
-			}
-			
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-
-			
+		if (count == 0) {
+			this.createTable();
 		}
-		
 	}
 
-	
 }
