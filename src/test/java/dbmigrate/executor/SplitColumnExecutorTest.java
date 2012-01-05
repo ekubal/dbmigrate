@@ -25,9 +25,14 @@ public class SplitColumnExecutorTest {
 	@Test
 	public void testSplitColumnExecutor() {
 		DbConnector db = new DbConnector();
-		Connection connection = db.getConnection("postgresql",
+		Connection connection = null;
+		try {
+			connection = db.getConnection("postgresql",
 				"149.156.205.250:13833", "dbmigrate",
 				"dbmigrate", "dbmigrate");
+		} catch(Exception exception) {
+			fail(exception.getMessage());
+		}
 		spe = new SplitColumnExecutor(connection);
 		assertNotNull(spe);
 		try {
@@ -71,41 +76,49 @@ public class SplitColumnExecutorTest {
 
 	@Test
 	public void testGetConnection() {
-		DbConnector db = new DbConnector();
-		Connection connection = db.getConnection("postgresql",
-				"149.156.205.250:13833", "dbmigrate",
-				"dbmigrate", "dbmigrate");
-		spe = new SplitColumnExecutor(connection);
-		assertNotNull(spe.getConnection());
 		try {
-			connection.close();
-		} catch (SQLException e) {
+			DbConnector db = new DbConnector();
+			Connection connection = db.getConnection("postgresql",
+					"149.156.205.250:13833", "dbmigrate",
+					"dbmigrate", "dbmigrate");
+			spe = new SplitColumnExecutor(connection);
+			assertNotNull(spe.getConnection());
+			try {
+				connection.close();
+			} catch (SQLException e) {
+			}
+		} catch(Exception exception) {
+			fail(exception.getMessage());
 		}
 	}
 
 	@Test
 	public void testSetConnection() {
-		DbConnector db = new DbConnector();
-		Connection connection = db.getConnection("postgresql",
-				"149.156.205.250:13833", "dbmigrate",
-				"dbmigrate", "dbmigrate");
-		spe = new SplitColumnExecutor(connection);
 		try {
-			spe.getConnection().close();
-		} catch (SQLException e1) {
-			e1.printStackTrace();
-		}
-		connection = db.getConnection("postgresql",
-				"149.156.205.250:13833", "dbmigrate",
-				"dbmigrate", "dbmigrate");
-		spe.setConnection(connection);
-		try {
-			assertFalse(spe.getConnection().isClosed());
-		} catch (SQLException e1) {
-		}
-		try {
-			spe.getConnection().close();
-		} catch (SQLException e) {
+			DbConnector db = new DbConnector();
+			Connection connection = db.getConnection("postgresql",
+					"149.156.205.250:13833", "dbmigrate",
+					"dbmigrate", "dbmigrate");
+			spe = new SplitColumnExecutor(connection);
+			try {
+				spe.getConnection().close();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+			connection = db.getConnection("postgresql",
+					"149.156.205.250:13833", "dbmigrate",
+					"dbmigrate", "dbmigrate");
+			spe.setConnection(connection);
+			try {
+				assertFalse(spe.getConnection().isClosed());
+			} catch (SQLException e1) {
+			}
+			try {
+				spe.getConnection().close();
+			} catch (SQLException e) {
+			}
+		} catch(Exception exception) {
+			fail(exception.getMessage());
 		}
 	}
 

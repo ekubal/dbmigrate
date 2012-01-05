@@ -35,9 +35,12 @@ public class RenameColumnTest extends TestCase {
 
 	@Override
 	public void setUp() {
-		dbcon = new DbConnector().getConnection("postgresql",
-				"149.156.205.250:13833", "dbmigrate", "dbmigrate", "dbmigrate");
-
+		try {
+			dbcon = new DbConnector().getConnection("postgresql",
+					"149.156.205.250:13833", "dbmigrate", "dbmigrate", "dbmigrate");
+		} catch(Exception exception) {
+			fail(exception.getMessage());
+		}
 		String oldName = getColName();
 		String newName = oldName + "new";
 
