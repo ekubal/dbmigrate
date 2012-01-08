@@ -5,16 +5,14 @@ import java.awt.event.WindowEvent;
 import java.io.File;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.List;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
-import javax.swing.AbstractListModel;
 
-import dbmigrate.app.Application;
 import dbmigrate.exceptions.ConnectException;
 import dbmigrate.exceptions.HistoryException;
-import dbmigrate.executor.ExecutorEngine;
 import dbmigrate.logging.HistoryElement;
 import dbmigrate.logging.HistoryStorage;
 import dbmigrate.logging.IListener;
@@ -25,7 +23,6 @@ import dbmigrate.logging.LoggerImpl;
 import dbmigrate.model.db.DbConnector;
 import dbmigrate.model.operation.MigrationConfiguration;
 import dbmigrate.parser.Loader;
-import java.util.List;
 
 
 /**

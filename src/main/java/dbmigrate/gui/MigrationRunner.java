@@ -25,8 +25,7 @@ public class MigrationRunner extends Thread {
 
 	public MigrationRunner(boolean forwards, DbConnector dbConnector,
 			MigrationConfiguration migrationConfiguration, String completeMsg,
-			HistoryStorage storage,
-			IMigrationListener listener) {
+			HistoryStorage storage, IMigrationListener listener) {
 		this.forwards = forwards;
 		this.dbConnector = dbConnector;
 		this.migrationConfiguration = migrationConfiguration;
@@ -37,27 +36,36 @@ public class MigrationRunner extends Thread {
 
 	@Override
 	public void run() {
-		synchronized(this.migrationConfiguration) {
+		synchronized (this.migrationConfiguration) {
 			try {
 				ExecutorEngine executorEngine = new ExecutorEngine(
-						this.dbConnector.getConnection(), this.migrationConfiguration, true);
-				Application.configureExecutorEngine(executorEngine);
+						this.dbConnector.getConnection(),
+						this.migrationConfiguration, true);
+
+				Application.configureExecutorEngine(executorEngine,
+						this.dbConnector.getDbType());
 				executorEngine.setForwards(this.forwards);
 				executorEngine.setLogger(LoggerFactory.getLogger());
 				executorEngine.setHistoryStorage(this.historyStorage);
-				
+
 				try {
-					this.historyStorage.setConnection(this.dbConnector.getConnection());
+					this.historyStorage.setConnection(this.dbConnector
+							.getConnection());
 					executorEngine.executeMigration();
 					this.listener.refreshHistoryModel();
 					this.listener.setStatusMessage(this.completeMsg);
-				} catch(HistoryException exception) {
-					this.listener.setStatusMessage("A problem occured while registering the migration in the history.");
-				} catch(SQLException exception) {
-					this.listener.setStatusMessage("Migration not registered in the database.");
-					JOptionPane.showMessageDialog(null, "A database problem occured while registering the migration in the history: "+exception.getMessage(), "Dbmigrate error", JOptionPane.ERROR_MESSAGE);
+				} catch (HistoryException exception) {
+					this.listener
+							.setStatusMessage("A problem occured while registering the migration in the history.");
+				} catch (SQLException exception) {
+					this.listener
+							.setStatusMessage("Migration not registered in the database.");
+					JOptionPane.showMessageDialog(null,
+							"A database problem occured while registering the migration in the history: "
+									+ exception.getMessage(),
+							"Dbmigrate error", JOptionPane.ERROR_MESSAGE);
 				}
-			} catch(ConnectException exception) {
+			} catch (ConnectException exception) {
 				this.listener.handleConnectionProblem(exception);
 			} finally {
 				this.listener.unlockButtons();

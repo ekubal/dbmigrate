@@ -9,11 +9,23 @@ import java.util.Map;
 
 import dbmigrate.exceptions.HistoryException;
 import dbmigrate.exceptions.ValidationException;
+import dbmigrate.executor.oracle.OracleAddColumnExecutor;
+import dbmigrate.executor.oracle.OracleCreateTableExecutor;
+import dbmigrate.executor.oracle.OracleDropTableExecutor;
 import dbmigrate.logging.HistoryStorage;
 import dbmigrate.logging.ILogger;
 import dbmigrate.logging.Level;
+import dbmigrate.model.operation.AddColumnOperationDescriptor;
+import dbmigrate.model.operation.ChangeColumnOperationDescriptor;
+import dbmigrate.model.operation.CreateTableOperationDescriptor;
+import dbmigrate.model.operation.DropColumnOperationDescriptor;
+import dbmigrate.model.operation.DropTableOperationDescriptor;
 import dbmigrate.model.operation.IOperationDescriptor;
+import dbmigrate.model.operation.MergeColumnOperationDescriptor;
 import dbmigrate.model.operation.MigrationConfiguration;
+import dbmigrate.model.operation.ModifyColumnOperationDescriptor;
+import dbmigrate.model.operation.RenameColumnOperationDescriptor;
+import dbmigrate.model.operation.SplitColumnOperationDescriptor;
 
 public class ExecutorEngine {
 
@@ -26,11 +38,12 @@ public class ExecutorEngine {
 
 	private Map<Class<? extends IOperationDescriptor>, Class<? extends IExecutor>> executors;
 
-	public ExecutorEngine(Connection connection, MigrationConfiguration migrationConfiguration, boolean atomicity) {
+	public ExecutorEngine(Connection connection,
+			MigrationConfiguration migrationConfiguration, boolean atomicity) {
 		this.connection = connection;
 		this.migrationConfiguration = migrationConfiguration;
 
-		if(atomicity) {
+		if (atomicity) {
 			try {
 				connection.setAutoCommit(false);
 				this.autoCommitEnable = false;
@@ -40,21 +53,53 @@ public class ExecutorEngine {
 		}
 		this.executors = new LinkedHashMap<Class<? extends IOperationDescriptor>, Class<? extends IExecutor>>();
 	}
-	
+
 	public void setHistoryStorage(HistoryStorage storage) {
 		this.storage = storage;
 	}
-	
+
 	public void setForwards(boolean forwards) {
 		this.forwards = forwards;
 	}
-	
+
 	public boolean getForwards() {
 		return this.forwards;
 	}
 
-	public void registerExecutor(Class<? extends IOperationDescriptor> descriptorClass, Class<? extends IExecutor> executorClass) {
+	public void registerExecutor(
+			Class<? extends IOperationDescriptor> descriptorClass,
+			Class<? extends IExecutor> executorClass) {
 		this.executors.put(descriptorClass, executorClass);
+	}
+
+	public void registerPostgresExecutors() {
+		this.registerExecutor(AddColumnOperationDescriptor.class,
+				AddColumnExecutor.class);
+		this.registerExecutor(DropTableOperationDescriptor.class,
+				DropTableExecutor.class);
+		this.registerExecutor(DropColumnOperationDescriptor.class,
+				DropColumnExecutor.class);
+		this.registerExecutor(CreateTableOperationDescriptor.class,
+				CreateTableExecutor.class);
+		this.registerExecutor(RenameColumnOperationDescriptor.class,
+				RenameColumnExecutor.class);
+		this.registerExecutor(ModifyColumnOperationDescriptor.class,
+				ModifyColumnExecutor.class);
+		this.registerExecutor(ChangeColumnOperationDescriptor.class,
+				ChangeColumnExecutor.class);
+		this.registerExecutor(SplitColumnOperationDescriptor.class,
+				SplitColumnExecutor.class);
+		this.registerExecutor(MergeColumnOperationDescriptor.class,
+				MergeColumnExecutor.class);
+	}
+
+	public void registerOracleExecutors() {
+		this.registerExecutor(AddColumnOperationDescriptor.class,
+				OracleAddColumnExecutor.class);
+		this.registerExecutor(DropTableOperationDescriptor.class,
+				OracleDropTableExecutor.class);
+		this.registerExecutor(CreateTableOperationDescriptor.class,
+				OracleCreateTableExecutor.class);
 	}
 
 	public boolean executeMigration() throws HistoryException, SQLException {
@@ -66,11 +111,14 @@ public class ExecutorEngine {
 				.getOperations(this.forwards)) {
 			try {
 				// You can register new executors in Application.java now.
-				Class<? extends IExecutor> cls = this.executors.get(operation.getClass());
-				Constructor<? extends IExecutor> constructor = cls.getConstructor(Connection.class);
+				Class<? extends IExecutor> cls = this.executors.get(operation
+						.getClass());
+				
+				Constructor<? extends IExecutor> constructor = cls
+						.getConstructor(Connection.class);
 				IExecutor executor = constructor.newInstance(this.connection);
 				executor.validate(operation);
-				
+
 				localExecutors.put(operation, executor);
 			} catch (ValidationException e) {
 				areErrors = true;
@@ -79,16 +127,20 @@ public class ExecutorEngine {
 			} catch (Exception e) {
 				areErrors = true;
 				isSuccess = false;
-				this.logger.log("Error in the executor definition: "+e.getMessage(), Level.Error);
+				this.logger.log(
+						"Error in the executor definition: " + e.getMessage(),
+						Level.Error);
 			}
 		}
 
 		if (!areErrors) {
 			this.logger.log("Executor validation completed.", Level.Info);
 			try {
-				for(Map.Entry<IOperationDescriptor, IExecutor> entry: localExecutors.entrySet()) {
-					String className = this.classNamePrettifier(entry.getKey().getClass().toString());
-					this.logger.log("Executing "+className, Level.Info);
+				for (Map.Entry<IOperationDescriptor, IExecutor> entry : localExecutors
+						.entrySet()) {
+					String className = this.classNamePrettifier(entry.getKey()
+							.getClass().toString());
+					this.logger.log("Executing " + className, Level.Info);
 					entry.getValue().execute(entry.getKey());
 					sb.append(className).append("\n");
 				}
@@ -108,27 +160,32 @@ public class ExecutorEngine {
 			} catch (SQLException e) {
 				isSuccess = false;
 				this.logger.log(e.getMessage(), Level.Error);
-				
+
 				if (!this.autoCommitEnable) {
 					try {
-						this.logger.log("Rolling back the transaction...", Level.Info);
+						this.logger.log("Rolling back the transaction...",
+								Level.Info);
 						this.connection.rollback();
 						this.logger.log("Transaction rolled back.", Level.Info);
 						this.autoCommitEnable = true;
 					} catch (SQLException ex) {
-						this.logger.log("Cannot rollback the transaction, I'm sorry: "+ex.getMessage(), Level.Error);
+						this.logger.log(
+								"Cannot rollback the transaction, I'm sorry: "
+										+ ex.getMessage(), Level.Error);
 						isSuccess = false;
 					}
 				}
 			}
 		}
-		if(null != this.storage) {
-			this.storage.store("0.0.0.0", this.migrationConfiguration.getMigrationId(),
-				(new Date()).toString(), (this.forwards ? 0 : 1), sb.toString(), isSuccess);
+		if (null != this.storage) {
+			this.storage.store("0.0.0.0",
+					this.migrationConfiguration.getMigrationId(),
+					(new Date()).toString(), (this.forwards ? 0 : 1),
+					sb.toString(), isSuccess);
 		}
 		return isSuccess;
 	}
-	
+
 	private String classNamePrettifier(String className) {
 		String[] cn = className.split("\\.");
 		String newName = cn[cn.length - 1];
@@ -139,5 +196,5 @@ public class ExecutorEngine {
 	public void setLogger(ILogger logger) {
 		this.logger = logger;
 	}
-	
+
 }
