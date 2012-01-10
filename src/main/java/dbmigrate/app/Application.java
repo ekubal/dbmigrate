@@ -47,7 +47,7 @@ public class Application {
 		}
 
 		try {
-			DbConnector dbConnector = new DbConnector();
+			DbConnector dbConnector = DbConnector.instance();
 
 			Connection connection = dbConnector.getConnection(
 					DbConnector.POSTGRESQL_DB, args[1], args[2], args[3],

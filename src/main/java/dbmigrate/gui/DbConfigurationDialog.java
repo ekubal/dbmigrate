@@ -20,7 +20,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Properties;
 
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
@@ -28,8 +30,6 @@ import javax.swing.JTextField;
 
 import dbmigrate.exceptions.ConnectException;
 import dbmigrate.model.db.DbConnector;
-import javax.swing.JComboBox;
-import javax.swing.DefaultComboBoxModel;
 
 // CHECKSTYLE:OFF
 
@@ -180,12 +180,31 @@ public class DbConfigurationDialog extends javax.swing.JDialog {
 		okButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
-					DbConfigurationDialog.this.connector.setConnectionParams(
-							DbConnector.POSTGRESQL_DB,
-							DbConfigurationDialog.this.hostnameText.getText(),
-							DbConfigurationDialog.this.databaseText.getText(),
-							DbConfigurationDialog.this.usernameText.getText(),
-							DbConfigurationDialog.this.passwordText.getText());
+					if (dbTypeCombo.getSelectedIndex() == 0) {
+						DbConfigurationDialog.this.connector
+								.setConnectionParams(DbConnector.POSTGRESQL_DB,
+										DbConfigurationDialog.this.hostnameText
+												.getText(),
+										DbConfigurationDialog.this.databaseText
+												.getText(),
+										DbConfigurationDialog.this.usernameText
+												.getText(),
+										DbConfigurationDialog.this.passwordText
+												.getText());
+					} else {
+						DbConfigurationDialog.this.connector
+								.setConnectionParams(DbConnector.ORACLE_DB,
+										DbConfigurationDialog.this.hostnameText
+												.getText(),
+										DbConfigurationDialog.this.databaseText
+												.getText(),
+										DbConfigurationDialog.this.usernameText
+												.getText(),
+										DbConfigurationDialog.this.passwordText
+												.getText(),
+										DbConfigurationDialog.this.sidText
+												.getText());
+					}
 					DbConfigurationDialog.this.connector.getConnection();
 					DbConfigurationDialog.this.saveProperties();
 					DbConfigurationDialog.this.setVisible(false);
@@ -231,9 +250,7 @@ public class DbConfigurationDialog extends javax.swing.JDialog {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
-			this.connector.setConnectionParams(DbConnector.POSTGRESQL_DB,
-					this.hostnameText.getText(), this.databaseText.getText(),
-					this.usernameText.getText(), this.passwordText.getText());
+
 		}
 	}
 }

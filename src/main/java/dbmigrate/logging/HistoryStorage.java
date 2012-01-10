@@ -1,6 +1,5 @@
 package dbmigrate.logging;
 
-import dbmigrate.exceptions.HistoryException;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -8,6 +7,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import dbmigrate.exceptions.HistoryException;
 import dbmigrate.executor.CreateTableExecutor;
 import dbmigrate.model.db.Column;
 import dbmigrate.model.db.IColumn;
@@ -123,15 +123,16 @@ public class HistoryStorage {
 			return;
 		}
 		this.conn = conn;
+		return;
 		
-		String query = "SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = 'public' AND table_name='" + this.tableName + "';";
-		ResultSet rset = conn.createStatement().executeQuery(query);
-		Boolean hasTable = rset.next();
-		int count = rset.getInt(1);
-		
-		if (count == 0) {
-			this.createTable();
-		}
+//		String query = "SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = 'public' AND table_name='" + this.tableName + "';";
+//		ResultSet rset = conn.createStatement().executeQuery(query);
+//		rset.next();
+//		int count = rset.getInt(1);
+//		
+//		if (count == 0) {
+//			this.createTable();
+//		}
 	}
 
 }

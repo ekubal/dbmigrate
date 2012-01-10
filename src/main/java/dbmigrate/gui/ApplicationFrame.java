@@ -38,7 +38,7 @@ public class ApplicationFrame extends javax.swing.JFrame implements IMigrationLi
 
 	/** Creates new form ApplicationFrame */
 	public ApplicationFrame() {
-		this.dbConnector = new DbConnector();
+		this.dbConnector = DbConnector.instance();
 		this.historyStorage = new HistoryStorage();
 		this.model = new DefaultListModel();
 		this.historyModel = new DefaultListModel();

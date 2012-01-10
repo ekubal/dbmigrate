@@ -1,9 +1,9 @@
 package dbmigrate.gui;
 
+import java.sql.Connection;
 import java.sql.SQLException;
-import javax.swing.JButton;
+
 import javax.swing.JOptionPane;
-import javax.swing.JLabel;
 
 import dbmigrate.app.Application;
 import dbmigrate.exceptions.ConnectException;
@@ -49,8 +49,8 @@ public class MigrationRunner extends Thread {
 				executorEngine.setHistoryStorage(this.historyStorage);
 
 				try {
-					this.historyStorage.setConnection(this.dbConnector
-							.getConnection());
+					Connection conn = this.dbConnector.getConnection();
+					this.historyStorage.setConnection(conn);
 					executorEngine.executeMigration();
 					this.listener.refreshHistoryModel();
 					this.listener.setStatusMessage(this.completeMsg);

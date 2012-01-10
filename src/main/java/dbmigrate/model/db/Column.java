@@ -15,41 +15,56 @@ public class Column implements IColumn {
 	private int length = -1;
 	private String defaultValue;
 	private String valueToSet = null; // dla wartosci Column.RANDOM - losowa
-	private static final Set<TypeEnum> typesWithLength = new HashSet<TypeEnum>(Arrays.asList(new TypeEnum[] { TypeEnum.VARCHAR, TypeEnum.TEXT }));
+	private static final Set<TypeEnum> typesWithLength = new HashSet<TypeEnum>(
+			Arrays.asList(new TypeEnum[] { TypeEnum.VARCHAR, TypeEnum.TEXT }));
 
 	public String getSqlDescription() {
 		String desc = "";
 		StringBuffer buf = new StringBuffer();
-
 		buf.append(this.getName()).append(' ');
-		buf.append(this.getType().toString()).append(' ');
-		if (Column.typesWithLength.contains(this.type)) {
-			if (this.getLength() > -1) {
-				buf.append('(').append(this.getLength()).append(") ");
+
+		if (DbConnector.instance().getDbType() == DbConnector.POSTGRESQL_DB) {
+			buf.append(this.getType().toString()).append(' ');
+			if (Column.typesWithLength.contains(this.type)) {
+				if (this.getLength() > -1) {
+					buf.append('(').append(this.getLength()).append(") ");
+				}
+
+			}
+		} else {
+			String type = this.getType().toString();
+			if (type.equals("VARCHAR"))
+				type += "2";
+			buf.append(type).append(' ');
+			if (Column.typesWithLength.contains(this.type)) {
+				if (this.getLength() > -1) {
+					buf.append('(').append(this.getLength()).append(" BYTE) ");
+				}
+
 			}
 		}
 
 		if (this.defaultValue != null && this.defaultValue != "") {
 			buf.append("DEFAULT ");
 			switch (this.type) {
-				case VARCHAR:
-					buf.append("'" + this.defaultValue + "' ");
-					break;
-				case TEXT:
-					buf.append("'" + this.defaultValue + "' ");
-					break;
-				case DATETIME:
-					buf.append("'" + this.defaultValue + "' ");
-					break;
-				case DATE:
-					buf.append("'" + this.defaultValue + "' ");
-					break;
-				case BINARY:
-					buf.append("B'" + this.defaultValue + "' ");
-					break;
-				default:
-					buf.append(this.defaultValue + " ");
-					break;
+			case VARCHAR:
+				buf.append("'" + this.defaultValue + "' ");
+				break;
+			case TEXT:
+				buf.append("'" + this.defaultValue + "' ");
+				break;
+			case DATETIME:
+				buf.append("'" + this.defaultValue + "' ");
+				break;
+			case DATE:
+				buf.append("'" + this.defaultValue + "' ");
+				break;
+			case BINARY:
+				buf.append("B'" + this.defaultValue + "' ");
+				break;
+			default:
+				buf.append(this.defaultValue + " ");
+				break;
 			}
 		}
 

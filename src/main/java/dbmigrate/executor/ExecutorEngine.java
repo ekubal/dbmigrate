@@ -11,6 +11,7 @@ import dbmigrate.exceptions.HistoryException;
 import dbmigrate.exceptions.ValidationException;
 import dbmigrate.executor.oracle.OracleAddColumnExecutor;
 import dbmigrate.executor.oracle.OracleCreateTableExecutor;
+import dbmigrate.executor.oracle.OracleDropColumnExecutor;
 import dbmigrate.executor.oracle.OracleDropTableExecutor;
 import dbmigrate.logging.HistoryStorage;
 import dbmigrate.logging.ILogger;
@@ -96,6 +97,8 @@ public class ExecutorEngine {
 	public void registerOracleExecutors() {
 		this.registerExecutor(AddColumnOperationDescriptor.class,
 				OracleAddColumnExecutor.class);
+		this.registerExecutor(DropColumnOperationDescriptor.class,
+				OracleDropColumnExecutor.class);
 		this.registerExecutor(DropTableOperationDescriptor.class,
 				OracleDropTableExecutor.class);
 		this.registerExecutor(CreateTableOperationDescriptor.class,
@@ -144,7 +147,6 @@ public class ExecutorEngine {
 					entry.getValue().execute(entry.getKey());
 					sb.append(className).append("\n");
 				}
-
 				if (!this.autoCommitEnable) {
 					try {
 						this.logger.log("Committing changes...", Level.Info);
