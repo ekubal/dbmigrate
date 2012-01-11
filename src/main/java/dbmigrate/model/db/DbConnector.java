@@ -25,13 +25,15 @@ public class DbConnector {
 	public static final int ORACLE_DB = 2;
 
 	private static DbConnector connectorInstance = new DbConnector();
+
 	private DbConnector() {
-		
+
 	}
-	
+
 	public static DbConnector instance() {
 		return connectorInstance;
 	}
+
 	private Connection connection;
 
 	public void setConnectionParams(int dbType, String host, String dbName,
@@ -61,6 +63,11 @@ public class DbConnector {
 		}
 		return this.getConnection(this.dbType, this.dbHost, this.dbName,
 				this.dbUser, this.dbPass);
+	}
+
+	public Connection getConnection(String a, String host, String dbName,
+			String user, String password) throws ConnectException {
+		return getConnection(POSTGRESQL_DB, host, dbName, user, password);
 	}
 
 	public Connection getConnection(int databaseType, String host,
@@ -125,6 +132,7 @@ public class DbConnector {
 	public int getDbType() {
 		return dbType;
 	}
+
 	public String getDbName() {
 		return dbName;
 	}

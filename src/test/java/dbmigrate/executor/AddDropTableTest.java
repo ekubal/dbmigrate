@@ -8,6 +8,7 @@ import java.util.Random;
 import junit.framework.TestCase;
 import dbmigrate.model.db.Column;
 import dbmigrate.model.db.DbConnector;
+import dbmigrate.model.db.DbConnectorTest;
 import dbmigrate.model.db.IColumn;
 import dbmigrate.model.db.Table;
 import dbmigrate.model.db.TypeEnum;
@@ -22,7 +23,7 @@ public class AddDropTableTest extends TestCase {
 	@Override
 	public void setUp() {
 		try {
-			dbcon = new DbConnector().getConnection("postgresql", "149.156.205.250:13833", "dbmigrate", "dbmigrate", "dbmigrate");
+			dbcon = DbConnector.instance().getConnection("postgresql", "149.156.205.250:13833", "dbmigrate", "dbmigrate", "dbmigrate");
 		} catch(Exception exception) {
 			fail(exception.getMessage());
 		}

@@ -23,7 +23,7 @@ public class CreateDropTablePostgres extends TestCase{
 	@Override
 	public void setUp() {
 		try {
-			connection = new DbConnector().getConnection("postgresql", "149.156.205.250:13833", "dbmigrate", "dbmigrate", "dbmigrate");
+			connection = DbConnector.instance().getConnection("postgresql", "149.156.205.250:13833", "dbmigrate", "dbmigrate", "dbmigrate");
 		} catch(Exception exception) {
 			fail(exception.getMessage());
 		}

@@ -24,7 +24,7 @@ public class SplitColumnExecutorTest {
 	SplitColumnOperationDescriptor operation;
 	@Test
 	public void testSplitColumnExecutor() {
-		DbConnector db = new DbConnector();
+		DbConnector db = DbConnector.instance();
 		Connection connection = null;
 		try {
 			connection = db.getConnection("postgresql",
@@ -77,7 +77,7 @@ public class SplitColumnExecutorTest {
 	@Test
 	public void testGetConnection() {
 		try {
-			DbConnector db = new DbConnector();
+			DbConnector db = DbConnector.instance();
 			Connection connection = db.getConnection("postgresql",
 					"149.156.205.250:13833", "dbmigrate",
 					"dbmigrate", "dbmigrate");
@@ -95,7 +95,7 @@ public class SplitColumnExecutorTest {
 	@Test
 	public void testSetConnection() {
 		try {
-			DbConnector db = new DbConnector();
+			DbConnector db = DbConnector.instance();
 			Connection connection = db.getConnection("postgresql",
 					"149.156.205.250:13833", "dbmigrate",
 					"dbmigrate", "dbmigrate");
